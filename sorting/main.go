@@ -28,8 +28,20 @@ func bubbleSort(list []int) []int {
 	return list
 }
 
+func insertionSort(list []int) []int {
+	size := len(list)
+	for i := 1; i < size-1; i++ {
+		for idx := i; idx >= 0 && less(list[idx], list[idx-1]); idx-- {
+			swap(&list, idx, idx-1)
+		}
+	}
+	return list
+}
+
 func main() {
 	list := []int{5, 9, 4, 10, 1, 7, 2, 8, 3, 6}
 	bubbleSortedList := bubbleSort(list)
+	insertionSortedList := insertionSort(list)
 	fmt.Printf("BubbleSort: %v\n", bubbleSortedList)
+	fmt.Printf("InsertionSort: %v\n", insertionSortedList)
 }
