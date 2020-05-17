@@ -30,18 +30,50 @@ func bubbleSort(list []int) []int {
 
 func insertionSort(list []int) []int {
 	size := len(list)
-	for i := 1; i < size-1; i++ {
-		for idx := i; idx >= 0 && less(list[idx], list[idx-1]); idx-- {
-			swap(&list, idx, idx-1)
+	for i := 1; i < size; i++ {
+		for idx := i; idx > 0; idx-- {
+			if idx > 0 && less(list[idx], list[idx-1]) {
+				swap(&list, idx, idx-1)
+			}
 		}
+	}
+	return list
+}
+
+func selectionSort(list []int) []int {
+	var largestVal int
+	var largestIdx int
+	unsortedSize := len(list) - 1
+
+	for {
+		if unsortedSize == 0 {
+			break
+		}
+		largestVal = list[0]
+		largestIdx = 0
+		for i := 1; i <= unsortedSize; i++ {
+			if more(list[i], largestVal) {
+				largestVal = list[i]
+				largestIdx = i
+			}
+		}
+		if largestIdx != unsortedSize {
+			swap(&list, largestIdx, unsortedSize)
+		}
+		unsortedSize--
 	}
 	return list
 }
 
 func main() {
 	list := []int{5, 9, 4, 10, 1, 7, 2, 8, 3, 6}
+
 	bubbleSortedList := bubbleSort(list)
-	insertionSortedList := insertionSort(list)
 	fmt.Printf("BubbleSort: %v\n", bubbleSortedList)
+
+	insertionSortedList := insertionSort(list)
 	fmt.Printf("InsertionSort: %v\n", insertionSortedList)
+
+	selectionSortedList := selectionSort(list)
+	fmt.Printf("SelectionSort: %v\n", selectionSortedList)
 }
