@@ -103,6 +103,35 @@ func merge(left []int, right []int) []int {
 	return sortedList
 }
 
+func quickSort(list []int) []int {
+	size := len(list)
+	quickSortUtil(&list, 0, size-1)
+	return list
+}
+
+func quickSortUtil(list *[]int, lower int, upper int) {
+	if upper <= lower {
+		return
+	}
+
+	pivot, start, stop := (*list)[lower], lower, upper
+	for lower <= upper {
+		for (*list)[lower] <= pivot {
+			lower++
+		}
+		for (*list)[upper] > pivot {
+			upper--
+		}
+		if lower < upper {
+			swap(list, lower, upper)
+		}
+	}
+	swap(list, start, upper)
+
+	quickSortUtil(list, start, upper-1)
+	quickSortUtil(list, upper+1, stop)
+}
+
 func main() {
 	list := []int{5, 9, 4, 10, 1, 7, 2, 8, 3, 6}
 
@@ -117,4 +146,7 @@ func main() {
 
 	mergeSortedList := mergeSort(list)
 	fmt.Printf("MergeSort: %v\n", mergeSortedList)
+
+	quickSortedList := quickSort(list)
+	fmt.Printf("QuickSort: %v\n", quickSortedList)
 }
