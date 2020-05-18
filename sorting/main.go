@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
 func less(val1 int, val2 int) bool {
@@ -132,8 +133,28 @@ func quickSortUtil(list *[]int, lower int, upper int) {
 	quickSortUtil(list, upper+1, stop)
 }
 
+func bucketSort(list []int) []int {
+	var greatest int
+	for _, num := range list {
+		greatest = int(math.Max(float64(greatest), float64(num)))
+	}
+	buckets := make([]int, greatest+1)
+	for _, num := range list {
+		buckets[num]++
+	}
+	currentIdx := 0
+	for i, count := range buckets {
+		for count > 0 {
+			list[currentIdx] = i
+			count--
+			currentIdx++
+		}
+	}
+	return list
+}
+
 func main() {
-	list := []int{5, 9, 4, 10, 1, 7, 2, 8, 3, 6}
+	list := []int{5, 9, 2, 10, 1, 7, 4, 8, 3, 6}
 
 	bubbleSortedList := bubbleSort(list)
 	fmt.Printf("BubbleSort: %v\n", bubbleSortedList)
@@ -149,4 +170,7 @@ func main() {
 
 	quickSortedList := quickSort(list)
 	fmt.Printf("QuickSort: %v\n", quickSortedList)
+
+	bucketSortedList := bucketSort(list)
+	fmt.Printf("BucketSort: %v\n", bucketSortedList)
 }
