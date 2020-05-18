@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func less(val1 int, val2 int) bool {
 	return val1 < val2
@@ -65,6 +67,42 @@ func selectionSort(list []int) []int {
 	return list
 }
 
+func mergeSort(list []int) []int {
+	size := len(list)
+	if size == 1 {
+		return list
+	}
+	mid := size / 2
+	left := mergeSort(list[0:mid])
+	right := mergeSort(list[mid:size])
+	return merge(left, right)
+}
+
+func merge(left []int, right []int) []int {
+	leftSize, rightSize := len(left), len(right)
+	leftStart, rightStart := 0, 0
+	var sortedList []int
+
+	for leftStart < leftSize && rightStart < rightSize {
+		if left[leftStart] < right[rightStart] {
+			sortedList = append(sortedList, left[leftStart])
+			leftStart++
+		} else {
+			sortedList = append(sortedList, right[rightStart])
+			rightStart++
+		}
+	}
+	for leftStart < leftSize {
+		sortedList = append(sortedList, left[leftStart])
+		leftStart++
+	}
+	for rightStart < rightSize {
+		sortedList = append(sortedList, right[rightStart])
+		rightStart++
+	}
+	return sortedList
+}
+
 func main() {
 	list := []int{5, 9, 4, 10, 1, 7, 2, 8, 3, 6}
 
@@ -76,4 +114,7 @@ func main() {
 
 	selectionSortedList := selectionSort(list)
 	fmt.Printf("SelectionSort: %v\n", selectionSortedList)
+
+	mergeSortedList := mergeSort(list)
+	fmt.Printf("MergeSort: %v\n", mergeSortedList)
 }
