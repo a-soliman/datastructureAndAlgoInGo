@@ -6,7 +6,22 @@ import "fmt"
 Portion zero one, Given an array containing 0s and 1s. Write an algorithm to sort array so that 0s come first followed by 1s.
 */
 func portionZeroOne(arr []int) []int {
-	// add your code here
+	left, right := 0, len(arr)-1
+
+	for left < right {
+		for arr[left] == 0 {
+			left++
+		}
+		for arr[right] == 1 {
+			right--
+		}
+		if left < right {
+			arr[left], arr[right] = arr[right], arr[left]
+			left++
+			right--
+		}
+	}
+	return arr
 }
 
 func main() {
