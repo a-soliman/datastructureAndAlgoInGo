@@ -30,6 +30,11 @@ func portionZeroOne(arr []int) []int {
 	return arr
 }
 
+/*
+Portion zero, one, and two
+Given an array containing 0s, 1s, and 2s. Write an algorithm to sort the array so that 0s come first, followed by 1s and then 2s in the end.
+*/
+
 func main() {
 	zeroOneArr := []int{1, 1, 1, 0, 0, 0, 1, 1, 0, 0}
 	copied := copySlice(zeroOneArr)
