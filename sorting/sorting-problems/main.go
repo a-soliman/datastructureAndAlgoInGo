@@ -74,6 +74,16 @@ func rangePortion(arr []int, lower int, higher int) []int {
 	return arr
 }
 
+/*
+MinimumSwaps
+Given an array of integers and a value intiger. Find the minimum swaps required to bring all the values less than the given value to the start of the array.
+*/
+
+func minSwaps(arr []int, value int) int {
+	// Code here
+	return 0
+}
+
 func main() {
 	zeroOneArr := []int{1, 1, 1, 0, 0, 0, 1, 1, 0, 0}
 	copied := copySlice(zeroOneArr)
@@ -89,4 +99,9 @@ func main() {
 	copiedRangePortionInput := copySlice(rangePortionInput)
 	portionedArr = rangePortion(copiedRangePortionInput, 3, 5)
 	fmt.Printf("\nRangePortion:\nInput: %v\nOutput: %v\n", rangePortionInput, portionedArr)
+
+	minSwapsInput := []int{2, 7, 5, 6, 1, 3, 4, 9, 10, 8}
+	value := 5
+	minSwapsOutput := minSwaps(minSwapsInput, value)
+	fmt.Printf("\nMinSwaps:\nInput: %v, %d\nOutput: %d\n", minSwapsInput, value, minSwapsOutput)
 }
