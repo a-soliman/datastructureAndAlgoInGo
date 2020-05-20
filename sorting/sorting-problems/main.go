@@ -59,7 +59,19 @@ Given an array of integers and a range. Write an algorithm to portion array so t
 then values under the range followed by values greater than the range
 */
 func rangePortion(arr []int, lower int, higher int) []int {
-	// code here
+	start, end := 0, len(arr)-1
+
+	for i := 0; i < len(arr); i++ {
+		if arr[i] < lower && i > start {
+			swap(arr, start, i)
+			start++
+		} else if arr[i] > higher && i < end {
+			swap(arr, end, i)
+			end--
+		}
+	}
+
+	return arr
 }
 
 func main() {
@@ -73,7 +85,7 @@ func main() {
 	portionedArr = portionZeroOneTwo(copiedZeroOneTwoArr)
 	fmt.Printf("\nPortionZeroOneTwo:\nInput: %v\nOutput: %v\n", zeroOneTwoArr, portionedArr)
 
-	rangePortionInput := []int{1, 7, 6, 3, 5, 4, 2}
+	rangePortionInput := []int{7, 1, 6, 3, 5, 4, 2}
 	copiedRangePortionInput := copySlice(rangePortionInput)
 	portionedArr = rangePortion(copiedRangePortionInput, 3, 5)
 	fmt.Printf("\nRangePortion:\nInput: %v\nOutput: %v\n", rangePortionInput, portionedArr)
