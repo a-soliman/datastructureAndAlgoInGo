@@ -53,6 +53,15 @@ func portionZeroOneTwo(arr []int) []int {
 	return arr
 }
 
+/*
+Range portion
+Given an array of integers and a range. Write an algorithm to portion array so that values smaller than the range come to left,
+then values under the range followed by values greater than the range
+*/
+func rangePortion(arr []int, lower int, higher int) []int {
+	// code here
+}
+
 func main() {
 	zeroOneArr := []int{1, 1, 1, 0, 0, 0, 1, 1, 0, 0}
 	copied := copySlice(zeroOneArr)
@@ -63,4 +72,9 @@ func main() {
 	copiedZeroOneTwoArr := copySlice(zeroOneTwoArr)
 	portionedArr = portionZeroOneTwo(copiedZeroOneTwoArr)
 	fmt.Printf("\nPortionZeroOneTwo:\nInput: %v\nOutput: %v\n", zeroOneTwoArr, portionedArr)
+
+	rangePortionInput := []int{1, 7, 6, 3, 5, 4, 2}
+	copiedRangePortionInput := copySlice(rangePortionInput)
+	portionedArr = rangePortion(copiedRangePortionInput, 3, 5)
+	fmt.Printf("\nRangePortion:\nInput: %v\nOutput: %v\n", rangePortionInput, portionedArr)
 }
