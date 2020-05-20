@@ -80,8 +80,22 @@ Given an array of integers and a value intiger. Find the minimum swaps required 
 */
 
 func minSwaps(arr []int, value int) int {
-	// Code here
-	return 0
+	swaps := 0
+	left, right := 0, len(arr)-1
+	for right > left {
+		for arr[left] < value {
+			left++
+		}
+		for arr[right] > value {
+			right--
+		}
+		if left < right {
+			swaps++
+			left++
+			right--
+		}
+	}
+	return swaps
 }
 
 func main() {
