@@ -181,8 +181,28 @@ RearrangeTwoSortedArrays
 Given two sorted int arrays, rearrange them so that the largest element in first array is smaller that the first element of the 2nd array.
 both arrays should still be sorted
 */
-func rearrangeTwoSortedArrays(arr1 []int, arr2[int]) {
+func rearrangeTwoSortedArrays(arr1 []int, arr2 []int) {
+	if len(arr1) == 0 || len(arr2) == 0 {
+		return
+	}
+	for i := 0; i < len(arr1); i++ {
+		if arr1[i] > arr2[0] {
+			arr1[i], arr2[0] = arr2[0], arr1[i]
+			bubbleUp(arr2)
+		}
+	}
+	return
+}
 
+func bubbleUp(arr []int) {
+	temp := arr[0]
+	i := 1
+
+	for i < len(arr) && arr[i] < temp {
+		arr[i-1] = arr[i]
+		i++
+	}
+	arr[i-1] = temp
 }
 
 func main() {
