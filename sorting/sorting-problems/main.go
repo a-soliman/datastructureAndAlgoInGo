@@ -121,6 +121,15 @@ func isAbsLess(val1 int, val2 int, ref int) bool {
 	return math.Abs(float64(ref-val1)) < math.Abs(float64(ref-val2))
 }
 
+/*
+SortByOrder
+Given two arrays. Sort the first array according to the order defined in the second array
+*/
+
+func sortByOrder(arr []int, order []int) []int {
+	// code here
+}
+
 func main() {
 	zeroOneArr := []int{1, 1, 1, 0, 0, 0, 1, 1, 0, 0}
 	copied := copySlice(zeroOneArr)
@@ -147,5 +156,11 @@ func main() {
 	value = 5
 	absoluteSortOutput := absoluteSort(copiedAbsoluteSortInput, value)
 	fmt.Printf("\nAbsoluteSort:\nInput: %v, %d\nOutput: %d\n", copiedAbsoluteSortInput, value, absoluteSortOutput)
+
+	sortByOrderInput := []int{2, 1, 2, 5, 7, 1, 9, 3, 6, 8, 8}
+	order := []int{2, 1, 8, 3}
+	copiedSortByOrderInput := copySlice(sortByOrderInput)
+	sortByOrderOutput := sortByOrder(copiedSortByOrderInput, order)
+	fmt.Printf("\nSortByOrder:\nInput: %v,\nOrder: %v\nOutput: %d\n", sortByOrderInput, order, sortByOrderOutput)
 
 }
