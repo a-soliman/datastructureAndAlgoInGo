@@ -127,7 +127,38 @@ Given two arrays. Sort the first array according to the order defined in the sec
 */
 
 func sortByOrder(arr []int, order []int) []int {
-	// code here
+	if len(arr) < 2 || len(order) < 1 {
+		return arr
+	}
+	count := map[int]int{}
+	for _, v := range arr {
+		count[v]++
+	}
+	currentIdx := 0
+	// loop over the order slice and construct the arr
+	for _, currentOrder := range order {
+		_, ok := count[currentOrder]
+		if ok {
+			for count[currentOrder] > 0 {
+				arr[currentIdx] = currentOrder
+				currentIdx++
+				count[currentOrder]--
+			}
+			if count[currentOrder] == 0 {
+				delete(count, currentOrder)
+			}
+		}
+	}
+	// append the rest of the map to the arr
+	for key := range count {
+		for count[key] > 0 {
+			arr[currentIdx] = key
+			currentIdx++
+			count[key]--
+		}
+		delete(count, key)
+	}
+	return arr
 }
 
 func main() {
