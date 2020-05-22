@@ -166,7 +166,14 @@ SortEvenOdd
 Given an int array containing even and odd values, separate even numbers from the odd numbers
 */
 func sortEvenOdd(arr []int) []int {
-
+	evenEnd := 0
+	for i := 0; i < len(arr); i++ {
+		if arr[i]%2 == 0 {
+			swap(arr, i, evenEnd)
+			evenEnd++
+		}
+	}
+	return arr
 }
 
 func main() {
@@ -202,7 +209,7 @@ func main() {
 	sortByOrderOutput := sortByOrder(copiedSortByOrderInput, order)
 	fmt.Printf("\nSortByOrder:\nInput: %v,\nOrder: %v\nOutput: %d\n", sortByOrderInput, order, sortByOrderOutput)
 
-	evenOddInput := []int{7, 1, 6, 3, 5, 4, 2}
+	evenOddInput := []int{2, 7, 5, 6, 1, 3, 4, 9, 10, 8}
 	copiedEvenOddInput := copySlice(evenOddInput)
 	evenOddOutput := sortEvenOdd(copiedEvenOddInput)
 	fmt.Printf("\nSortEvenOdd:\nInput: %v\nOutput: %v\n", evenOddInput, evenOddOutput)
