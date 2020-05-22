@@ -205,6 +205,14 @@ func bubbleUp(arr []int) {
 	arr[i-1] = temp
 }
 
+/*
+CheckReversed
+Given an Array of ints, check if reversing a subarray will sort the original array
+*/
+func checkRevered(arr []int) bool {
+
+}
+
 func main() {
 	zeroOneArr := []int{1, 1, 1, 0, 0, 0, 1, 1, 0, 0}
 	copied := copySlice(zeroOneArr)
@@ -247,5 +255,9 @@ func main() {
 	rearrangeTwoSortedArraysInput2 := []int{2, 3, 8, 13}
 	rearrangeTwoSortedArrays(rearrangeTwoSortedArraysInput1, rearrangeTwoSortedArraysInput2)
 	fmt.Printf("\nRearrangeTwoSortedArrays:\nOutput:\n%v\n%v", rearrangeTwoSortedArraysInput1, rearrangeTwoSortedArraysInput2)
+
+	checkReveredInput := []int{1, 3, 8, 5, 4, 3, 10, 11, 12, 18, 28}
+	checkReveredOutput := checkRevered(checkReveredInput)
+	fmt.Printf("\nCheckRevered:\nInput: %v\nOutput: %v\n", checkReveredInput, checkReveredOutput)
 
 }
