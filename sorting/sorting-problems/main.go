@@ -176,6 +176,15 @@ func sortEvenOdd(arr []int) []int {
 	return arr
 }
 
+/*
+RearrangeTwoSortedArrays
+Given two sorted int arrays, rearrange them so that the largest element in first array is smaller that the first element of the 2nd array.
+both arrays should still be sorted
+*/
+func rearrangeTwoSortedArrays(arr1 []int, arr2[int]) {
+
+}
+
 func main() {
 	zeroOneArr := []int{1, 1, 1, 0, 0, 0, 1, 1, 0, 0}
 	copied := copySlice(zeroOneArr)
@@ -213,5 +222,10 @@ func main() {
 	copiedEvenOddInput := copySlice(evenOddInput)
 	evenOddOutput := sortEvenOdd(copiedEvenOddInput)
 	fmt.Printf("\nSortEvenOdd:\nInput: %v\nOutput: %v\n", evenOddInput, evenOddOutput)
+
+	rearrangeTwoSortedArraysInput1 := []int{1, 5, 9, 10, 15, 20}
+	rearrangeTwoSortedArraysInput2 := []int{2, 3, 8, 13}
+	rearrangeTwoSortedArrays(rearrangeTwoSortedArraysInput1, rearrangeTwoSortedArraysInput2)
+	fmt.Printf("\nRearrangeTwoSortedArrays:\nOutput:\n%v\n%v", rearrangeTwoSortedArraysInput1, rearrangeTwoSortedArraysInput2)
 
 }
