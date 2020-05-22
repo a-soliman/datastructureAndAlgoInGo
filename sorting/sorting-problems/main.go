@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 func copySlice(arr []int) []int {
 	copied := make([]int, len(arr))
@@ -98,6 +101,26 @@ func minSwaps(arr []int, value int) int {
 	return swaps
 }
 
+/*
+AbsoluteSort
+Given an array of integers and a value intiger. Sort the array according to the absolute difference from the given value.
+*/
+func absoluteSort(arr []int, value int) []int {
+	idx := 0
+	for i := 0; i < len(arr); i++ {
+		idx = i
+		for idx >= 1 && isAbsLess(arr[idx], arr[idx-1], value) {
+			swap(arr, idx, idx-1)
+			idx--
+		}
+	}
+	return arr
+}
+
+func isAbsLess(val1 int, val2 int, ref int) bool {
+	return math.Abs(float64(ref-val1)) < math.Abs(float64(ref-val2))
+}
+
 func main() {
 	zeroOneArr := []int{1, 1, 1, 0, 0, 0, 1, 1, 0, 0}
 	copied := copySlice(zeroOneArr)
@@ -118,4 +141,11 @@ func main() {
 	value := 5
 	minSwapsOutput := minSwaps(minSwapsInput, value)
 	fmt.Printf("\nMinSwaps:\nInput: %v, %d\nOutput: %d\n", minSwapsInput, value, minSwapsOutput)
+
+	absoluteSortInput := []int{9, 1, 8, 2, 7, 3, 6, 4, 5}
+	copiedAbsoluteSortInput := copySlice(absoluteSortInput)
+	value = 5
+	absoluteSortOutput := absoluteSort(copiedAbsoluteSortInput, value)
+	fmt.Printf("\nAbsoluteSort:\nInput: %v, %d\nOutput: %d\n", copiedAbsoluteSortInput, value, absoluteSortOutput)
+
 }
