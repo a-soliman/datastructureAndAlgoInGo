@@ -210,7 +210,52 @@ CheckReversed
 Given an Array of ints, check if reversing a subarray will sort the original array
 */
 func checkRevered(arr []int) bool {
+	var (
+		rangeStart int
+		rangeEnd   int
+	)
+	// find rangeStart
+	for i := 0; i < len(arr); i++ {
+		if arr[i] > arr[i+1] {
+			rangeStart = i
+			rangeEnd = i
+			break
+		}
+	}
+	// find rangeEnd
+	for i := rangeStart + 1; i < len(arr); i++ {
+		if arr[i] < arr[rangeEnd] {
+			rangeEnd = i
+		}
+	}
+	if !isSorted(arr[0:rangeStart]) || arr[rangeEnd] < arr[rangeStart-1] {
+		return false
+	}
+	if !isSorted(arr[rangeEnd+1:]) || arr[rangeStart] > arr[rangeEnd+1] {
+		return false
+	}
+	if !isReversedSorted(arr[rangeStart : rangeEnd+1]) {
+		return false
+	}
+	return true
+}
 
+func isSorted(arr []int) bool {
+	for i := 1; i < len(arr); i++ {
+		if arr[i] < arr[i-1] {
+			return false
+		}
+	}
+	return true
+}
+
+func isReversedSorted(arr []int) bool {
+	for i := 0; i < len(arr)-1; i++ {
+		if arr[i] < arr[i+1] {
+			return false
+		}
+	}
+	return true
 }
 
 func main() {
@@ -254,7 +299,7 @@ func main() {
 	rearrangeTwoSortedArraysInput1 := []int{1, 5, 9, 10, 15, 20}
 	rearrangeTwoSortedArraysInput2 := []int{2, 3, 8, 13}
 	rearrangeTwoSortedArrays(rearrangeTwoSortedArraysInput1, rearrangeTwoSortedArraysInput2)
-	fmt.Printf("\nRearrangeTwoSortedArrays:\nOutput:\n%v\n%v", rearrangeTwoSortedArraysInput1, rearrangeTwoSortedArraysInput2)
+	fmt.Printf("\nRearrangeTwoSortedArrays:\nOutput:\n%v\n%v\n", rearrangeTwoSortedArraysInput1, rearrangeTwoSortedArraysInput2)
 
 	checkReveredInput := []int{1, 3, 8, 5, 4, 3, 10, 11, 12, 18, 28}
 	checkReveredOutput := checkRevered(checkReveredInput)
