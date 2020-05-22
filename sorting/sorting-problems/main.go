@@ -161,6 +161,14 @@ func sortByOrder(arr []int, order []int) []int {
 	return arr
 }
 
+/*
+SortEvenOdd
+Given an int array containing even and odd values, separate even numbers from the odd numbers
+*/
+func sortEvenOdd(arr []int) []int {
+
+}
+
 func main() {
 	zeroOneArr := []int{1, 1, 1, 0, 0, 0, 1, 1, 0, 0}
 	copied := copySlice(zeroOneArr)
@@ -193,5 +201,10 @@ func main() {
 	copiedSortByOrderInput := copySlice(sortByOrderInput)
 	sortByOrderOutput := sortByOrder(copiedSortByOrderInput, order)
 	fmt.Printf("\nSortByOrder:\nInput: %v,\nOrder: %v\nOutput: %d\n", sortByOrderInput, order, sortByOrderOutput)
+
+	evenOddInput := []int{7, 1, 6, 3, 5, 4, 2}
+	copiedEvenOddInput := copySlice(evenOddInput)
+	evenOddOutput := sortEvenOdd(copiedEvenOddInput)
+	fmt.Printf("\nSortEvenOdd:\nInput: %v\nOutput: %v\n", evenOddInput, evenOddOutput)
 
 }
