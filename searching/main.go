@@ -24,6 +24,21 @@ func linearSortedSearch(arr []int, value int) bool {
 	return false
 }
 
+func binarySearch(arr []int, value int) bool {
+	start, end := 0, len(arr)-1
+	for end >= start {
+		middle := (start + end) / 2
+		if arr[middle] == value {
+			return true
+		} else if arr[middle] < value {
+			start = middle + 1
+		} else {
+			end = middle - 1
+		}
+	}
+	return false
+}
+
 func main() {
 	list := []int{5, 9, 2, 10, 1, 7, 4, 8, 3, 6}
 	sortedList := []int{1, 2, 3, 4, 5, 6, 7, 8}
@@ -34,7 +49,7 @@ func main() {
 	linearSortedSearchRed := linearSortedSearch(sortedList, 5)
 	fmt.Printf("LinearSortedSearch: %v\n", linearSortedSearchRed)
 
-	// binarySearchRes := binarySearch(sortedList, 8)
-	// fmt.Printf("\nBinarySearch: %v\n", binarySearchRes)
+	binarySearchRes := binarySearch(sortedList, 8)
+	fmt.Printf("\nBinarySearch: %v\n", binarySearchRes)
 
 }
