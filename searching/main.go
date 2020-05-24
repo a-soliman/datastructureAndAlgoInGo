@@ -39,6 +39,24 @@ func binarySearch(arr []int, value int) bool {
 	return false
 }
 
+func binarySearchRec(arr []int, value int) bool {
+	return binarySearchUtil(arr, 0, len(arr)-1, value)
+}
+
+func binarySearchUtil(arr []int, start int, end int, value int) bool {
+	if start > end {
+		return false
+	}
+	middle := (start + end) / 2
+	if arr[middle] == value {
+		return true
+	}
+	if arr[middle] < value {
+		return binarySearchUtil(arr, middle+1, end, value)
+	}
+	return binarySearchUtil(arr, start, middle-1, value)
+}
+
 func main() {
 	list := []int{5, 9, 2, 10, 1, 7, 4, 8, 3, 6}
 	sortedList := []int{1, 2, 3, 4, 5, 6, 7, 8}
@@ -51,5 +69,8 @@ func main() {
 
 	binarySearchRes := binarySearch(sortedList, 8)
 	fmt.Printf("\nBinarySearch: %v\n", binarySearchRes)
+
+	binarySearchRecRes := binarySearchRec(sortedList, 1)
+	fmt.Printf("\nBinarySearchRec: %v\n", binarySearchRecRes)
 
 }
