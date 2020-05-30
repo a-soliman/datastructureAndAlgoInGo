@@ -153,6 +153,45 @@ func bucketSort(list []int) []int {
 	return list
 }
 
+func heapSort(list []int) []int {
+	size := len(list)
+	if size < 2 {
+		return list
+	}
+	buildMaxHeap(list)
+	for i := size - 1; i > 0; i-- {
+		swap(&list, 0, size-1)
+		size--
+		heapify(list, 0, size)
+	}
+	return list
+}
+
+func buildMaxHeap(list []int) {
+	size := len(list)
+	middle := size / 2
+	for i := middle; i >= 0; i-- {
+		heapify(list, i, size)
+	}
+}
+
+func heapify(list []int, idx int, size int) {
+	// find left and right nodes
+	left, right := (idx*2)+1, (idx*2)+2
+	max := idx
+
+	if left < size && list[left] > list[max] {
+		max = left
+	}
+	if right < size && list[right] > list[max] {
+		max = right
+	}
+	if max != idx {
+		swap(&list, idx, max)
+		heapify(list, max, size)
+	}
+}
+
 func main() {
 	list := []int{5, 9, 2, 10, 1, 7, 4, 8, 3, 6}
 
@@ -173,4 +212,7 @@ func main() {
 
 	bucketSortedList := bucketSort(list)
 	fmt.Printf("BucketSort: %v\n", bucketSortedList)
+
+	heapSortedList := heapSort(list)
+	fmt.Printf("HeapSort: %v\n", heapSortedList)
 }
