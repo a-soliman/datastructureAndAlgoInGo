@@ -48,6 +48,14 @@ func removeDuplicates(arr []int) []int {
 	return res
 }
 
+/*
+FindMissingNumber
+In given list of n-1 elements, which are the in the range of 1 to n. There are no duplicates in the array. One of the integers is missing. Find the missing element
+*/
+func findMissingNumber(arr []int) int {
+
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -57,4 +65,8 @@ func main() {
 
 	removeDuplicatesRes := removeDuplicates(firstRepeatedInput)
 	fmt.Printf("\nRemoveDuplicates:\nInput: %v\nOutput: %v\n", firstRepeatedInput, removeDuplicatesRes)
+
+	findMissingNumberInput := []int{1, 3, 4, 5}
+	findMissingNumberRes := findMissingNumber(findMissingNumberInput)
+	fmt.Printf("\nFindMissingNumber:\nInput: %v\nOutput: %v\n", findMissingNumberInput, findMissingNumberRes)
 }
