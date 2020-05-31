@@ -53,7 +53,22 @@ FindMissingNumber
 In given list of n-1 elements, which are the in the range of 1 to n. There are no duplicates in the array. One of the integers is missing. Find the missing element
 */
 func findMissingNumber(arr []int) int {
+	n := arr[0]
+	var total int
+	var actualTotal int
 
+	for _, num := range arr {
+		actualTotal += num
+		if num > n {
+			n = num
+		}
+	}
+
+	for i := 1; i <= n; i++ {
+		total += i
+	}
+
+	return total - actualTotal
 }
 
 func main() {
