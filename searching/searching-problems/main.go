@@ -105,7 +105,18 @@ OddCountElements
 Given an array in which all the elements appear even number of times except one. which appear odd number of times. Find the element which appear odd number of times.
 */
 func oddCount(arr []int) int {
-
+	numHash := make(map[int]int)
+	var output int
+	for _, num := range arr {
+		numHash[num]++
+	}
+	for key, freq := range numHash {
+		if freq%2 != 0 {
+			output = key
+			break
+		}
+	}
+	return output
 }
 
 func main() {
