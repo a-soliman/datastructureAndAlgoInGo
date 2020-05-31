@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 /*
 firstRepeatedElement
@@ -71,6 +73,33 @@ func findMissingNumber(arr []int) int {
 	return total - actualTotal
 }
 
+/*
+MissingValues
+Given an array, find the maximum and minimum value in the array and also find the values in range minimum and maximum that are absent in the array.
+*/
+func missingValues(arr []int) (int, int, []int) {
+	hash := make(map[int]bool)
+	min, max := arr[0], arr[0]
+	missing := []int{}
+
+	for _, num := range arr {
+		if num < min {
+			min = num
+		}
+		if num > max {
+			max = num
+		}
+		hash[num] = true
+	}
+	for i := min + 1; i < max; i++ {
+		_, ok := hash[i]
+		if ok == false {
+			missing = append(missing, i)
+		}
+	}
+	return min, max, missing
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -84,4 +113,8 @@ func main() {
 	findMissingNumberInput := []int{1, 3, 4, 5}
 	findMissingNumberRes := findMissingNumber(findMissingNumberInput)
 	fmt.Printf("\nFindMissingNumber:\nInput: %v\nOutput: %v\n", findMissingNumberInput, findMissingNumberRes)
+
+	missingValuesInput := []int{6, 2, 1, 2}
+	min, max, missing := missingValues(missingValuesInput)
+	fmt.Printf("\nMissingValues:\nInput: %v\nOutput: min: %d, max: %d missing: %v\n", missingValuesInput, min, max, missing)
 }
