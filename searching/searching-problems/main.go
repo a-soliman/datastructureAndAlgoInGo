@@ -100,6 +100,14 @@ func missingValues(arr []int) (int, int, []int) {
 	return min, max, missing
 }
 
+/*
+OddCountElements
+Given an array in which all the elements appear even number of times except one. which appear odd number of times. Find the element which appear odd number of times.
+*/
+func oddCount(arr []int) int {
+
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -117,4 +125,8 @@ func main() {
 	missingValuesInput := []int{6, 2, 1, 2}
 	min, max, missing := missingValues(missingValuesInput)
 	fmt.Printf("\nMissingValues:\nInput: %v\nOutput: min: %d, max: %d missing: %v\n", missingValuesInput, min, max, missing)
+
+	oddCountInput := []int{1, 4, 2, 4, 3, 1, 2}
+	oddCountOutput := oddCount(oddCountInput)
+	fmt.Printf("\nOddCount: \nInput: %v\nOutput: %v\n", oddCountInput, oddCountOutput)
 }
