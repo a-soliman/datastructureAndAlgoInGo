@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"sort"
 )
 
@@ -125,7 +126,6 @@ SumDistinct
 Given an array of size N. the elements in the array may be repeated. You need to find sum of distinct elements of the array.
 If there is some value repeated continuously then they should be added once.
 */
-
 func sumDistinct(arr []int) int {
 	sum := 0
 	size := len(arr)
@@ -137,7 +137,35 @@ func sumDistinct(arr []int) int {
 			sum += arr[i]
 		}
 	}
-	return sum
+	return sum // Time O(n log(n)), space O(1)
+}
+
+/*
+TwoElementsWhoseSumIsClosestToZero
+In a given list of integers, both +v and -v. You need to find the two elements such that their sum is closest to zero
+*/
+func minAbsSumPair(arr []int) [2]int {
+	res := [2]int{}
+	size := len(arr)
+	minDiff := math.MaxInt64
+	left, right := 0, size-1
+	sort.Ints(arr)
+	for right >= left {
+		sum := arr[left] + arr[right]
+		if math.Abs(float64(sum-0)) < math.Abs(float64(0-minDiff)) {
+			minDiff = sum
+			res[0] = arr[left]
+			res[1] = arr[right]
+		}
+		if sum == 0 {
+			break
+		} else if sum < 0 {
+			left++
+		} else {
+			right--
+		}
+	}
+	return res
 }
 
 func main() {
@@ -165,4 +193,8 @@ func main() {
 	sumDistinctInput := []int{1, 9, 2, 4, 3, 5, 4, 5}
 	sumDistinctOutput := sumDistinct(sumDistinctInput)
 	fmt.Printf("\nSumDistinct:\nInput: %v\nOutput: %d\n", sumDistinctInput, sumDistinctOutput)
+
+	minAbsSumPairInput := []int{1, 5, -10, 3, 2, -6, 8, 9, 6}
+	minAbsSumPairOutput := minAbsSumPair(minAbsSumPairInput)
+	fmt.Printf("\nMinAbsSumPairO:\nInput: %v\nOutput: %d\n", minAbsSumPairInput, minAbsSumPairOutput)
 }
