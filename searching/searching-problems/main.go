@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 )
 
 /*
@@ -119,6 +120,26 @@ func oddCount(arr []int) int {
 	return output
 }
 
+/*
+SumDistinct
+Given an array of size N. the elements in the array may be repeated. You need to find sum of distinct elements of the array.
+If there is some value repeated continuously then they should be added once.
+*/
+
+func sumDistinct(arr []int) int {
+	sum := 0
+	size := len(arr)
+	sort.Ints(arr)
+	for i := 0; i < size; i++ {
+		if i == size-1 && arr[i] != arr[i-1] {
+			sum += arr[i]
+		} else if arr[i] != arr[i+1] {
+			sum += arr[i]
+		}
+	}
+	return sum
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -140,4 +161,8 @@ func main() {
 	oddCountInput := []int{1, 4, 2, 4, 3, 1, 2}
 	oddCountOutput := oddCount(oddCountInput)
 	fmt.Printf("\nOddCount: \nInput: %v\nOutput: %v\n", oddCountInput, oddCountOutput)
+
+	sumDistinctInput := []int{1, 9, 2, 4, 3, 5, 4, 5}
+	sumDistinctOutput := sumDistinct(sumDistinctInput)
+	fmt.Printf("\nSumDistinct:\nInput: %v\nOutput: %d\n", sumDistinctInput, sumDistinctOutput)
 }
