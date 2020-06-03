@@ -173,7 +173,21 @@ FindPair
 Given an array of n numbers, find two elements such that their sum is equal to "value"
 */
 func findPair(arr []int, value int) [2]int {
-
+	res := [2]int{}
+	hash := make(map[int]int)
+	for _, num := range arr {
+		remainder := value - num
+		_, ok := hash[remainder]
+		if ok {
+			res[0] = num
+			res[1] = remainder
+			return res
+		}
+		hash[num] = num
+	}
+	res[0] = -1
+	res[1] = -1
+	return res
 }
 
 func main() {
@@ -207,6 +221,6 @@ func main() {
 	fmt.Printf("\nMinAbsSumPairO:\nInput: %v\nOutput: %d\n", minAbsSumPairInput, minAbsSumPairOutput)
 
 	findPairInput := []int{1, 5, 4, 3, 2, 7, 8, 9, 6}
-	findPairOutput := findPair(findPairInput)
+	findPairOutput := findPair(findPairInput, 8)
 	fmt.Printf("\nFindPair:\nInput: %v\nOutput: %d\n", findPairInput, findPairOutput)
 }
