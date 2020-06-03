@@ -194,7 +194,23 @@ func findPair(arr []int, value int) [2]int {
 FindMinDiff
 Given an array of integers, find the element pair with minimum difference (return the diff)
 */
-findMinDiff(arr []int) int {
+func findMinDiff(arr []int) int {
+	minDiff := math.MaxInt64
+	sort.Ints(arr)
+	for i := 1; i < len(arr); i++ {
+		sum := arr[i] - arr[i-1]
+		if sum < minDiff {
+			minDiff = sum
+		}
+	}
+	return minDiff
+}
+
+/*
+minDiffPairOfTwoArrays
+Given two arrays, find the minimum difference pair such that it should take one element from each array
+*/
+func minDiffPairOfTwoArrays(arr1 []int, arr2 []int) [2]int {
 
 }
 
@@ -235,4 +251,10 @@ func main() {
 	findMinDiffInput := []int{1, 3, 2, 7, 8, 9}
 	findMinDiffOutput := findMinDiff(findMinDiffInput)
 	fmt.Printf("\nFindMinDiff:\nInput: %v\nOutput: %d\n", findMinDiffInput, findMinDiffOutput)
+
+	minDiffPairOfTwoArraysInput1 := []int{1, 3, 2, 7, 8, 9}
+	minDiffPairOfTwoArraysInput2 := []int{5, 10, 15}
+	minDiffPairOfTwoArraysOutput := minDiffPairOfTwoArrays(minDiffPairOfTwoArraysInput1, minDiffPairOfTwoArraysInput2)
+	fmt.Printf("\nMinDiffPairOfTwoArrays:\nInput: %v, %v\nOutput: %d\n", minDiffPairOfTwoArraysInput1, minDiffPairOfTwoArraysInput2, minDiffPairOfTwoArraysOutput)
+
 }
