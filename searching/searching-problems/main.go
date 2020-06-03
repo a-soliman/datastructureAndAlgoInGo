@@ -168,6 +168,14 @@ func minAbsSumPair(arr []int) [2]int {
 	return res
 }
 
+/*
+FindPair
+Given an array of n numbers, find two elements such that their sum is equal to "value"
+*/
+func findPair(arr []int, value int) [2]int {
+
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -197,4 +205,8 @@ func main() {
 	minAbsSumPairInput := []int{1, 5, -10, 3, 2, -6, 8, 9, 6}
 	minAbsSumPairOutput := minAbsSumPair(minAbsSumPairInput)
 	fmt.Printf("\nMinAbsSumPairO:\nInput: %v\nOutput: %d\n", minAbsSumPairInput, minAbsSumPairOutput)
+
+	findPairInput := []int{1, 5, 4, 3, 2, 7, 8, 9, 6}
+	findPairOutput := findPair(findPairInput)
+	fmt.Printf("\nFindPair:\nInput: %v\nOutput: %d\n", findPairInput, findPairOutput)
 }
