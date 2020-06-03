@@ -190,6 +190,14 @@ func findPair(arr []int, value int) [2]int {
 	return res
 }
 
+/*
+FindMinDiff
+Given an array of integers, find the element pair with minimum difference (return the diff)
+*/
+findMinDiff(arr []int) int {
+
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -223,4 +231,8 @@ func main() {
 	findPairInput := []int{1, 5, 4, 3, 2, 7, 8, 9, 6}
 	findPairOutput := findPair(findPairInput, 8)
 	fmt.Printf("\nFindPair:\nInput: %v\nOutput: %d\n", findPairInput, findPairOutput)
+
+	findMinDiffInput := []int{1, 3, 2, 7, 8, 9}
+	findMinDiffOutput := findMinDiff(findMinDiffInput)
+	fmt.Printf("\nFindMinDiff:\nInput: %v\nOutput: %d\n", findMinDiffInput, findMinDiffOutput)
 }
