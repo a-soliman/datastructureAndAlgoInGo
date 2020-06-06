@@ -240,8 +240,30 @@ func minDiffPairOfTwoArrays(arr1 []int, arr2 []int) [2]int {
 ClosestPair
 Given an array of positive integers. You need to find a pair in array whose sum is closest to given number.
 */
-func closestSum(arr []int) [2]int {
-
+func closestSum(arr []int, value int) [2]int {
+	sort.Ints(arr)
+	res := [2]int{}
+	i, j := 0, len(arr)-1
+	closestS := math.MaxInt64
+	sum := 0
+	localSum := 0
+	for i < j {
+		localSum = arr[i] + arr[j]
+		sum = abs(value, localSum)
+		if closestS > sum {
+			closestS = sum
+			res[0] = arr[i]
+			res[1] = arr[j]
+		}
+		if localSum > value {
+			j--
+		} else if localSum < value {
+			i++
+		} else if localSum == value {
+			break
+		}
+	}
+	return res
 }
 
 func abs(num1 int, num2 int) int {
@@ -292,6 +314,6 @@ func main() {
 	fmt.Printf("\nMinDiffPairOfTwoArrays:\nInput: %v, %v\nOutput: %d\n", minDiffPairOfTwoArraysInput1, minDiffPairOfTwoArraysInput2, minDiffPairOfTwoArraysOutput)
 
 	closestSumInput := []int{1, 5, 4, 3, 2, 7, 8, 9, 6}
-	closestSumOutput := findMinDiff(closestSumInput)
+	closestSumOutput := closestSum(closestSumInput, 6)
 	fmt.Printf("\nClosestSum:\nInput: %v\nOutput: %d\n", closestSumInput, closestSumOutput)
 }
