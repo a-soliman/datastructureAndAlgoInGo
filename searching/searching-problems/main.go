@@ -271,11 +271,38 @@ SumPairRestArr
 Given an array find if there is a pair whose sum is equal to the sum of rest of the elements of the array
 */
 func sumPairRestArr(arr []int) [2]int {
-
+	res := [2]int{-1, -1}
+	sort.Ints(arr)
+	i, j := 0, len(arr)-1
+	totalSum := sumArr(arr)
+	sum := 0
+	rest := 0
+	for i < j {
+		sum = arr[i] + arr[j]
+		rest = totalSum - sum
+		if sum == rest {
+			res[0] = arr[i]
+			res[1] = arr[j]
+			break
+		} else if sum < rest {
+			i++
+		} else {
+			j--
+		}
+	}
+	return res
 }
 
 func abs(num1 int, num2 int) int {
 	return int(math.Abs(float64(num1) - float64(num2)))
+}
+
+func sumArr(arr []int) int {
+	sum := 0
+	for _, val := range arr {
+		sum += val
+	}
+	return sum
 }
 
 func main() {
