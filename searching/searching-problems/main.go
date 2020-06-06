@@ -241,13 +241,13 @@ ClosestPair
 Given an array of positive integers. You need to find a pair in array whose sum is closest to given number.
 */
 func closestSum(arr []int, value int) [2]int {
-	sort.Ints(arr)
+	sort.Ints(arr) // O(n log(n))
 	res := [2]int{}
 	i, j := 0, len(arr)-1
 	closestS := math.MaxInt64
 	sum := 0
 	localSum := 0
-	for i < j {
+	for i < j { // O(n)
 		localSum = arr[i] + arr[j]
 		sum = abs(value, localSum)
 		if closestS > sum {
@@ -264,6 +264,14 @@ func closestSum(arr []int, value int) [2]int {
 		}
 	}
 	return res
+}
+
+/*
+SumPairRestArr
+Given an array find if there is a pair whose sum is equal to the sum of rest of the elements of the array
+*/
+func sumPairRestArr(arr []int) [2]int {
+
 }
 
 func abs(num1 int, num2 int) int {
@@ -316,4 +324,8 @@ func main() {
 	closestSumInput := []int{1, 5, 4, 3, 2, 7, 8, 9, 6}
 	closestSumOutput := closestSum(closestSumInput, 6)
 	fmt.Printf("\nClosestSum:\nInput: %v\nOutput: %d\n", closestSumInput, closestSumOutput)
+
+	sumPairRestArrInput := []int{1, 2, 4, 3, 7, 3}
+	sumPairRestArrOutput := sumPairRestArr(sumPairRestArrInput)
+	fmt.Printf("\nSumPairRestArr:\nInput: %v\nOutput: %d\n", sumPairRestArrInput, sumPairRestArrOutput)
 }
