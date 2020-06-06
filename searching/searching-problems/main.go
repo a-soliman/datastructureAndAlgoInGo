@@ -293,6 +293,16 @@ func sumPairRestArr(arr []int) [2]int {
 	return res
 }
 
+/*
+ZeroSumTriplets
+Given an array of integers, you need to find all the triplets whose sum = 0
+*/
+func zeroSumTriplets(arr []int) [][3]int {
+	res := [][3]int{}
+
+	return res
+}
+
 func abs(num1 int, num2 int) int {
 	return int(math.Abs(float64(num1) - float64(num2)))
 }
@@ -355,4 +365,8 @@ func main() {
 	sumPairRestArrInput := []int{1, 2, 4, 3, 7, 3}
 	sumPairRestArrOutput := sumPairRestArr(sumPairRestArrInput)
 	fmt.Printf("\nSumPairRestArr:\nInput: %v\nOutput: %d\n", sumPairRestArrInput, sumPairRestArrOutput)
+
+	zeroSumTripletsInput := []int{1, 2, 4, 3, 7, 3}
+	zeroSumTripletsOutput := sumPairRestArr(zeroSumTripletsInput)
+	fmt.Printf("\nZeroSumTriplets:\nInput: %v\nOutput: %d\n", zeroSumTripletsInput, zeroSumTripletsOutput)
 }
