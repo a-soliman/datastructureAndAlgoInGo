@@ -211,7 +211,33 @@ minDiffPairOfTwoArrays
 Given two arrays, find the minimum difference pair such that it should take one element from each array
 */
 func minDiffPairOfTwoArrays(arr1 []int, arr2 []int) [2]int {
+	minDiff := math.MaxInt64
+	diff := 0
+	sort.Ints(arr1)
+	sort.Ints(arr2)
+	i, j := 0, 0
+	out1, out2 := 0, 0
+	size1, size2 := len(arr1), len(arr2)
 
+	for i < size1 && j < size2 {
+		diff = abs(arr1[i], arr2[j])
+
+		if minDiff > diff {
+			minDiff = diff
+			out1 = arr1[i]
+			out2 = arr2[j]
+		}
+		if arr1[i] < arr2[j] {
+			i++
+		} else {
+			j++
+		}
+	}
+	return [2]int{out1, out2}
+}
+
+func abs(num1 int, num2 int) int {
+	return int(math.Abs(float64(num1) - float64(num2)))
 }
 
 func main() {
