@@ -299,6 +299,27 @@ Given an array of integers, you need to find all the triplets whose sum = 0
 */
 func zeroSumTriplets(arr []int) [][3]int {
 	res := [][3]int{}
+	sort.Ints(arr)
+	size := len(arr)
+	start, stop := 0, size-1
+	sum := 0
+	for i := 0; i < size/2; i++ {
+		start = i + 1
+		stop = size - 1
+
+		for start < stop {
+			sum = arr[i] + arr[start] + arr[stop]
+			if sum == 0 {
+				res = append(res, [3]int{arr[i], arr[start], arr[stop]})
+				start++
+				stop--
+			} else if sum > 0 {
+				stop--
+			} else {
+				start++
+			}
+		}
+	}
 
 	return res
 }
@@ -366,7 +387,7 @@ func main() {
 	sumPairRestArrOutput := sumPairRestArr(sumPairRestArrInput)
 	fmt.Printf("\nSumPairRestArr:\nInput: %v\nOutput: %d\n", sumPairRestArrInput, sumPairRestArrOutput)
 
-	zeroSumTripletsInput := []int{1, 2, 4, 3, 7, 3}
-	zeroSumTripletsOutput := sumPairRestArr(zeroSumTripletsInput)
+	zeroSumTripletsInput := []int{1, 2, -4, 3, 7, -3}
+	zeroSumTripletsOutput := zeroSumTriplets(zeroSumTripletsInput)
 	fmt.Printf("\nZeroSumTriplets:\nInput: %v\nOutput: %d\n", zeroSumTripletsInput, zeroSumTripletsOutput)
 }
