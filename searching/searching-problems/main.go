@@ -336,6 +336,26 @@ func sumArr(arr []int) int {
 	return sum
 }
 
+func findDuplicatesInSortedArr(arr1 []int, arr2 []int) []int {
+	size1, size2 := len(arr1), len(arr2)
+	i, j := 0, 0
+	res := []int{}
+	for i < size1 && j < size2 {
+		if arr1[i] == arr2[j] {
+			if len(res) == 0 || res[len(res)-1] != arr1[i] { // Can use set instead
+				res = append(res, arr1[i])
+			}
+			i++
+			j++
+		} else if arr1[i] > arr2[j] {
+			j++
+		} else {
+			i++
+		}
+	}
+	return res
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -390,4 +410,10 @@ func main() {
 	zeroSumTripletsInput := []int{1, 2, -4, 3, 7, -3}
 	zeroSumTripletsOutput := zeroSumTriplets(zeroSumTripletsInput)
 	fmt.Printf("\nZeroSumTriplets:\nInput: %v\nOutput: %d\n", zeroSumTripletsInput, zeroSumTripletsOutput)
+
+	findDuplicatesInSortedArrInput1 := []int{2, 3, 3, 5, 4, 4, 6, 7, 7, 8, 12}
+	findDuplicatesInSortedArrInput2 := []int{5, 5, 6, 8, 8, 9, 10, 16}
+	findDuplicatesInSortedArrOutput := findDuplicatesInSortedArr(findDuplicatesInSortedArrInput1, findDuplicatesInSortedArrInput2)
+	fmt.Printf("\nfindDuplicatesInSortedArr:\nInput: %v, %v\nOutput: %d\n", findDuplicatesInSortedArrInput1, findDuplicatesInSortedArrInput2, findDuplicatesInSortedArrOutput)
+
 }
