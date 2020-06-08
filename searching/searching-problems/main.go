@@ -445,6 +445,46 @@ func getMajority(arr []int) int {
 	return 0
 }
 
+/*
+MajorityElementInSortedArr
+Given a sorted array of n elements. Find the majority element. which appears more than n/2 times.
+Return 0 incase there is no majority.
+*/
+func getMajorityInSorted(arr []int) int {
+	size := len(arr) - 1
+	mid := size / 2
+	candidate := arr[mid]
+	start, end := getStart(arr, mid, candidate), getEnd(arr, mid, candidate)
+	if end-start+1 > mid {
+		return candidate
+	}
+	return 0
+}
+
+func getStart(arr []int, end, val int) int {
+	start, mid := 0, 0
+	for end > start {
+		mid = (start + end) / 2
+		if arr[mid] == val && (mid == 0 || arr[mid-1] != val) {
+			return mid
+		}
+		start = mid + 1
+	}
+	return end
+}
+
+func getEnd(arr []int, start, val int) int {
+	end, mid := len(arr)-1, 0
+	for end > start {
+		mid = (start + end) / 2
+		if arr[mid] == val && (mid == end || arr[mid+1] != val) {
+			return mid
+		}
+		end = mid - 1
+	}
+	return start
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -516,4 +556,8 @@ func main() {
 	getMajorityInput := []int{1, 5, 5, 13, 5, 31, 5}
 	getMajorityOutput := getMajority(getMajorityInput)
 	fmt.Printf("\nGetMajority:\nInput: %v\nOutput: %v\n", getMajorityInput, getMajorityOutput)
+
+	getMajorityInSortedInput := []int{1, 5, 5, 5, 13, 31}
+	getMajorityInSortedOutput := getMajorityInSorted(getMajorityInSortedInput)
+	fmt.Printf("\ngetMajorityInSorted:\nInput: %v\nOutput: %v\n", getMajorityInSortedInput, getMajorityInSortedOutput)
 }
