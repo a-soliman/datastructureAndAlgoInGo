@@ -415,6 +415,36 @@ func gpTriplets(arr []int) [][3]int {
 	return res
 }
 
+/*
+MajorityElementInAnArray
+Given an array of n elements. Find the majority element. which appears more than n/2 times.
+Return 0 incase there is no majority.
+*/
+func getMajority(arr []int) int {
+	size := len(arr)
+	maj, freq, count := arr[0], 1, 0
+	for i := 1; i < size; i++ {
+		if arr[i] == maj {
+			freq++
+		} else {
+			freq--
+			if freq == 0 {
+				maj = arr[i]
+				freq = 1
+			}
+		}
+	}
+	for _, num := range arr {
+		if num == maj {
+			count++
+		}
+	}
+	if count >= size/2 {
+		return maj
+	}
+	return 0
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -483,4 +513,7 @@ func main() {
 	gpTripletsOutput := gpTriplets(gpTripletsInput)
 	fmt.Printf("\nGPTriplets:\nInput: %v\nOutput: %v\n", gpTripletsInput, gpTripletsOutput)
 
+	getMajorityInput := []int{1, 5, 5, 13, 5, 31, 5}
+	getMajorityOutput := getMajority(getMajorityInput)
+	fmt.Printf("\nGetMajority:\nInput: %v\nOutput: %v\n", getMajorityInput, getMajorityOutput)
 }
