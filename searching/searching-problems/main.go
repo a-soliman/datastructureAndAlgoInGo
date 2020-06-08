@@ -356,6 +356,35 @@ func findDuplicatesInSortedArr(arr1 []int, arr2 []int) []int {
 	return res
 }
 
+/*
+ArithmeticProgressionTriplet
+Given a sorted array, find all Arithmetic progression triplet possible
+*/
+func apTriplets(arr []int) [][3]int {
+	size := len(arr)
+	var (
+		i, j, k, sum, target int
+	)
+	res := [][3]int{}
+	for i = 1; i < size; i++ {
+		j, k = i-1, i+1
+		target = 2 * arr[i]
+		for j >= 0 && k < size {
+			sum = arr[j] + arr[k]
+			if sum == target {
+				res = append(res, [3]int{arr[j], arr[i], arr[k]})
+				j--
+				k++
+			} else if sum < target {
+				k++
+			} else {
+				j--
+			}
+		}
+	}
+	return res
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -415,5 +444,9 @@ func main() {
 	findDuplicatesInSortedArrInput2 := []int{5, 5, 6, 8, 8, 9, 10, 16}
 	findDuplicatesInSortedArrOutput := findDuplicatesInSortedArr(findDuplicatesInSortedArrInput1, findDuplicatesInSortedArrInput2)
 	fmt.Printf("\nfindDuplicatesInSortedArr:\nInput: %v, %v\nOutput: %d\n", findDuplicatesInSortedArrInput1, findDuplicatesInSortedArrInput2, findDuplicatesInSortedArrOutput)
+
+	apTripletsInput := []int{1, 2, 3, 4, 9, 17, 23}
+	apTripletsOutput := apTriplets(apTripletsInput)
+	fmt.Printf("\nAPTriplets:\nInput: %v\nOutput: %v\n", apTripletsInput, apTripletsOutput)
 
 }
