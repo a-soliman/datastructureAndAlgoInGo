@@ -385,6 +385,36 @@ func apTriplets(arr []int) [][3]int {
 	return res
 }
 
+/*
+GeometricProgressionTriplet
+Given a sorted array, find all Geometric progression triplet possible
+*/
+func gpTriplets(arr []int) [][3]int {
+	size := len(arr)
+	res := [][3]int{}
+	var (
+		i, j, k, sum, target int
+	)
+
+	for i = 1; i < size-1; i++ {
+		j, k = i-1, i+1
+		target = arr[i] * arr[i]
+		for j >= 0 && k < size {
+			sum = arr[j] * arr[k]
+			if sum == target {
+				res = append(res, [3]int{arr[j], arr[i], arr[k]})
+				j--
+				k++
+			} else if sum < target {
+				k++
+			} else {
+				j--
+			}
+		}
+	}
+	return res
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -448,5 +478,9 @@ func main() {
 	apTripletsInput := []int{1, 2, 3, 4, 9, 17, 23}
 	apTripletsOutput := apTriplets(apTripletsInput)
 	fmt.Printf("\nAPTriplets:\nInput: %v\nOutput: %v\n", apTripletsInput, apTripletsOutput)
+
+	gpTripletsInput := []int{1, 2, 3, 4, 9, 17, 23}
+	gpTripletsOutput := gpTriplets(gpTripletsInput)
+	fmt.Printf("\nGPTriplets:\nInput: %v\nOutput: %v\n", gpTripletsInput, gpTripletsOutput)
 
 }
