@@ -606,6 +606,36 @@ func findBitonicArrMax(arr []int) int {
 	return currentVal
 }
 
+/*
+StockPurchaseSell
+in a given list, in which nth element is the price of the stock on nth day. You are asked to buy once and sell once. on what date you
+will be buying nad at what date you will be selling to get maximum profit.
+*/
+func maxProfit(stocks []int) (buy int, sell int, profit int) {
+	currentMin, currentMax, currentProfit := stocks[0], stocks[0], 0
+
+	for _, stock := range stocks {
+		if stock > currentMax {
+			currentMax = stock
+		} else if stock < currentMin {
+			currentProfit = currentMax - currentMin
+			if currentProfit > profit {
+				profit = currentProfit
+				buy = currentMin
+				sell = currentMax
+			}
+			currentMin = stock
+			currentMax = stock
+		}
+	}
+	if currentProfit > profit {
+		profit = currentProfit
+		buy = currentMin
+		sell = currentMax
+	}
+	return
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -693,5 +723,9 @@ func main() {
 	findBitonicArrMaxInput := []int{1, 5, 10, 13, 20, 30, 8, 6, 5}
 	findBitonicArrMaxOutput := findBitonicArrMax(findBitonicArrMaxInput)
 	fmt.Printf("\nFindBitonicArrMax:\nInput: %v\nOutput: %v\n", findBitonicArrMaxInput, findBitonicArrMaxOutput)
+
+	maxProfitInput := []int{10, 150, 6, 67, 61, 16, 86, 6, 67, 78, 150, 3, 28, 143}
+	buy, sell, profit := maxProfit(maxProfitInput)
+	fmt.Printf("\nMaxProfit:\nInput: %v\nOutput: %d, %d, %d \n", maxProfitInput, buy, sell, profit)
 
 }
