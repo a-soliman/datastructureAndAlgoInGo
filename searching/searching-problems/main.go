@@ -549,6 +549,40 @@ func getChild(arr []int, size int, parentIdx int) int {
 	return childIdx2
 }
 
+/*
+FindMedianOfAnUnsortedList
+in an unsorted list of numbers of size n, if all the elements of the array are sorted then find the element which lie at the index n/2.
+*/
+func findMedian(arr []int) int {
+	size := len(arr)
+	if size < 2 {
+		return arr[0]
+	}
+	return quickSearch(arr, (size+1)/2)
+}
+
+func quickSearch(arr []int, k int) int {
+	left, right := []int{}, []int{}
+	size := len(arr)
+
+	for i := 1; i < size; i++ {
+		if arr[i] > arr[0] {
+			right = append(right, arr[i])
+		} else {
+			left = append(left, arr[i])
+		}
+	}
+
+	leftSize := len(left)
+	if leftSize == k-1 {
+		return arr[0]
+	}
+	if leftSize > k-1 {
+		return quickSearch(left, k)
+	}
+	return quickSearch(right, k-leftSize-1)
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -628,4 +662,8 @@ func main() {
 	kthLargestInput := []int{5, 3, 2, 10, 9, 8, 12}
 	kthLargestOutput := kthLargest(kthLargestInput, 2)
 	fmt.Printf("\nkthLargest:\nInput: %v\nOutput: %v\n", kthLargestInput, kthLargestOutput)
+
+	findMedianInput := []int{11, 1, 2, 5, 4, 13, 10}
+	findMedianOutput := findMedian(findMedianInput)
+	fmt.Printf("\nFindMedian:\nInput: %v\nOutput: %v\n", findMedianInput, findMedianOutput)
 }
