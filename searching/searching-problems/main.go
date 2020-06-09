@@ -583,6 +583,29 @@ func quickSearch(arr []int, k int) int {
 	return quickSearch(right, k-leftSize-1)
 }
 
+/*
+FindMaximaInBitonicList
+A bitonic list comprises of an increasing sequence of integers immediately followed by a decreasing sequence. Find maxima in bitonic list
+*/
+func findBitonicArrMax(arr []int) int {
+	start, end, mid := 0, len(arr)-1, 0
+	currentVal := 0
+
+	for start <= end {
+		mid = (start + end) / 2
+		currentVal = arr[mid]
+		if currentVal > arr[mid+1] && currentVal > arr[mid-1] {
+			break
+		}
+		if currentVal < arr[mid+1] {
+			start = mid + 1
+		} else {
+			end = mid - 1
+		}
+	}
+	return currentVal
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -666,4 +689,9 @@ func main() {
 	findMedianInput := []int{11, 1, 2, 5, 4, 13, 10}
 	findMedianOutput := findMedian(findMedianInput)
 	fmt.Printf("\nFindMedian:\nInput: %v\nOutput: %v\n", findMedianInput, findMedianOutput)
+
+	findBitonicArrMaxInput := []int{1, 5, 10, 13, 20, 30, 8, 6, 5}
+	findBitonicArrMaxOutput := findBitonicArrMax(findBitonicArrMaxInput)
+	fmt.Printf("\nFindBitonicArrMax:\nInput: %v\nOutput: %v\n", findBitonicArrMaxInput, findBitonicArrMaxOutput)
+
 }
