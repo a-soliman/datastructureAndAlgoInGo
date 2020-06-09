@@ -485,6 +485,70 @@ func getEnd(arr []int, start, val int) int {
 	return start
 }
 
+/*
+kthLargestNumber
+Given an unsorted array of n distinct elements. How will you identify the kth largest element with minimum number of comparisons?
+*/
+func kthLargest(arr []int, k int) int {
+	size := len(arr)
+	buildHeap(arr)
+	for i := 1; i < k; i++ {
+		arr[0], arr[size-1] = arr[size-1], arr[0]
+		size--
+		heapify(arr, size)
+	}
+	return arr[0]
+}
+
+func buildHeap(arr []int) {
+	var (
+		parentIndex int
+		childIndex  int
+	)
+	for i := 1; i < len(arr); i++ {
+		childIndex = i
+		parentIndex = getParent(childIndex)
+		for parentIndex >= 0 && arr[parentIndex] < arr[childIndex] {
+			arr[parentIndex], arr[childIndex] = arr[childIndex], arr[parentIndex]
+			childIndex = parentIndex
+			parentIndex = getParent(childIndex)
+		}
+	}
+}
+
+func heapify(arr []int, size int) {
+	parentIndex := 0
+	childIndex := getChild(arr, size, parentIndex)
+	for childIndex < size && arr[parentIndex] < arr[childIndex] {
+		arr[parentIndex], arr[childIndex] = arr[childIndex], arr[parentIndex]
+		parentIndex = childIndex
+		childIndex = getChild(arr, size, parentIndex)
+	}
+}
+
+func getParent(childIdx int) int {
+	if childIdx%2 == 0 {
+		return (childIdx / 2) - 1
+	}
+	return childIdx / 2
+}
+
+func getChild(arr []int, size int, parentIdx int) int {
+	childIdx1 := (parentIdx * 2) + 1
+	childIdx2 := childIdx1 + 1
+
+	if childIdx1 > size {
+		return math.MaxInt64
+	}
+	if childIdx2 > size {
+		return childIdx1
+	}
+	if arr[childIdx1] > arr[childIdx2] {
+		return childIdx1
+	}
+	return childIdx2
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -560,4 +624,8 @@ func main() {
 	getMajorityInSortedInput := []int{1, 5, 5, 5, 13, 31}
 	getMajorityInSortedOutput := getMajorityInSorted(getMajorityInSortedInput)
 	fmt.Printf("\ngetMajorityInSorted:\nInput: %v\nOutput: %v\n", getMajorityInSortedInput, getMajorityInSortedOutput)
+
+	kthLargestInput := []int{5, 3, 2, 10, 9, 8, 12}
+	kthLargestOutput := kthLargest(kthLargestInput, 2)
+	fmt.Printf("\nkthLargest:\nInput: %v\nOutput: %v\n", kthLargestInput, kthLargestOutput)
 }
