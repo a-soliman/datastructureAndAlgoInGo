@@ -681,6 +681,31 @@ func binarySearch01(arr []int) int {
 	return mid
 }
 
+/*
+FindMaxInARotatedArray
+Given a sorted list S of N integers. S is rotated an unknown number of times. Find maximum value element in the array.
+*/
+func rotationMax(arr []int) int {
+	start, end := 0, len(arr)-1
+	idx := rotationMaxIndexUtil(arr, start, end)
+	return arr[idx]
+}
+
+func rotationMaxIndexUtil(arr []int, start int, end int) int {
+	if start >= end {
+		return start
+	}
+
+	mid := (start + end) / 2
+	if arr[mid] > arr[mid+1] {
+		return mid
+	} else if arr[start] < arr[mid] {
+		return rotationMaxIndexUtil(arr, mid+1, end)
+	} else {
+		return rotationMaxIndexUtil(arr, start, mid-1)
+	}
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -782,5 +807,9 @@ func main() {
 	search01ListInput := []int{0, 0, 0, 1, 1, 1, 1, 1, 1, 1}
 	search01ListOutput := binarySearch01(search01ListInput)
 	fmt.Printf("\nSearch01List:\nInput: %v\nOutput: %v \n", search01ListInput, search01ListOutput)
+
+	findMaxInARotatedArrayInput := []int{11, 12, 13, 8, 9, 10, 3, 5, 7}
+	findMaxInARotatedArrayOutput := rotationMax(findMaxInARotatedArrayInput)
+	fmt.Printf("\nFindMaxInARotatedArray:\nInput: %v\nOutput: %v \n", findMaxInARotatedArrayInput, findMaxInARotatedArrayOutput)
 
 }
