@@ -715,6 +715,79 @@ func rotationMaxIndex(arr []int) int {
 	return rotationMaxIndexUtil(arr, start, end)
 }
 
+/*
+SearchSortedRotatedList
+Given a sorted list S of N ingegers. S is rotated an unknown number of times. Find an element in the array.
+*/
+
+func searchSortedRotatedList(arr []int, key int) bool {
+	size := len(arr)
+	return searchSortedRotatedListUtil(arr, 0, size-1, key)
+}
+
+func searchSortedRotatedListUtil(arr []int, left int, right int, key int) bool {
+	if left > right {
+		return false
+	}
+	midIdx := (left + right) / 2
+	start, end := findRange(arr, midIdx)
+	if key >= arr[start] && key <= arr[end] {
+		return binarySearch(arr, start, end, key)
+	} else if key < arr[start] {
+		return searchSortedRotatedListUtil(arr, midIdx+1, right, key)
+	} else {
+		return searchSortedRotatedListUtil(arr, left, midIdx-1, key)
+	}
+}
+
+func findRange(arr []int, idx int) (start int, end int) {
+	left, right, mid := 0, idx, 0
+	// find start
+	for left <= right {
+		mid = (left + right) / 2
+		if arr[mid] <= arr[idx] && (mid == 0 || arr[mid] < arr[mid-1]) {
+			start = mid
+			break
+		} else if arr[mid] > arr[idx] {
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+	}
+	left, right = idx, len(arr)-1
+	// find end
+	for left <= right {
+		mid = (left + right) / 2
+		if arr[mid] >= arr[idx] && (mid == len(arr)-1 || arr[mid] > arr[mid+1]) {
+			end = mid
+			break
+		} else if arr[mid] < arr[idx] {
+			right = mid - 1
+		} else {
+			left = mid + 1
+		}
+	}
+	return
+}
+
+func binarySearch(arr []int, start, end, key int) bool {
+	if start > end {
+		return false
+	}
+	mid := 0
+	for start <= end {
+		mid = (start + end) / 2
+		if arr[mid] == key {
+			return true
+		} else if arr[mid] > key {
+			end = mid - 1
+		} else {
+			start = mid + 1
+		}
+	}
+	return false
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -824,4 +897,7 @@ func main() {
 	findIndexOfMaxInARotatedArrayOutput := rotationMaxIndex(findMaxInARotatedArrayInput)
 	fmt.Printf("\nFindIndexOfMaxInRotatedArr:\nInput: %v\nOutput: %v \n", findMaxInARotatedArrayInput, findIndexOfMaxInARotatedArrayOutput)
 
+	searchSortedRotatedListInput := []int{8, 9, 10, 3, 5, 7}
+	searchSortedRotatedListOutput := searchSortedRotatedList(searchSortedRotatedListInput, 3)
+	fmt.Printf("\nSearchSortedRotatedList: \nInput: %v\nOutput: %v\n", searchSortedRotatedListInput, searchSortedRotatedListOutput)
 }
