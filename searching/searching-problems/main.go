@@ -662,6 +662,25 @@ func findMedianOfTwoSortedLists(arr1 []int, arr2 []int) int {
 	return res
 }
 
+/*
+Search01List
+In given list of 0's and 1s in which all the 0's come before 1's. Write an algorithm to find the index of the first 1.
+*/
+func binarySearch01(arr []int) int {
+	start, end, mid := 0, len(arr)-1, 0
+	for start <= end {
+		mid = (start + end) / 2
+		if arr[mid] == 1 && arr[mid-1] == 0 {
+			break
+		} else if arr[mid] == 0 {
+			start = mid + 1
+		} else {
+			end = mid - 1
+		}
+	}
+	return mid
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -759,5 +778,9 @@ func main() {
 	findMedianOfTwoSortedListsOutput := findMedianOfTwoSortedLists(findMedianOfTwoSortedListsInput1, findMedianOfTwoSortedListsInput2)
 
 	fmt.Printf("\nFindMedianOfTwoSortedLists:\nInput 1: %v\nInput 2: %v\nOutput: %v \n", findMedianOfTwoSortedListsInput1, findMedianOfTwoSortedListsInput2, findMedianOfTwoSortedListsOutput)
+
+	search01ListInput := []int{0, 0, 0, 1, 1, 1, 1, 1, 1, 1}
+	search01ListOutput := binarySearch01(search01ListInput)
+	fmt.Printf("\nSearch01List:\nInput: %v\nOutput: %v \n", search01ListInput, search01ListOutput)
 
 }
