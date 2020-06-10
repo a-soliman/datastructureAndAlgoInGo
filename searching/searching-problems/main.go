@@ -636,6 +636,32 @@ func maxProfit(stocks []int) (buy int, sell int, profit int) {
 	return
 }
 
+/*
+FindMedianOfTwoSortedLists
+Given Two sorted lists, find the median of the arrays if they are compained to form a bigger list
+*/
+func findMedianOfTwoSortedLists(arr1 []int, arr2 []int) int {
+	size1, size2 := len(arr1), len(arr2)
+	medianIdx := int(math.Ceil(float64((size1 + size2) / 2)))
+	i, j, count := 0, 0, 0
+	res := 0
+
+	for i < size1 && j < size2 {
+		if arr1[i] < arr2[j] {
+			res = arr1[i]
+			i++
+		} else {
+			res = arr2[j]
+			j++
+		}
+		if count == medianIdx {
+			break
+		}
+		count++
+	}
+	return res
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -727,5 +753,11 @@ func main() {
 	maxProfitInput := []int{10, 150, 6, 67, 61, 16, 86, 6, 67, 78, 150, 3, 28, 143}
 	buy, sell, profit := maxProfit(maxProfitInput)
 	fmt.Printf("\nMaxProfit:\nInput: %v\nOutput: %d, %d, %d \n", maxProfitInput, buy, sell, profit)
+
+	findMedianOfTwoSortedListsInput1 := []int{1, 2, 3, 7}
+	findMedianOfTwoSortedListsInput2 := []int{4, 5, 6}
+	findMedianOfTwoSortedListsOutput := findMedianOfTwoSortedLists(findMedianOfTwoSortedListsInput1, findMedianOfTwoSortedListsInput2)
+
+	fmt.Printf("\nFindMedianOfTwoSortedLists:\nInput 1: %v\nInput 2: %v\nOutput: %v \n", findMedianOfTwoSortedListsInput1, findMedianOfTwoSortedListsInput2, findMedianOfTwoSortedListsOutput)
 
 }
