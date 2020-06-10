@@ -706,6 +706,15 @@ func rotationMaxIndexUtil(arr []int, start int, end int) int {
 	}
 }
 
+/*
+FindIndexOfMaxInARotatedArray
+Given a sorted list S of N integers. S is rotated an unknown number of times. Find the index of the maximum value element in the array.
+*/
+func rotationMaxIndex(arr []int) int {
+	start, end := 0, len(arr)-1
+	return rotationMaxIndexUtil(arr, start, end)
+}
+
 func main() {
 	firstRepeatedInput := []int{7, 1, 6, 3, 5, 1, 7, 4, 2}
 	firstRepeatedRes := firstRepeated(firstRepeatedInput)
@@ -811,5 +820,8 @@ func main() {
 	findMaxInARotatedArrayInput := []int{11, 12, 13, 8, 9, 10, 3, 5, 7}
 	findMaxInARotatedArrayOutput := rotationMax(findMaxInARotatedArrayInput)
 	fmt.Printf("\nFindMaxInARotatedArray:\nInput: %v\nOutput: %v \n", findMaxInARotatedArrayInput, findMaxInARotatedArrayOutput)
+
+	findIndexOfMaxInARotatedArrayOutput := rotationMaxIndex(findMaxInARotatedArrayInput)
+	fmt.Printf("\nFindIndexOfMaxInRotatedArr:\nInput: %v\nOutput: %v \n", findMaxInARotatedArrayInput, findIndexOfMaxInARotatedArrayOutput)
 
 }
