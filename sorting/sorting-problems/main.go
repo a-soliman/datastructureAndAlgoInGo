@@ -258,6 +258,92 @@ func isReversedSorted(arr []int) bool {
 	return true
 }
 
+/*
+Merge K sorted arrays
+This is a popular Facebook problem.
+
+Given K sorted arrays arr, of size N each, merge them into a new array res, such that res is a sorted array.
+
+ Assume N is very large compared to K. N may not even be known. The arrays could be just sorted streams, for instance, timestamp streams.
+
+All arrays might be sorted in increasing manner or decreasing manner. Sort all of them in the manner they appear in input.
+
+Repeats are allowed.
+Negative numbers and zeros are allowed.
+Assume all arrays are sorted in the same order. Preserve that sort order in output.
+It is possible to find out the sort order from at least one of the arrays.
+*/
+func mergeKArrays(arr [][]int32) []int32 {
+	res := []int32{}
+	arraysCount := len(arr)
+	increasing := false
+
+	if arraysCount == 1 {
+		return arr[0]
+	}
+
+	if arraysCount >= 2 {
+		increasing = findOrder(arr)
+		res = merge2SortedArrays(arr[0], arr[1], increasing)
+	}
+
+	for i := 2; i < arraysCount; i++ {
+		res = merge2SortedArrays(res, arr[i], increasing)
+	}
+	return res
+}
+
+func findOrder(arr [][]int32) bool {
+	res := true
+	currentArr := []int32{}
+	for i := 0; i < len(arr); i++ {
+		currentArr = arr[i]
+		if len(currentArr) >= 2 {
+			for j := 1; j < len(currentArr); j++ {
+				if currentArr[j] != currentArr[j-1] {
+					return currentArr[j-1] < currentArr[j]
+				}
+			}
+		}
+	}
+	return res
+}
+
+func merge2SortedArrays(arr1 []int32, arr2 []int32, increasing bool) []int32 {
+	res := []int32{}
+	size1, size2 := len(arr1), len(arr2)
+	i, j := 0, 0
+
+	for i < size1 && j < size2 {
+		if increasing {
+			if arr1[i] < arr2[j] {
+				res = append(res, arr1[i])
+				i++
+			} else {
+				res = append(res, arr2[j])
+				j++
+			}
+		} else {
+			if arr1[i] > arr2[j] {
+				res = append(res, arr1[i])
+				i++
+			} else {
+				res = append(res, arr2[j])
+				j++
+			}
+		}
+	}
+	for i < size1 {
+		res = append(res, arr1[i])
+		i++
+	}
+	for j < size2 {
+		res = append(res, arr2[j])
+		j++
+	}
+	return res
+}
+
 func main() {
 	zeroOneArr := []int{1, 1, 1, 0, 0, 0, 1, 1, 0, 0}
 	copied := copySlice(zeroOneArr)
@@ -304,5 +390,22 @@ func main() {
 	checkReveredInput := []int{1, 3, 8, 5, 4, 3, 10, 11, 12, 18, 28}
 	checkReveredOutput := checkRevered(checkReveredInput)
 	fmt.Printf("\nCheckRevered:\nInput: %v\nOutput: %v\n", checkReveredInput, checkReveredOutput)
+
+	mergeKArraysInput := [][]int32{}
+
+	row1 := []int32{3, 3, 12, 20, 22, 25, 34}
+	row2 := []int32{4, 10, 12, 20, 28, 32, 36}
+	row3 := []int32{5, 6, 10, 19, 22, 28, 34}
+	row4 := []int32{8, 17, 17, 25, 34, 34, 42}
+	row5 := []int32{6, 7, 14, 17, 18, 25, 26}
+	row6 := []int32{8, 10, 15, 19, 28, 32, 40}
+	row7 := []int32{5, 13, 17, 19, 25, 26, 27}
+	row8 := []int32{1, 9, 12, 20, 26, 28, 30}
+	row9 := []int32{0, 8, 13, 19, 21, 25, 28}
+	row10 := []int32{3, 12, 18, 21, 27, 32, 32}
+
+	mergeKArraysInput = append(mergeKArraysInput, row1, row2, row3, row4, row5, row6, row7, row8, row9, row10)
+	mergeKArraysOutput := mergeKArrays(mergeKArraysInput)
+	fmt.Printf("\nMergeKSortedArrays: \nOutput: %v", mergeKArraysOutput)
 
 }
