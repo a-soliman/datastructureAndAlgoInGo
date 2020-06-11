@@ -260,11 +260,9 @@ func isReversedSorted(arr []int) bool {
 
 /*
 Merge K sorted arrays
-This is a popular Facebook problem.
-
 Given K sorted arrays arr, of size N each, merge them into a new array res, such that res is a sorted array.
 
- Assume N is very large compared to K. N may not even be known. The arrays could be just sorted streams, for instance, timestamp streams.
+Assume N is very large compared to K. N may not even be known. The arrays could be just sorted streams, for instance, timestamp streams.
 
 All arrays might be sorted in increasing manner or decreasing manner. Sort all of them in the manner they appear in input.
 
@@ -344,6 +342,32 @@ func merge2SortedArrays(arr1 []int32, arr2 []int32, increasing bool) []int32 {
 	return res
 }
 
+func groupNumbers(arr []int32) []int32 {
+	size := len(arr)
+	if size < 2 {
+		return arr
+	}
+	i, j := 0, size-1
+	for i < j {
+		for i < size && isEven(arr[i]) {
+			i++
+		}
+		for j >= 0 && !isEven(arr[j]) {
+			j--
+		}
+		if i < j {
+			arr[i], arr[j] = arr[j], arr[i]
+			i++
+			j--
+		}
+	}
+	return arr
+}
+
+func isEven(num int32) bool {
+	return num%2 == 0
+}
+
 func main() {
 	zeroOneArr := []int{1, 1, 1, 0, 0, 0, 1, 1, 0, 0}
 	copied := copySlice(zeroOneArr)
@@ -406,6 +430,11 @@ func main() {
 
 	mergeKArraysInput = append(mergeKArraysInput, row1, row2, row3, row4, row5, row6, row7, row8, row9, row10)
 	mergeKArraysOutput := mergeKArrays(mergeKArraysInput)
-	fmt.Printf("\nMergeKSortedArrays: \nOutput: %v", mergeKArraysOutput)
+	fmt.Printf("\nMergeKSortedArrays: \nOutput: %v\n", mergeKArraysOutput)
+
+	groupNumbersInput := []int32{2, 90}
+	groupNumbersOutput := groupNumbers(groupNumbersInput)
+
+	fmt.Printf("\nGroupNumbers:\nInput: %v \nOutput: %v\n", groupNumbersInput, groupNumbersOutput)
 
 }
