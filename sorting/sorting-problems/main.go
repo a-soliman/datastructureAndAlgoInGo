@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"sort"
 )
 
 func copySlice(arr []int) []int {
@@ -477,6 +478,72 @@ func getChild(arr []int32, size int, parentIdx int) int {
 	return childIdx2
 }
 
+/*
+3 Sum
+Given an integer array arr of size n, find all magic triplets in it.
+Magic triplet is a group of three numbers whose sum is zero.
+Note that magic triplets may or may not be made of consecutive numbers in arr.
+
+Example One
+Input: arr = [10, 3, -4, 1, -6, 9]
+Output: [“10,-4,-6”, “3,-4,1”]
+
+Example Two
+Input: arr = [12, 34, -46]
+Output: [“12,-46,34”]
+
+Example Three
+Input: arr = [0, 0, 0];
+Output: [“0,0,0”]
+
+Example Four
+Input: arr = [-2, 2, 0 -2, 2];
+Output: [“2,-2,0”]
+*/
+
+func findZeroSum(arr []int32) []string {
+	size := len(arr)
+	res := []string{}
+	left, right := 0, size-1
+	localSum := int32(0)
+	var localRes string
+	dict := make(map[string]bool)
+	if size < 3 {
+		return res
+	}
+	sort.Slice(arr, func(i, j int) bool {
+		return arr[i] < arr[j]
+	})
+
+	for i, num := range arr {
+		left, right = i+1, size-1
+		for left < right {
+			localSum = num + arr[left] + arr[right]
+			if localSum == 0 {
+				localRes = fmt.Sprintf("%d, %d, %d", num, arr[left], arr[right])
+				_, ok := dict[localRes]
+				if !ok {
+					res = append(res, localRes)
+					dict[localRes] = true
+				}
+				for left < right && arr[left] == arr[left+1] {
+					left++
+				}
+				for left < right && arr[right] == arr[right-1] {
+					right--
+				}
+				left++
+				right--
+			} else if localSum > 0 {
+				right--
+			} else {
+				left++
+			}
+		}
+	}
+	return res
+}
+
 func main() {
 	zeroOneArr := []int{1, 1, 1, 0, 0, 0, 1, 1, 0, 0}
 	copied := copySlice(zeroOneArr)
@@ -549,4 +616,8 @@ func main() {
 	topKInput := []int32{4, 8, 9, 6, 6, 2, 10, 2, 8, 1, 2, 9}
 	topKOutput := topK(topKInput, 11)
 	fmt.Printf("\nTopK: \nInput: %v \nOutput: %v\n", topKInput, topKOutput)
+
+	findZeroSumInput := []int32{-2, 2, 0, -2, 2}
+	findZeroSumOutput := findZeroSum(findZeroSumInput)
+	fmt.Printf("\nFindZeroSumOutput: \nInput: %v \nOutput: %v\n", findZeroSumInput, findZeroSumOutput)
 }
