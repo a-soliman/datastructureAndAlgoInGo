@@ -114,6 +114,21 @@ func permutationHelper(currentPerm string, remaining string, res *[]string) {
 	}
 }
 
+func combination(str string) []string {
+	res := []string{}
+	combinationHelper("", str, 0, &res)
+	return res
+}
+
+func combinationHelper(currentCombination string, str string, idx int, res *[]string) {
+	if idx >= len(str) {
+		*res = append(*res, currentCombination)
+		return
+	}
+	combinationHelper(currentCombination, str, idx+1, res)
+	combinationHelper(currentCombination+string(str[idx]), str, idx+1, res)
+}
+
 func main() {
 	factorialInput := 5
 	factorialOutput := factorial(factorialInput)
@@ -150,4 +165,8 @@ func main() {
 	permutationInput := "abc"
 	permutationOutput := permutation(permutationInput)
 	fmt.Printf("\nPerutation:\nInput: %s\nOutput: %v\n", permutationInput, permutationOutput)
+
+	combinationInput := "123"
+	combinationOutput := combination(combinationInput)
+	fmt.Printf("\nCombination:\nInput: %s\nOutput: %#v\n", combinationInput, combinationOutput)
 }
