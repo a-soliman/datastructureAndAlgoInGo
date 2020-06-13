@@ -51,6 +51,17 @@ func committees(n int, k int) int {
 	return committees(n-1, k-1) + committees(n-1, k)
 }
 
+func towerOfHanoi(n int, src rune, dist rune, helper rune) {
+	// base case only one desc to move
+	if n == 1 {
+		fmt.Printf("move a desc from %v to %v\n", string(src), string(dist))
+	} else {
+		towerOfHanoi(n-1, src, helper, dist)
+		fmt.Printf("move a desc from %v to %v\n", string(src), string(dist))
+		towerOfHanoi(n-1, helper, dist, src)
+	}
+}
+
 func main() {
 	factorialInput := 5
 	factorialOutput := factorial(factorialInput)
@@ -73,4 +84,10 @@ func main() {
 	committeesRows := 2
 	numOfCommittees := committees(committeesStudents, committeesRows)
 	fmt.Printf("\nCommittees: \nStudents: %d, Rows: %d\nOutput: %d\n", committeesStudents, committeesRows, numOfCommittees)
+
+	towerOfHanoi(3, 'A', 'B', 'C')
+
+	binaryStringsInput := 3
+	binaryStringsOutput := binaryStrings(binaryStringsInput)
+	fmt.Printf("\nBinaryStrings:\nInput: %d\nOutput: %v\n", binaryStringsInput, binaryStringsOutput)
 }
