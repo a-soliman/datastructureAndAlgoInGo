@@ -9,8 +9,20 @@ func factorial(n int) int {
 	return n * factorial(n-1)
 }
 
+func toPower(n int, k int) int {
+	if k == 0 {
+		return 1
+	}
+	return n * toPower(n, k-1)
+}
+
 func main() {
 	factorialInput := 5
 	factorialOutput := factorial(factorialInput)
 	fmt.Printf("\nFactorial:\nInput: %d\nOutput: %d\n", factorialInput, factorialOutput)
+
+	toPowerInput1 := 2
+	toPowerInput2 := 4
+	toPowerOutput := toPower(toPowerInput1, toPowerInput2)
+	fmt.Printf("\ntoPower:\nInput: N = %d, k = %d\nOutput: %d\n", toPowerInput1, toPowerInput2, toPowerOutput)
 }
