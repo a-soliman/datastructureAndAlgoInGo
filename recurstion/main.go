@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 func factorial(n int) int {
 	if n <= 2 {
@@ -77,6 +80,40 @@ func binaryStrings(n int) []string {
 	return res
 }
 
+func decStrings(n int) []string {
+	res := []string{}
+	var helper func(string)
+	helper = func(str string) {
+		if len(str) == n {
+			res = append(res, str)
+			return
+		}
+		for i := 0; i < 10; i++ {
+			helper(str + strconv.Itoa(i))
+		}
+	}
+	helper("")
+	return res
+}
+
+func permutation(str string) []string {
+	res := []string{}
+	permutationHelper("", str, &res)
+	return res
+}
+
+func permutationHelper(currentPerm string, remaining string, res *[]string) {
+	if len(remaining) == 0 {
+		*res = append(*res, currentPerm)
+		return
+	}
+	var newRemaining string
+	for i, char := range remaining {
+		newRemaining = remaining[0:i] + remaining[i+1:len(remaining)]
+		permutationHelper(currentPerm+string(char), newRemaining, res)
+	}
+}
+
 func main() {
 	factorialInput := 5
 	factorialOutput := factorial(factorialInput)
@@ -105,4 +142,12 @@ func main() {
 	binaryStringsInput := 3
 	binaryStringsOutput := binaryStrings(binaryStringsInput)
 	fmt.Printf("\nBinaryStrings:\nInput: %d\nOutput: %v\n", binaryStringsInput, binaryStringsOutput)
+
+	decStringsInput := 1
+	decStringsOutput := decStrings(decStringsInput)
+	fmt.Printf("\nDecStrings:\nInput: %d\nOutput: %v\n", decStringsInput, decStringsOutput)
+
+	permutationInput := "abc"
+	permutationOutput := permutation(permutationInput)
+	fmt.Printf("\nPerutation:\nInput: %s\nOutput: %v\n", permutationInput, permutationOutput)
 }
