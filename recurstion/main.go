@@ -62,6 +62,21 @@ func towerOfHanoi(n int, src rune, dist rune, helper rune) {
 	}
 }
 
+func binaryStrings(n int) []string {
+	res := []string{}
+	var helper func(string)
+	helper = func(str string) {
+		if len(str) == n {
+			res = append(res, str)
+			return
+		}
+		helper(str + "0")
+		helper(str + "1")
+	}
+	helper("")
+	return res
+}
+
 func main() {
 	factorialInput := 5
 	factorialOutput := factorial(factorialInput)
