@@ -29,7 +29,7 @@ func fibonacci(n int) int {
 	var helper func(int, map[int]int) int
 
 	helper = func(num int, hash map[int]int) int {
-		if num < 2 {
+		if num <= 2 {
 			return num
 		}
 		_, ok := hash[num]
@@ -41,6 +41,14 @@ func fibonacci(n int) int {
 	}
 
 	return helper(n, hash)
+}
+
+func committees(n int, k int) int {
+	// base case
+	if k == 0 || k == n {
+		return 1
+	}
+	return committees(n-1, k-1) + committees(n-1, k)
 }
 
 func main() {
@@ -57,7 +65,12 @@ func main() {
 	setSubSetCountOutput := setSubSetCount(setSubSetCountInput)
 	fmt.Printf("\nSetSubSetCount:\nInput: %d\nOutput: %d\n", setSubSetCountInput, setSubSetCountOutput)
 
-	fibonacciInput := 100
+	fibonacciInput := 4
 	fibonacciOutput := fibonacci(fibonacciInput)
 	fmt.Printf("\nFibonacci:\nInput: %d\nOutput: %d\n", fibonacciInput, fibonacciOutput)
+
+	committeesStudents := 4
+	committeesRows := 2
+	numOfCommittees := committees(committeesStudents, committeesRows)
+	fmt.Printf("\nCommittees: \nStudents: %d, Rows: %d\nOutput: %d\n", committeesStudents, committeesRows, numOfCommittees)
 }
