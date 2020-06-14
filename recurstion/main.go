@@ -129,6 +129,93 @@ func combinationHelper(currentCombination string, str string, idx int, res *[]st
 	combinationHelper(currentCombination+string(str[idx]), str, idx+1, res)
 }
 
+func nQueens(n int) (bool, [][]int) {
+	board := *makeBoard(n)
+	success := nQUtil(0, board)
+	return success, board
+}
+
+func makeBoard(n int) *[][]int {
+	board := [][]int{}
+	for i := 0; i < n; i++ {
+		row := []int{}
+		for j := 0; j < n; j++ {
+			row = append(row, 0)
+		}
+		board = append(board, row)
+	}
+	return &board
+}
+
+func nQUtil(col int, board [][]int) bool {
+	size := len(board)
+	if col == size {
+		return true
+	}
+	for i := 0; i < size; i++ {
+		if !isValid(col, i, board) {
+			continue
+		}
+		board[i][col] = 1
+		success := nQUtil(col+1, board)
+		if success {
+			return true
+		}
+		board[i][col] = 0
+	}
+	return false
+}
+
+func isValid(col int, row int, board [][]int) bool {
+	size := len(board)
+	// horizontal
+	i, j := 0, 0
+	for i < size {
+		if board[row][i] == 1 {
+			return false
+		}
+		i++
+	}
+	// vertical
+	i = 0
+	for i < size {
+		if board[i][col] == 1 {
+			return false
+		}
+		i++
+	}
+	// diagonal 1 find top left
+	i, j = row, col
+	for i > 0 && j > 0 {
+		i--
+		j--
+	}
+
+	for i < size && j < size {
+		if board[i][j] == 1 {
+			return false
+		}
+		i++
+		j++
+	}
+
+	// diagonal 2 find top right
+	i, j = row, col
+	for i > 0 && j < size-1 {
+		i--
+		j++
+	}
+
+	for i < size && j >= 0 {
+		if board[i][j] == 1 {
+			return false
+		}
+		i++
+		j--
+	}
+	return true
+}
+
 func main() {
 	factorialInput := 5
 	factorialOutput := factorial(factorialInput)
@@ -169,4 +256,8 @@ func main() {
 	combinationInput := "123"
 	combinationOutput := combination(combinationInput)
 	fmt.Printf("\nCombination:\nInput: %s\nOutput: %#v\n", combinationInput, combinationOutput)
+
+	nQueensInput := 5
+	success, board := nQueens(nQueensInput)
+	fmt.Printf("\nNQueens:\nInput: %d\nOutput: Success: %v\nBoard: %v\n", nQueensInput, success, board)
 }
