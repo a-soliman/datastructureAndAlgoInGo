@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 func factorial(n int) int {
@@ -216,6 +217,29 @@ func isValid(col int, row int, board [][]int) bool {
 	return true
 }
 
+/*
+LetterCasePermutation
+*/
+func letterCasePermutation(str string) []string {
+	res := []string{}
+	letterCasePermutationHelper(str, "", &res)
+	return res
+}
+
+func letterCasePermutationHelper(remaining string, currentPermutation string, res *[]string) {
+	remainingSize := len(remaining)
+	if remainingSize == 0 {
+		*res = append(*res, currentPermutation)
+		return
+	}
+	char := string(remaining[0])
+	remaining = remaining[1:remainingSize]
+	if strings.ToLower(char) != strings.ToUpper(char) {
+		letterCasePermutationHelper(remaining, currentPermutation+strings.ToUpper(char), res)
+	}
+	letterCasePermutationHelper(remaining, currentPermutation+char, res)
+}
+
 func main() {
 	factorialInput := 5
 	factorialOutput := factorial(factorialInput)
@@ -260,4 +284,8 @@ func main() {
 	nQueensInput := 5
 	success, board := nQueens(nQueensInput)
 	fmt.Printf("\nNQueens:\nInput: %d\nOutput: Success: %v\nBoard: %v\n", nQueensInput, success, board)
+
+	letterCasePermutationInput := "a1b2"
+	letterCasePermutationOutput := letterCasePermutation(letterCasePermutationInput)
+	fmt.Printf("\nLetterCasePermutation:\nInput: %s\nOutput: %v\n", letterCasePermutationInput, letterCasePermutationOutput)
 }
