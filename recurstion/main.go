@@ -263,28 +263,6 @@ func generateParenthesisUtil(limit int, idx int, current string, opened int, clo
 	}
 }
 
-func canOpen(input string, n int) bool {
-	count := 0
-	for _, char := range input {
-		if string(char) == "(" {
-			count++
-		}
-	}
-	return count < n
-}
-
-func canClose(input string) bool {
-	opened := 0
-	for _, char := range input {
-		if string(char) == "(" {
-			opened++
-		} else if string(char) == ")" {
-			opened--
-		}
-	}
-	return opened > 0
-}
-
 func main() {
 	factorialInput := 5
 	factorialOutput := factorial(factorialInput)
