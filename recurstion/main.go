@@ -240,6 +240,51 @@ func letterCasePermutationHelper(remaining string, currentPermutation string, re
 	letterCasePermutationHelper(remaining, currentPermutation+char, res)
 }
 
+/*
+Generate Parentheses
+Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+*/
+func generateParenthesis(n int) []string {
+	res := []string{}
+	generateParenthesisUtil(n, 0, "", 0, 0, &res)
+	return res
+}
+
+func generateParenthesisUtil(limit int, idx int, current string, opened int, closed int, res *[]string) {
+	if len(current) == limit*2 {
+		*res = append(*res, current)
+		return
+	}
+	if closed < limit && opened > closed {
+		generateParenthesisUtil(limit, idx+1, current+")", opened, closed+1, res)
+	}
+	if opened < limit {
+		generateParenthesisUtil(limit, idx+1, current+"(", opened+1, closed, res)
+	}
+}
+
+func canOpen(input string, n int) bool {
+	count := 0
+	for _, char := range input {
+		if string(char) == "(" {
+			count++
+		}
+	}
+	return count < n
+}
+
+func canClose(input string) bool {
+	opened := 0
+	for _, char := range input {
+		if string(char) == "(" {
+			opened++
+		} else if string(char) == ")" {
+			opened--
+		}
+	}
+	return opened > 0
+}
+
 func main() {
 	factorialInput := 5
 	factorialOutput := factorial(factorialInput)
@@ -288,4 +333,8 @@ func main() {
 	letterCasePermutationInput := "a1b2"
 	letterCasePermutationOutput := letterCasePermutation(letterCasePermutationInput)
 	fmt.Printf("\nLetterCasePermutation:\nInput: %s\nOutput: %v\n", letterCasePermutationInput, letterCasePermutationOutput)
+
+	generateParenthesisInput := 3
+	generateParenthesisOutput := generateParenthesis(generateParenthesisInput)
+	fmt.Printf("\nGenerateParenthesis:\nInput: %d\nOutput: %#v\n", generateParenthesisInput, generateParenthesisOutput)
 }
