@@ -263,6 +263,115 @@ func generateParenthesisUtil(limit int, idx int, current string, opened int, clo
 	}
 }
 
+/*
+Generate All Possible Expressions That Evaluate To The Given Target Value
+
+Generate All Possible Expressions That Evaluate To The Given Target Value
+
+
+
+Given a string s that consists of digits (“0”..”9”) and target, a non-negative integer, find all expressions that can be built from string s that evaluate to the target.
+
+When building expressions, you have to insert one of the following operators between each pair of consecutive characters in s: “join” or “*” or “+”. For example, by inserting different operators between the two characters of string “12” we can get either 12 (1 joined with 2) or 2 (1*2) or 3 (1+2).
+
+Other operators such as “-” or “÷” are NOT supported.
+
+Expressions that evaluate to the target but only utilize a part of s do not count: entire s has to be consumed.
+
+Precedence of the operators is conventional: “join” has the highest precedence, “*” – medium and “+” has the lowest precedence. For example, 1+2*34=(1+(2*(34)))=1+68=69.
+
+You have to return ALL expressions that can be built from string s and evaluate to the target.
+
+
+
+Example One
+
+Input:
+s="222", target=24.
+Output:
+["22+2", "2+22"] and ["2+22", "22+2"] are both correct outputs.
+
+22+2=24: we inserted the “join” operator between the first two characters and the “+” operator between the last two characters of s.
+2+22=24: we inserted the “+” operator between the first two characters and the “join” operator between the last two characters of s.
+
+Example Two
+Input: s="1234", target=11.
+Output: ["1+2*3+4"]
+
+Example Three
+Input:
+s="99", target=1.
+Output:
+[]
+Notes
+Input Format: Function has two arguments: s and target.
+*/
+
+// func generateAllExpressions(s string, target int64) []string {
+// 	res := []string{}
+// 	generateAllExpressionsUtil(s, "", 0, 0, "", int(target), &res)
+// 	return res
+// }
+
+// func generateAllExpressionsUtil(master string, current string, idx int, sum int, lastVal string, target int, res *[]string) {
+// 	size := len(master)
+// 	if idx >= size {
+// 		*res = append(*res, current)
+// 		return
+// 	}
+// 	currentItem := string(master[idx])
+// 	currentItemVal, _ := strconv.Atoi(currentItem)
+// 	sum = sum + currentItemVal
+// 	lastChar := ""
+
+// 	if idx > 0 {
+// 		lastChar = string(current[len(current)-1])
+// 	}
+
+// 	lastValInt, _ := strconv.Atoi(lastVal)
+// 	if lastChar == "*" {
+// 		sum = sum - lastValInt - currentItemVal + (currentItemVal * lastValInt)
+// 	}
+// 	if idx < size-1 {
+// 		generateAllExpressionsUtil(master, current+currentItem+"+", idx+1, sum, currentItem, target, res)
+// 		generateAllExpressionsUtil(master, current+currentItem+"*", idx+1, sum, currentItem, target, res)
+// 	}
+// 	generateAllExpressionsUtil(master, current+currentItem, idx+1, sum, currentItem, target, res)
+// }
+
+func decomposePalindromStrings(str string) []string {
+	res := []string{}
+	decomposeUtil(str, 0, []string{}, &res)
+	return res
+}
+
+func decomposeUtil(str string, idx int, current []string, res *[]string) {
+	mainSize := len(str)
+	if idx == mainSize {
+		*res = append(*res, strings.Join(current, "|"))
+		return
+	}
+	for i := idx; i < mainSize; i++ {
+		if isPalindrom(str, idx, i) {
+			palindromicSnippet := str[idx : i+1]
+			current = append(current, palindromicSnippet)
+			decomposeUtil(str, i+1, current, res)
+			current = current[:len(current)-1]
+		}
+	}
+}
+
+func isPalindrom(s string, start int, end int) bool {
+	for start <= end {
+		if s[start] != s[end] {
+			return false
+		}
+		start++
+		end--
+	}
+	return true
+}
+
 func main() {
 	factorialInput := 5
 	factorialOutput := factorial(factorialInput)
@@ -315,4 +424,12 @@ func main() {
 	generateParenthesisInput := 3
 	generateParenthesisOutput := generateParenthesis(generateParenthesisInput)
 	fmt.Printf("\nGenerateParenthesis:\nInput: %d\nOutput: %#v\n", generateParenthesisInput, generateParenthesisOutput)
+
+	// test := generateAllExpressions("1234", 11)
+	// fmt.Printf("\nGenerateAllExpressions:\n %#v\n", test)
+
+	decomposePalindromStringsInput := "racacbrbd"
+	decomposePalindromStringsOutput := decomposePalindromStrings(decomposePalindromStringsInput)
+	fmt.Printf("\ndecomposePalindromStrings:\n %#v\n", decomposePalindromStringsOutput)
+
 }
