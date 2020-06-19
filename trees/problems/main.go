@@ -94,6 +94,26 @@ func postOrderUtil(node *node, res *[]int) {
 	*res = append(*res, node.value)
 }
 
+/*
+InOrderTraversal
+Perform inOrderTraversal on BT
+*/
+func inOrderTraversal(root *node) []int {
+	res := []int{}
+	inOrderUtil(root, &res)
+	return res
+}
+
+func inOrderUtil(node *node, res *[]int) {
+	if node.left != nil {
+		inOrderUtil(node.left, res)
+	}
+	*res = append(*res, node.value)
+	if node.right != nil {
+		inOrderUtil(node.right, res)
+	}
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -110,4 +130,8 @@ func main() {
 	postOrderTraversalInput := btFromArrRecursiveOutput
 	postOrderTraversalOutput := postOrderTraversal(postOrderTraversalInput)
 	fmt.Printf("\npostOrderTraversal:\nInput: %v\nOutput:%v\n", postOrderTraversalInput, postOrderTraversalOutput)
+
+	inOrderTraversalInput := btFromArrRecursiveOutput
+	inOrderTraversalOutput := inOrderTraversal(inOrderTraversalInput)
+	fmt.Printf("\ninOrderTraversal:\nInput: %v\nOutput:%v\n", inOrderTraversalInput, inOrderTraversalOutput)
 }
