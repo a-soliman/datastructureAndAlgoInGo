@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type node struct {
 	value int
@@ -159,6 +161,40 @@ func levelOrderLineByLineUtil(node *node, level int, res *[][]int) {
 	levelOrderLineByLineUtil(node.right, level+1, res)
 }
 
+func levelOrderLineByLine2(n *node) {
+	q1 := []*node{}
+	q2 := []*node{}
+	q1 = append(q1, n)
+	var item *node
+
+	for len(q1) > 0 || len(q2) > 0 {
+		for len(q1) > 0 {
+			item = q1[0]
+			q1 = q1[1:]
+			fmt.Print(item.value, " ")
+			if item.left != nil {
+				q2 = append(q2, item.left)
+			}
+			if item.right != nil {
+				q2 = append(q2, item.right)
+			}
+		}
+		fmt.Print("\n")
+		for len(q2) > 0 {
+			item = q2[0]
+			q2 = q2[1:]
+			fmt.Print(item.value, " ")
+			if item.left != nil {
+				q1 = append(q1, item.left)
+			}
+			if item.right != nil {
+				q1 = append(q1, item.right)
+			}
+		}
+		fmt.Print("\n")
+	}
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -187,4 +223,7 @@ func main() {
 	levelOrderLineByLineInput := btFromArrRecursiveOutput
 	levelOrderLineByLineOutput := levelOrderLineByLine(levelOrderLineByLineInput)
 	fmt.Printf("\nlevelOrderLineByLine:\nInput: %v\nOutput: %v\n", levelOrderLineByLineInput, levelOrderLineByLineOutput)
+
+	fmt.Printf("\nLevelOrderLinByLine2:\n")
+	levelOrderLineByLine2(btFromArrRecursiveOutput)
 }
