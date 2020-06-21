@@ -137,12 +137,34 @@ func levelOrderTraversal(root *node) []int {
 	return res
 }
 
+/*
+PrintLevelOrderLineByLine
+Perform level order traversal on BT. such that such that all levels are printed line by line
+*/
+func levelOrderLineByLine(node *node) [][]int {
+	res := [][]int{}
+	levelOrderLineByLineUtil(node, 0, &res)
+	return res
+}
+
+func levelOrderLineByLineUtil(node *node, level int, res *[][]int) {
+	if node == nil {
+		return
+	}
+	if len(*res)-1 < level {
+		*res = append(*res, []int{})
+	}
+	(*res)[level] = append((*res)[level], node.value)
+	levelOrderLineByLineUtil(node.left, level+1, res)
+	levelOrderLineByLineUtil(node.right, level+1, res)
+}
+
 func main() {
-	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7}
+	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
 	fmt.Printf("\nbtFromArrIterative: \nInput:%v\nOutput: %v\n", btFromArrIterativeInput, btFromArrIterativeOutput)
 
-	btFromArrRecursiveInput := []int{1, 2, 3, 4, 5, 6, 7}
+	btFromArrRecursiveInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrRecursiveOutput := btFromArrRecursive(btFromArrRecursiveInput)
 	fmt.Printf("\nbtFromArrRecursive: \nInput:%v\nOutput: %v\n", btFromArrRecursiveInput, btFromArrRecursiveOutput)
 
@@ -161,4 +183,8 @@ func main() {
 	levelOrderTraversalInput := btFromArrRecursiveOutput
 	levelOrderTraversalOutput := levelOrderTraversal(levelOrderTraversalInput)
 	fmt.Printf("\nlevelOrderTraversal:\nInput: %v\nOutput:%v\n", levelOrderTraversalInput, levelOrderTraversalOutput)
+
+	levelOrderLineByLineInput := btFromArrRecursiveOutput
+	levelOrderLineByLineOutput := levelOrderLineByLine(levelOrderLineByLineInput)
+	fmt.Printf("\nlevelOrderLineByLine:\nInput: %v\nOutput: %v\n", levelOrderLineByLineInput, levelOrderLineByLineOutput)
 }
