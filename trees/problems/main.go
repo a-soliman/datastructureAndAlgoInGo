@@ -314,6 +314,24 @@ func printMostLeftUtil(n *node, level int, maxPrinted *int) {
 	}
 }
 
+func countUniValueTrees(n *node) int {
+	if n.left == nil && n.right == nil {
+		return 1
+	}
+	left, right, total := 0, 0, 0
+	if n.left != nil {
+		left = countUniValueTrees(n.left)
+	}
+	if n.right != nil {
+		right = countUniValueTrees(n.right)
+	}
+	total = left + right
+	if n.value == n.left.value && n.value == n.right.value {
+		total = left + right + 1
+	}
+	return total
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -356,4 +374,8 @@ func main() {
 
 	fmt.Print("\nprintMostLeftRec:\n")
 	printMostLeftRec(btFromArrRecursiveOutput)
+
+	fmt.Print("\ncountUniValueTrees: \n")
+	countUniValueTreesOutput := countUniValueTrees(btFromArrRecursive([]int{5, 2, 7, 2, 2}))
+	fmt.Printf("\ncountUniValueTrees:\nInput: %v\nOutput: %v\n", btFromArrRecursiveOutput, countUniValueTreesOutput)
 }
