@@ -195,6 +195,34 @@ func levelOrderLineByLine2(n *node) {
 	}
 }
 
+func levelOrderLineByLine3(n *node) {
+	queue := []*node{n}
+	var item *node
+	count, newCount := 1, 0
+
+	for len(queue) > 0 {
+		for count > 0 {
+			count = count - 1
+			item = queue[0]
+			queue = queue[1:]
+			fmt.Print(item.value, " ")
+			if item.left != nil {
+				newCount = newCount + 1
+				queue = append(queue, item.left)
+			}
+			if item.right != nil {
+				newCount = newCount + 1
+				queue = append(queue, item.right)
+			}
+		}
+		if count == 0 {
+			count = newCount
+			newCount = 0
+			fmt.Print("\n")
+		}
+	}
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -226,4 +254,6 @@ func main() {
 
 	fmt.Printf("\nLevelOrderLinByLine2:\n")
 	levelOrderLineByLine2(btFromArrRecursiveOutput)
+	fmt.Printf("\nLevelOrderLinByLine3:\n")
+	levelOrderLineByLine3(btFromArrRecursiveOutput)
 }
