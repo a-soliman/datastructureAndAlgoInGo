@@ -315,7 +315,7 @@ func printMostLeftUtil(n *node, level int, maxPrinted *int) {
 }
 
 func countUniValueTrees(n *node) int {
-	if n.left == nil && n.right == nil {
+	if n.left == nil && n.right == nil { // the current node is a leaf
 		return 1
 	}
 	left, right, total := 0, 0, 0
@@ -330,6 +330,58 @@ func countUniValueTrees(n *node) int {
 		total = left + right + 1
 	}
 	return total
+}
+
+/*
+Given 2 trees, compare their leaf nodes left to right
+*/
+
+type leafNodeIterator struct {
+	stack []*node
+}
+
+func (i *leafNodeIterator) isEmpty() bool {
+	return len(i.stack) == 0
+}
+
+func (i *leafNodeIterator) hasNext() bool {
+	return len(i.stack) > 0
+}
+
+func (i *leafNodeIterator) next() *node {
+	var item *node
+
+	for len(i.stack) > 0 {
+		item = i.stack[len(i.stack)-1]
+		i.stack = i.stack[0 : len(i.stack)-1]
+		if item.left == nil && item.right == nil {
+			break
+		}
+		if item.right != nil {
+			i.stack = append(i.stack, item.right)
+		}
+		if item.left != nil {
+			i.stack = append(i.stack, item.left)
+		}
+	}
+	return item
+}
+
+func newLeafIterator(root *node) *leafNodeIterator {
+	return &leafNodeIterator{
+		[]*node{root},
+	}
+}
+
+func compareLeafNodes(n1 *node, n2 *node) bool {
+	tree1Iter := newLeafIterator(n1)
+	tree2Iter := newLeafIterator(n2)
+	for tree1Iter.hasNext() && tree2Iter.hasNext() {
+		if tree1Iter.next().value != tree2Iter.next().value {
+			return false
+		}
+	}
+	return tree1Iter.isEmpty() && tree2Iter.isEmpty()
 }
 
 func main() {
@@ -378,4 +430,10 @@ func main() {
 	fmt.Print("\ncountUniValueTrees: \n")
 	countUniValueTreesOutput := countUniValueTrees(btFromArrRecursive([]int{5, 2, 7, 2, 2}))
 	fmt.Printf("\ncountUniValueTrees:\nInput: %v\nOutput: %v\n", btFromArrRecursiveOutput, countUniValueTreesOutput)
+
+	compareLeafNodesInput1 := btFromArrRecursive([]int{5, 2, 7, 2, 2})
+	compareLeafNodesInput2 := btFromArrRecursive([]int{5, 3, 7, 2, 2})
+	compareLeafNodesOutput := compareLeafNodes(compareLeafNodesInput1, compareLeafNodesInput2)
+	fmt.Printf("\ncompareLeafNodes:\nOutput: %v\n", compareLeafNodesOutput)
+
 }
