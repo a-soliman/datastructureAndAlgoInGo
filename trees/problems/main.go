@@ -271,6 +271,31 @@ func printSpiralTree(n *node) {
 	}
 }
 
+/*
+Print most left
+
+*/
+func printMostLeft(n *node) {
+	queue := []*node{n}
+	for len(queue) > 0 {
+		size := len(queue)
+		for size > 0 {
+			item := queue[0]
+			queue = queue[1:]
+			if item.left != nil {
+				queue = append(queue, item.left)
+			}
+			if item.right != nil {
+				queue = append(queue, item.right)
+			}
+			if size == len(queue)-1 {
+				fmt.Print(item.value, "\n")
+			}
+			size--
+		}
+	}
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -307,4 +332,7 @@ func main() {
 
 	fmt.Print("\nPrintSpiralTree:\n")
 	printSpiralTree(btFromArrRecursiveOutput)
+
+	fmt.Print("\nprintMostLeft:\n")
+	printMostLeft(btFromArrRecursiveOutput)
 }
