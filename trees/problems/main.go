@@ -296,6 +296,24 @@ func printMostLeft(n *node) {
 	}
 }
 
+func printMostLeftRec(n *node) {
+	maxPrinted := 0
+	printMostLeftUtil(n, 1, &maxPrinted)
+}
+
+func printMostLeftUtil(n *node, level int, maxPrinted *int) {
+	if *maxPrinted < level {
+		fmt.Print(n.value, "\n")
+		*maxPrinted = *maxPrinted + 1
+	}
+	if n.left != nil {
+		printMostLeftUtil(n.left, level+1, maxPrinted)
+	}
+	if n.right != nil {
+		printMostLeftUtil(n.right, level+1, maxPrinted)
+	}
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -335,4 +353,7 @@ func main() {
 
 	fmt.Print("\nprintMostLeft:\n")
 	printMostLeft(btFromArrRecursiveOutput)
+
+	fmt.Print("\nprintMostLeftRec:\n")
+	printMostLeftRec(btFromArrRecursiveOutput)
 }
