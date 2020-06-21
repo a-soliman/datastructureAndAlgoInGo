@@ -223,6 +223,54 @@ func levelOrderLineByLine3(n *node) {
 	}
 }
 
+/*
+PrintSpiralTree
+Given a binary tree, print the nodes breadth first in spiral order
+*/
+func printSpiralTree(n *node) {
+	stack1, stack2 := []*node{n}, []*node{}
+	var stackTop int
+	var item *node
+	for len(stack1) > 0 || len(stack2) > 0 {
+		// print all in stack 1
+		for i := 0; i < len(stack1); i++ {
+			fmt.Print(stack1[i].value, " ")
+		}
+		fmt.Print("\n")
+
+		for len(stack1) > 0 {
+			stackTop = len(stack1) - 1
+			item = stack1[stackTop]
+			stack1 = stack1[0:stackTop]
+			if item.right != nil {
+				stack2 = append(stack2, item.right)
+			}
+			if item.left != nil {
+				stack2 = append(stack2, item.left)
+			}
+		}
+
+		// print all in stack2
+		for i := 0; i < len(stack2); i++ {
+			fmt.Print(stack2[i].value, " ")
+		}
+		fmt.Print("\n")
+
+		for len(stack2) > 0 {
+			stackTop = len(stack2) - 1
+			item = stack2[stackTop]
+			stack2 = stack2[0:stackTop]
+			if item.left != nil {
+				stack1 = append(stack1, item.left)
+			}
+			if item.right != nil {
+				stack1 = append(stack1, item.right)
+			}
+		}
+
+	}
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -256,4 +304,7 @@ func main() {
 	levelOrderLineByLine2(btFromArrRecursiveOutput)
 	fmt.Printf("\nLevelOrderLinByLine3:\n")
 	levelOrderLineByLine3(btFromArrRecursiveOutput)
+
+	fmt.Print("\nPrintSpiralTree:\n")
+	printSpiralTree(btFromArrRecursiveOutput)
 }
