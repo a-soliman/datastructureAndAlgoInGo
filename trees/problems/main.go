@@ -496,6 +496,33 @@ func nthInOrderUtil(n *node, target int, counter *int, res *node) {
 	nthInOrderUtil(n.right, target, counter, res)
 }
 
+/*
+PrintAllPaths
+Given a bt, print all the paths from the roots to the leaf
+*/
+func findAllPaths(n *node) [][]int {
+	res := [][]int{}
+	current := []int{}
+	findAllPathsUtil(n, current, &res)
+	return res
+}
+
+func findAllPathsUtil(n *node, current []int, res *[][]int) {
+	current = append(current, n.value)
+	if n.left == nil && n.right == nil {
+		fullPath := make([]int, len(current))
+		copy(fullPath, current)
+		*res = append(*res, fullPath)
+		return
+	}
+	if n.left != nil {
+		findAllPathsUtil(n.left, current, res)
+	}
+	if n.right != nil {
+		findAllPathsUtil(n.right, current, res)
+	}
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -579,5 +606,9 @@ func main() {
 	nthInOrderInput := btFromArrRecursiveOutput
 	nthInOrderOutput := nthInOrder(nthInOrderInput, 5)
 	fmt.Printf("\nNthInOrder: \nInput: %v\nOutput: %v\n", nthInOrderInput, nthInOrderOutput)
+
+	findAllPathsInput := btFromArrRecursiveOutput
+	findAllPathsOutput := findAllPaths(findAllPathsInput)
+	fmt.Printf("\nFindAllPaths:\nInput: %v\nOutput: %#v\n", findAllPathsInput, findAllPathsOutput)
 
 }
