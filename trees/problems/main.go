@@ -384,6 +384,70 @@ func compareLeafNodes(n1 *node, n2 *node) bool {
 	return tree1Iter.isEmpty() && tree2Iter.isEmpty()
 }
 
+type llNode struct {
+	value int
+	prev  *llNode
+	next  *llNode
+}
+
+/*
+bstToDoublyLinkedList
+given a bst convert it to doubly linkedlist
+*/
+func bstToLinkedList(n *node) (*llNode, *llNode) {
+	_, head, tail := bstToLinkedListUtil(n, nil, nil)
+	return head, tail
+}
+
+func bstToLinkedListUtil(n *node, first *llNode, last *llNode) (*llNode, *llNode, *llNode) {
+	var prev, current, next *llNode
+	if n.left != nil {
+		prev, first, last = bstToLinkedListUtil(n.left, first, last)
+	}
+	current = &llNode{n.value, prev, nil}
+	if current.prev != nil {
+		current.prev.next = current
+	}
+	if n.right != nil {
+		next, first, last = bstToLinkedListUtil(n.right, first, last)
+		current.next = next
+	}
+	if current.next != nil {
+		current.next.prev = current
+	}
+	if first == nil {
+		first = current
+	}
+	last = current.next
+	return current, first, last
+}
+
+/*
+NthPreOrder
+Given a bt, print the value of the node that will be at nth index when tree is traversed in pre order.
+*/
+func nthPreOrder(n *node, target int) int {
+	counter := 0
+	nthNode := node{}
+	nthPreOrderUtil(n, target, &counter, &nthNode)
+	return nthNode.value
+}
+
+func nthPreOrderUtil(n *node, target int, counter *int, res *node) {
+	if n == nil {
+		return
+	}
+	if n != nil {
+		(*counter)++
+	}
+	if target == *counter {
+		*res = *n
+		return
+	}
+	nthPreOrderUtil(n.left, target, counter, res)
+	nthPreOrderUtil(n.right, target, counter, res)
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -435,5 +499,29 @@ func main() {
 	compareLeafNodesInput2 := btFromArrRecursive([]int{5, 3, 7, 2, 2})
 	compareLeafNodesOutput := compareLeafNodes(compareLeafNodesInput1, compareLeafNodesInput2)
 	fmt.Printf("\ncompareLeafNodes:\nOutput: %v\n", compareLeafNodesOutput)
+
+	bst := &node{5, nil, nil}
+	bst.left = &node{3, nil, nil}
+	bst.right = &node{7, nil, nil}
+	bst.left.left = &node{2, nil, nil}
+	bst.left.right = &node{4, nil, nil}
+
+	head, tail := bstToLinkedList(bst)
+	fmt.Printf("\nbstToLinkedList:\nHead: %v\nTail: %v\n", (*head), (*tail))
+	currentNode := head
+	for currentNode != nil {
+		if currentNode == head {
+			fmt.Println("\nHead: ", currentNode.value)
+		} else if currentNode == tail {
+			fmt.Println("Tail: ", currentNode.value)
+		} else {
+			fmt.Println("Next: ", currentNode.value)
+		}
+		currentNode = currentNode.next
+	}
+
+	nthPreOrderInput := btFromArrRecursiveOutput
+	nthPreOrderOutput := nthPreOrder(nthPreOrderInput, 5)
+	fmt.Printf("\nNthPreOrder: \nInput: %v\nOutput: %v\n", nthPreOrderInput, nthPreOrderOutput)
 
 }
