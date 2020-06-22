@@ -523,6 +523,22 @@ func findAllPathsUtil(n *node, current []int, res *[][]int) {
 	}
 }
 
+/*
+NumberOfElement
+find total number of nodes in bt
+*/
+func numOfElements(n *node) int {
+	if n == nil {
+		return 0
+	}
+	if n.left == nil && n.right == nil {
+		return 1
+	}
+	totalLeft := numOfElements(n.left)
+	totalRight := numOfElements(n.right)
+	return totalLeft + totalRight + 1
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -610,5 +626,9 @@ func main() {
 	findAllPathsInput := btFromArrRecursiveOutput
 	findAllPathsOutput := findAllPaths(findAllPathsInput)
 	fmt.Printf("\nFindAllPaths:\nInput: %v\nOutput: %#v\n", findAllPathsInput, findAllPathsOutput)
+
+	numOfElementsInput := btFromArrRecursiveOutput
+	numOfElementsOutput := numOfElements(numOfElementsInput)
+	fmt.Printf("\nnumOfElements: \nInput: %v\nOutput: %d\n", numOfElementsInput, numOfElementsOutput)
 
 }
