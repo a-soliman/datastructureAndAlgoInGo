@@ -472,6 +472,30 @@ func nthPostOrderUtil(n *node, target int, counter *int, res *node) {
 	}
 }
 
+/*
+NthInOrder
+Given a bt, print the values of node that will be at nth index when tree is traversed in order
+*/
+func nthInOrder(n *node, target int) int {
+	counter := 0
+	nthNode := node{}
+	nthInOrderUtil(n, target, &counter, &nthNode)
+	return nthNode.value
+}
+
+func nthInOrderUtil(n *node, target int, counter *int, res *node) {
+	if n == nil {
+		return
+	}
+	nthInOrderUtil(n.left, target, counter, res)
+	(*counter)++
+	if *counter == target {
+		*res = *n
+		return
+	}
+	nthInOrderUtil(n.right, target, counter, res)
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -551,5 +575,9 @@ func main() {
 	nthPostOrderInput := btFromArrRecursiveOutput
 	nthPostOrderOutput := nthPostOrder(nthPostOrderInput, 5)
 	fmt.Printf("\nNthPostOrder: \nInput: %v\nOutput: %v\n", nthPostOrderInput, nthPostOrderOutput)
+
+	nthInOrderInput := btFromArrRecursiveOutput
+	nthInOrderOutput := nthInOrder(nthInOrderInput, 5)
+	fmt.Printf("\nNthInOrder: \nInput: %v\nOutput: %v\n", nthInOrderInput, nthInOrderOutput)
 
 }
