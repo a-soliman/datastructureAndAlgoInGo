@@ -539,6 +539,19 @@ func numOfElements(n *node) int {
 	return totalLeft + totalRight + 1
 }
 
+/*
+SumOfAllNodes
+Given a BT find the sum value of all it's nodes values
+*/
+func sumOfElements(n *node) int {
+	if n == nil {
+		return 0
+	}
+	sumOfLeft := sumOfElements(n.left)
+	sumOfRight := sumOfElements(n.right)
+	return sumOfLeft + sumOfRight + n.value
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -630,5 +643,9 @@ func main() {
 	numOfElementsInput := btFromArrRecursiveOutput
 	numOfElementsOutput := numOfElements(numOfElementsInput)
 	fmt.Printf("\nnumOfElements: \nInput: %v\nOutput: %d\n", numOfElementsInput, numOfElementsOutput)
+
+	sumOfElementsInput := btFromArrRecursiveOutput
+	sumOfElementsOutput := sumOfElements(sumOfElementsInput)
+	fmt.Printf("\nsumOfElements: \nInput: %v\nOutput: %d\n", sumOfElementsInput, sumOfElementsOutput)
 
 }
