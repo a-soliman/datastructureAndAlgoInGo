@@ -78,7 +78,12 @@ func (bst *BST) Find(value int) *BST {}
 func (bst *BST) Contains(value int) bool {}
 
 // FindMin returns a node with the min value in the tree
-func (bst *BST) FindMin() *BST {}
+func (bst *BST) FindMin() *BST {
+	if bst.left != nil {
+		return bst.left.FindMin()
+	}
+	return bst
+}
 
 // FindMax returns a node with the max value in the tree
 func (bst *BST) FindMax() *BST {}
