@@ -579,6 +579,23 @@ func numOfFullNodes(n *node) int {
 	return 1 + numOfFullNodes(n.left) + numOfFullNodes(n.right)
 }
 
+/*
+DepthOfBT
+Given a bt, find it's depth
+*/
+func findBTDepth(n *node) int {
+	if n == nil {
+		return 0
+	}
+	leftD := findBTDepth(n.left)
+	rightD := findBTDepth(n.right)
+
+	if leftD > rightD {
+		return leftD + 1
+	}
+	return rightD + 1
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -682,5 +699,9 @@ func main() {
 	numOfFullNodesInput := btFromArrRecursiveOutput
 	numOfFullNodesOutput := numOfFullNodes(numOfFullNodesInput)
 	fmt.Printf("\nnumOfFullNodes: \nInput: %v\nOutput: %d\n", numOfFullNodesInput, numOfFullNodesOutput)
+
+	findBTDepthInput := btFromArrRecursiveOutput
+	findBTDepthOutput := findBTDepth(findBTDepthInput)
+	fmt.Printf("\nfindBTDepth: \nInput: %v\nOutput: %d\n", findBTDepthInput, findBTDepthOutput)
 
 }
