@@ -62,6 +62,18 @@ func (bst *BST) Copy() *BST {
 	return root
 }
 
+// CopyMirror mirrors a tree into a new tree
+func (bst *BST) CopyMirror() *BST {
+	root := New(bst.value)
+	if bst.left != nil {
+		root.right = bst.left.CopyMirror()
+	}
+	if bst.right != nil {
+		root.left = bst.right.CopyMirror()
+	}
+	return root
+}
+
 // Insert inserts a new bst node with the given value
 func (bst *BST) Insert(value int) *BST {
 	if value <= bst.value {
