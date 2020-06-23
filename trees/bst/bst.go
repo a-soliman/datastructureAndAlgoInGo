@@ -72,7 +72,21 @@ func (bst *BST) Insert(value int) *BST {
 func (bst *BST) Delete(value int) bool {}
 
 // Find returns a node with its value equal to a given value
-func (bst *BST) Find(value int) *BST {}
+func (bst *BST) Find(value int) *BST {
+	if value == bst.value {
+		return bst
+	} else if value < bst.value {
+		if bst.left == nil {
+			return nil
+		}
+		return bst.left.Find(value)
+	} else {
+		if bst.right == nil {
+			return nil
+		}
+		return bst.right.Find(value)
+	}
+}
 
 // Contains returns bool represting whether a node exists with the given value
 func (bst *BST) Contains(value int) bool {
