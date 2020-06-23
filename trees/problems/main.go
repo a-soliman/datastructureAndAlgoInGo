@@ -596,6 +596,31 @@ func findBTDepth(n *node) int {
 	return rightD + 1
 }
 
+/*
+MaximumLengthPathInBT
+Given a BT, find the maximum length path of it, (DIAMETER OF BT)
+*/
+
+func maxLengthPathInBT(n *node) int {
+	if n == nil {
+		return 0
+	}
+	leftPath := findBTDepth(n.left)
+	rightPath := findBTDepth(n.right)
+	max := leftPath + rightPath + 1
+
+	leftMax := maxLengthPathInBT(n.left)
+	rightMax := maxLengthPathInBT(n.right)
+
+	if leftMax > max {
+		max = leftMax
+	}
+	if rightMax > max {
+		max = rightMax
+	}
+	return max
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -703,5 +728,9 @@ func main() {
 	findBTDepthInput := btFromArrRecursiveOutput
 	findBTDepthOutput := findBTDepth(findBTDepthInput)
 	fmt.Printf("\nfindBTDepth: \nInput: %v\nOutput: %d\n", findBTDepthInput, findBTDepthOutput)
+
+	maxLengthPathInBTInput := btFromArrRecursiveOutput
+	maxLengthPathInBTOutput := maxLengthPathInBT(maxLengthPathInBTInput)
+	fmt.Printf("\nmaxLengthPathInBT: \nInput: %v\nOutput: %d\n", maxLengthPathInBTInput, maxLengthPathInBTOutput)
 
 }
