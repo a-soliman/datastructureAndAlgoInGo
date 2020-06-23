@@ -75,7 +75,21 @@ func (bst *BST) Delete(value int) bool {}
 func (bst *BST) Find(value int) *BST {}
 
 // Contains returns bool represting whether a node exists with the given value
-func (bst *BST) Contains(value int) bool {}
+func (bst *BST) Contains(value int) bool {
+	if value == bst.value {
+		return true
+	} else if value < bst.value {
+		if bst.left == nil {
+			return false
+		}
+		return bst.left.Contains(value)
+	} else {
+		if bst.right == nil {
+			return false
+		}
+		return bst.right.Contains(value)
+	}
+}
 
 // FindMin returns a node with the min value in the tree
 func (bst *BST) FindMin() *BST {
