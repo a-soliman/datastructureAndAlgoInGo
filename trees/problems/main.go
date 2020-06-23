@@ -661,6 +661,36 @@ func isCompleteTreeUtil(n *node) (bool, int) {
 	return isValidLeft && isValidRight, leftLen + rightLen + 1
 }
 
+/*
+IsHeap
+Given a node, find if it represents a min heap
+<< need to check for two conditions
+	1. it's a complete tree.
+	2. every node value is < it's left child's value && < it's right child's value
+>>
+*/
+
+func isHeap(n *node) bool {
+	isValid, _ := isHeapUtil(n)
+	return isValid
+}
+
+func isHeapUtil(n *node) (bool, int) {
+	if n == nil {
+		return true, 0
+	}
+	if n.left == nil && n.right == nil {
+		return true, 1
+	}
+	if n.left == nil || n.right == nil {
+		return false, 0
+	}
+	isCompleteLeft, leftLen := isHeapUtil(n.left)
+	isCompleteRight, rightLen := isHeapUtil(n.right)
+	isMinHeapNode := n.value <= n.left.value && n.value <= n.right.value
+	return isCompleteLeft && isCompleteRight && isMinHeapNode, leftLen + rightLen + 1
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -781,4 +811,13 @@ func main() {
 	isCompleteTreeInput := bst
 	isCompleteTreeOutput := isCompleteTree(isCompleteTreeInput)
 	fmt.Printf("\nisCompleteTree: \nInput: %v\nOutput: %v\n", isCompleteTreeInput, isCompleteTreeOutput)
+
+	heapTest := &node{1, nil, nil}
+	heapTest.left = &node{2, nil, nil}
+	heapTest.right = &node{3, nil, nil}
+
+	isHeapInput := heapTest
+	isHeapOutput := isHeap(isHeapInput)
+	fmt.Printf("\nisHeap: \nInput: %v\nOutput: %v\n", isHeapInput, isHeapOutput)
+
 }
