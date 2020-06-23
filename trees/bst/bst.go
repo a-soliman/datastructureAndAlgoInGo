@@ -28,7 +28,27 @@ func NewFromUnsortedSlice(input []int) *BST {
 }
 
 // NewFromSortedSlice return a pointer to the root of a BST build out of a given sorted []int
-func NewFromSortedSlice([]int) *BST {}
+func NewFromSortedSlice(input []int) *BST {
+	size := len(input)
+	midIdx := size / 2
+	root := New(input[midIdx])
+	treeFromSortedSliceUtil(root, &input, 0, midIdx-1, midIdx+1, size-1)
+	return root
+}
+
+func treeFromSortedSliceUtil(root *BST, input *[]int, leftStartIdx int, leftEndIdx int, rightStartIdx int, rightEndIdx int) {
+	// find left child
+	if leftStartIdx <= leftEndIdx {
+		midIdx := (leftStartIdx + leftEndIdx) / 2
+		root.left = New((*input)[midIdx])
+		treeFromSortedSliceUtil(root.left, input, leftStartIdx, midIdx-1, midIdx+1, leftEndIdx)
+	}
+	if rightStartIdx <= rightEndIdx {
+		midIdx := (rightStartIdx + rightEndIdx) / 2
+		root.right = New((*input)[midIdx])
+		treeFromSortedSliceUtil(root.right, input, rightStartIdx, midIdx-1, midIdx+1, rightEndIdx)
+	}
+}
 
 // Insert inserts a new bst node with the given value
 func (bst *BST) Insert(value int) *BST {
