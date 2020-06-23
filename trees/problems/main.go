@@ -635,6 +635,32 @@ func identical(n1 *node, n2 *node) bool {
 	return n1.value == n2.value && identical(n1.left, n2.left) && identical(n1.right, n2.right)
 }
 
+/*
+IsCompleteTree
+Given a node, find if it represents a complete tree
+<< In a complete tree every level expect the last one is filled. All nodes in the left are filled
+first, then the right one. A binary heap is an example of a complete binary tree.
+*/
+func isCompleteTree(n *node) bool {
+	isValid, _ := isCompleteTreeUtil(n)
+	return isValid
+}
+
+func isCompleteTreeUtil(n *node) (bool, int) {
+	if n == nil {
+		return true, 0
+	}
+	if n.left == nil && n.right == nil {
+		return true, 1
+	}
+	if n.left == nil || n.right == nil {
+		return false, 0
+	}
+	isValidLeft, leftLen := isCompleteTreeUtil(n.left)
+	isValidRight, rightLen := isCompleteTreeUtil(n.right)
+	return isValidLeft && isValidRight, leftLen + rightLen + 1
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -752,4 +778,7 @@ func main() {
 	identicalOutput := identical(identicalInput1, identicalInput2)
 	fmt.Printf("\nidentical:\nOutput: %v\n", identicalOutput)
 
+	isCompleteTreeInput := bst
+	isCompleteTreeOutput := isCompleteTree(isCompleteTreeInput)
+	fmt.Printf("\nisCompleteTree: \nInput: %v\nOutput: %v\n", isCompleteTreeInput, isCompleteTreeOutput)
 }
