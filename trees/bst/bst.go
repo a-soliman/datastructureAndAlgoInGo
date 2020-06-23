@@ -86,7 +86,12 @@ func (bst *BST) FindMin() *BST {
 }
 
 // FindMax returns a node with the max value in the tree
-func (bst *BST) FindMax() *BST {}
+func (bst *BST) FindMax() *BST {
+	if bst.right != nil {
+		return bst.right.FindMax()
+	}
+	return bst
+}
 
 // FindValuesInRange return []int containing all the found values within the range
 func (bst *BST) FindValuesInRange(min, max int) []int {}
