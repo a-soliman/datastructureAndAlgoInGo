@@ -544,6 +544,62 @@ func findZeroSum(arr []int32) []string {
 	return res
 }
 
+func dutchFlagSort(balls []string) {
+	size := len(balls)
+	nextLeft, nextRight := 0, size-1
+	// rearrange R
+	nextLeft = checkAndSwap(balls, nextLeft, nextRight, "R")
+	nextRight = size - 1
+	nextLeft = checkAndSwap(balls, nextLeft, nextRight, "G")
+}
+
+func checkAndSwap(arr []string, left int, right int, key string) int {
+	size := len(arr)
+	for left < right && left < size && right >= 0 {
+		for arr[left] == key {
+			left++
+			if left >= size {
+				break
+			}
+		}
+		for arr[right] != key {
+			right--
+			if right == 0 {
+				break
+			}
+		}
+		if left < right {
+			arr[left], arr[right] = arr[right], arr[left]
+			left++
+			right--
+		}
+	}
+	return left
+}
+
+func mergeFirstIntoSecondfunc(arr1 []int32, arr2 []int32) {
+	size1, size2 := len(arr1), len(arr2)
+	largest1, largest2 := size1-1, size2-1
+	nextPosition := size2 - 1
+
+	// rearrange largest2
+	for largest2 >= 0 {
+		if arr2[largest2] == 0 {
+			largest2--
+		}
+	}
+	for largest1 >= 0 && largest2 >= 0 && nextPosition >= 0 {
+		if largest1 >= largest2 {
+			arr2[nextPosition] = arr1[largest1]
+			largest1--
+		} else {
+			arr2[nextPosition] = arr2[largest2]
+			largest2--
+		}
+		nextPosition--
+	}
+}
+
 func main() {
 	zeroOneArr := []int{1, 1, 1, 0, 0, 0, 1, 1, 0, 0}
 	copied := copySlice(zeroOneArr)
@@ -620,4 +676,15 @@ func main() {
 	findZeroSumInput := []int32{-2, 2, 0, -2, 2}
 	findZeroSumOutput := findZeroSum(findZeroSumInput)
 	fmt.Printf("\nFindZeroSumOutput: \nInput: %v \nOutput: %v\n", findZeroSumInput, findZeroSumOutput)
+
+	// dutchFlagSortInput := []string{"G", "B", "G", "G", "R", "B", "R", "G"}
+	dutchFlagSortInput := []string{"B", "R", "R", "R"}
+	dutchFlagSort(dutchFlagSortInput)
+	fmt.Printf("\nDutch National Flag: \nOutput: %v\n", dutchFlagSortInput)
+
+	testArr1 := []int32{1, 3, 5}
+	testArr2 := []int32{2, 4, 6, 0, 0, 0}
+	mergeFirstIntoSecondfunc(testArr1, testArr2)
+	fmt.Printf("\n Merge:  \nOutput: %v\n", testArr2)
+
 }
