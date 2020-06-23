@@ -568,6 +568,17 @@ func numOfLeafNodes(n *node) int {
 	return leftCount + rightCount
 }
 
+/*
+NumOfFullNodes
+Given a bt find the number of full nodes in it
+*/
+func numOfFullNodes(n *node) int {
+	if n == nil || n.left == nil || n.right == nil {
+		return 0
+	}
+	return 1 + numOfFullNodes(n.left) + numOfFullNodes(n.right)
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -667,5 +678,9 @@ func main() {
 	numOfLeafNodesInput := btFromArrRecursiveOutput
 	numOfLeafNodesOutput := numOfLeafNodes(numOfLeafNodesInput)
 	fmt.Printf("\nnumOfLeafNodes: \nInput: %v\nOutput: %d\n", numOfLeafNodesInput, numOfLeafNodesOutput)
+
+	numOfFullNodesInput := btFromArrRecursiveOutput
+	numOfFullNodesOutput := numOfFullNodes(numOfFullNodesInput)
+	fmt.Printf("\nnumOfFullNodes: \nInput: %v\nOutput: %d\n", numOfFullNodesInput, numOfFullNodesOutput)
 
 }
