@@ -621,6 +621,20 @@ func maxLengthPathInBT(n *node) int {
 	return max
 }
 
+/*
+Identical
+Find if two BTs have the same values
+*/
+func identical(n1 *node, n2 *node) bool {
+	if n1 == nil && n2 == nil {
+		return true
+	}
+	if n1 == nil || n2 == nil {
+		return false
+	}
+	return n1.value == n2.value && identical(n1.left, n2.left) && identical(n1.right, n2.right)
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -732,5 +746,10 @@ func main() {
 	maxLengthPathInBTInput := btFromArrRecursiveOutput
 	maxLengthPathInBTOutput := maxLengthPathInBT(maxLengthPathInBTInput)
 	fmt.Printf("\nmaxLengthPathInBT: \nInput: %v\nOutput: %d\n", maxLengthPathInBTInput, maxLengthPathInBTOutput)
+
+	identicalInput1 := btFromArrRecursiveOutput
+	identicalInput2 := btFromArrRecursiveOutput
+	identicalOutput := identical(identicalInput1, identicalInput2)
+	fmt.Printf("\nidentical:\nOutput: %v\n", identicalOutput)
 
 }
