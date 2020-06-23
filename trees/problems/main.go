@@ -691,6 +691,35 @@ func isHeapUtil(n *node) (bool, int) {
 	return isCompleteLeft && isCompleteRight && isMinHeapNode, leftLen + rightLen + 1
 }
 
+/*
+TreeToDoublyList
+Given a BT, create a doubly linked list from this such that
+the elements are in the order of in-order traversal of tree.
+*/
+func treeToLinkedList(n *node) *node {
+	var nodeToDLL func(*node)
+	var head, prev *node
+	head, prev = nil, nil
+	nodeToDLL = func(n *node) {
+		if n == nil {
+			return
+		}
+		nodeToDLL(n.left)
+
+		if prev == nil {
+			head = n
+			prev = n
+		} else {
+			n.left = prev
+			prev.right = n
+			prev = n
+		}
+		nodeToDLL(n.right)
+	}
+	nodeToDLL(n)
+	return head
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -819,5 +848,14 @@ func main() {
 	isHeapInput := heapTest
 	isHeapOutput := isHeap(isHeapInput)
 	fmt.Printf("\nisHeap: \nInput: %v\nOutput: %v\n", isHeapInput, isHeapOutput)
+
+	treeToLinkedListInput := btFromArrRecursiveOutput
+	treeToLinkedListOutput := treeToLinkedList(treeToLinkedListInput)
+	fmt.Printf("\ntreeToLinkedList:\nInput : %v\nOutput: %v\n", treeToLinkedListInput, treeToLinkedListOutput)
+	testLLNode := treeToLinkedListOutput
+	for testLLNode != nil {
+		fmt.Printf("%d -> ", testLLNode.value)
+		testLLNode = testLLNode.right
+	}
 
 }
