@@ -13,7 +13,19 @@ func New(value int) *BST {
 }
 
 // NewFromUnsortedSlice returns a pointer to the root of a BST built out of a given unsorted []int
-func NewFromUnsortedSlice([]int) *BST {}
+func NewFromUnsortedSlice(input []int) *BST {
+	size := len(input)
+	if size == 0 {
+		return nil
+	}
+	root := New(input[0])
+	for i, val := range input {
+		if i > 0 {
+			root.Insert(val)
+		}
+	}
+	return root
+}
 
 // NewFromSortedSlice return a pointer to the root of a BST build out of a given sorted []int
 func NewFromSortedSlice([]int) *BST {}
