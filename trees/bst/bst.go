@@ -50,6 +50,18 @@ func treeFromSortedSliceUtil(root *BST, input *[]int, leftStartIdx int, leftEndI
 	}
 }
 
+// Copy copies a tree and returns a pointer to the new trees root
+func (bst *BST) Copy() *BST {
+	root := New(bst.value)
+	if bst.left != nil {
+		root.left = bst.left.Copy()
+	}
+	if bst.right != nil {
+		root.right = bst.right.Copy()
+	}
+	return root
+}
+
 // Insert inserts a new bst node with the given value
 func (bst *BST) Insert(value int) *BST {
 	if value <= bst.value {
