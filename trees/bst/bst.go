@@ -92,9 +92,6 @@ func (bst *BST) Insert(value int) *BST {
 	return bst
 }
 
-// Delete deletes the first found node with the given value. returns false if no node found with the value
-func (bst *BST) Delete(value int) bool {}
-
 // Find returns a node with its value equal to a given value
 func (bst *BST) Find(value int) *BST {
 	if value == bst.value {
@@ -145,8 +142,16 @@ func (bst *BST) FindMax() *BST {
 	return bst
 }
 
+/*
+		TODO::
+
 // FindValuesInRange return []int containing all the found values within the range
 func (bst *BST) FindValuesInRange(min, max int) []int {}
 
 // Trim given a range, it deletes all the node that are out of the range, and returns the root
 func (bst *BST) Trim(min, max int) *BST {}
+
+
+// Delete deletes the first found node with the given value. returns false if no node found with the value
+func (bst *BST) Delete(value int) bool {}
+*/
