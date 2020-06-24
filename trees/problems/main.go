@@ -861,7 +861,12 @@ func main() {
 	}
 
 	fmt.Print("\n\nBST TESTING\n__________\n\n")
-	bstTest := BST.NewFromUnsortedSlice([]int{1, 2, 3, 4, 5, 6, 7, 8})
+	bstTest := BST.NewFromSortedSlice([]int{1, 2, 3, 4, 5, 6, 7, 8})
+	fmt.Printf("\nRoot: %v\n", bstTest)
 	fmt.Printf("\nInOrder: %v", bstTest.InOrderTraversal())
 	fmt.Printf("\nIsValid: %v\n", bstTest.IsValid())
+	bstTest.Delete(5)
+	fmt.Printf("After deleation of 5: %v\nRoot: %v\n", bstTest.InOrderTraversal(), bstTest)
+	lca, _ := bstTest.Lca(2, 3)
+	fmt.Printf("LCA: %d\n", lca)
 }

@@ -136,7 +136,7 @@ func (bst *BST) FindMin() *BST {
 	return bst
 }
 
-// FindMax returns a node with the max value in the tree
+// FindMax returns the value of the  node with the max value in the tree
 func (bst *BST) FindMax() *BST {
 	if bst.right != nil {
 		return bst.right.FindMax()
@@ -188,6 +188,56 @@ func inOrderTraversalUtil(node *BST, res *[]int) {
 	}
 }
 
+// Delete deletes the first found node with the given value. returns false if no node found with the value
+func (bst *BST) Delete(value int) {
+	bst = deleteNodeUtil(bst, value)
+}
+
+// Lca returns an int, and true if found the least common ansistor, or 0 and false if not found
+func (bst *BST) Lca(first int, second int) (int, bool) {
+	return lcaUtil(bst, first, second)
+}
+
+func lcaUtil(node *BST, first int, second int) (int, bool) {
+	if node == nil {
+		return 0, false
+	}
+	if node.value > first && node.value > second {
+		return lcaUtil(node.left, first, second)
+	}
+	if node.value < first && node.value < second {
+		return lcaUtil(node.right, first, second)
+	}
+	return node.value, true
+}
+
+func deleteNodeUtil(node *BST, value int) *BST {
+	if node == nil {
+		return nil
+	}
+	// var tempNode *BST = nil
+	if node.value == value {
+		if node.left == nil && node.right == nil {
+			return nil
+		}
+		if node.left == nil {
+			return node.right
+		}
+		if node.right == nil {
+			return node.left
+		}
+		maxNode := node.left.FindMax()
+		maxValue := maxNode.value
+		node.value = maxValue
+		node.left = deleteNodeUtil(node.left, maxValue)
+	} else if node.value > value {
+		node.left = deleteNodeUtil(node.left, value)
+	} else {
+		node.right = deleteNodeUtil(node.right, value)
+	}
+	return node
+}
+
 /*
 		TODO::
 
@@ -197,7 +247,4 @@ func (bst *BST) FindValuesInRange(min, max int) []int {}
 // Trim given a range, it deletes all the node that are out of the range, and returns the root
 func (bst *BST) Trim(min, max int) *BST {}
 
-
-// Delete deletes the first found node with the given value. returns false if no node found with the value
-func (bst *BST) Delete(value int) bool {}
 */
