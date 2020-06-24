@@ -238,13 +238,24 @@ func deleteNodeUtil(node *BST, value int) *BST {
 	return node
 }
 
-/*
-		TODO::
-
-// FindValuesInRange return []int containing all the found values within the range
-func (bst *BST) FindValuesInRange(min, max int) []int {}
-
 // Trim given a range, it deletes all the node that are out of the range, and returns the root
-func (bst *BST) Trim(min, max int) *BST {}
+func (bst *BST) Trim(min, max int) *BST {
+	return trimUtil(bst, min, max)
+}
 
-*/
+func trimUtil(node *BST, min int, max int) *BST {
+	if node == nil {
+		return nil
+	}
+	node.left = trimUtil(node.left, min, max)
+	node.right = trimUtil(node.right, min, max)
+
+	if node.value < min {
+		return node.right
+	}
+	if node.value > max {
+		return node.left
+	}
+
+	return node
+}

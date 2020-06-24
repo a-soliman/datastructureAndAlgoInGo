@@ -869,4 +869,6 @@ func main() {
 	fmt.Printf("After deleation of 5: %v\nRoot: %v\n", bstTest.InOrderTraversal(), bstTest)
 	lca, _ := bstTest.Lca(2, 3)
 	fmt.Printf("LCA: %d\n", lca)
+	trimmedBST := bstTest.Trim(4, 7)
+	fmt.Printf("Trimmed Tree: %v\n", trimmedBST.InOrderTraversal())
 }
