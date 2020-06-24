@@ -171,6 +171,23 @@ func (bst *BST) IsValid() bool {
 	return checkNodeValid(bst, -math.MaxInt64, math.MaxInt64)
 }
 
+// InOrderTraversal return an int slice containing the tree values in order
+func (bst *BST) InOrderTraversal() []int {
+	res := []int{}
+	inOrderTraversalUtil(bst, &res)
+	return res
+}
+
+func inOrderTraversalUtil(node *BST, res *[]int) {
+	if node.left != nil {
+		inOrderTraversalUtil(node.left, res)
+	}
+	*res = append(*res, node.value)
+	if node.right != nil {
+		inOrderTraversalUtil(node.right, res)
+	}
+}
+
 /*
 		TODO::
 
