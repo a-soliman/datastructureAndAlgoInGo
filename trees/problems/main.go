@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+
+	BST "github.com/a-soliman/datastructureAndAlgoInGo/trees/bst"
 )
 
 type node struct {
@@ -858,4 +860,8 @@ func main() {
 		testLLNode = testLLNode.right
 	}
 
+	fmt.Print("\n\nBST TESTING\n__________\n\n")
+	bstTest := BST.NewFromUnsortedSlice([]int{1, 2, 3, 4, 5, 6, 7, 8})
+	fmt.Printf("\nInOrder: %v", bstTest.InOrderTraversal())
+	fmt.Printf("\nIsValid: %v\n", bstTest.IsValid())
 }
