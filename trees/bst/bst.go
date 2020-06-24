@@ -1,5 +1,7 @@
 package bst
 
+import "math"
+
 // BST node
 type BST struct {
 	value int
@@ -140,6 +142,33 @@ func (bst *BST) FindMax() *BST {
 		return bst.right.FindMax()
 	}
 	return bst
+}
+
+// IsValid returns true if a valid BST or else false
+func (bst *BST) IsValid() bool {
+	var checkNodeValid func(*BST, int, int) bool
+	checkNodeValid = func(node *BST, min int, max int) bool {
+		var valid bool
+		valid = node.value >= min && node.value <= max
+		if !valid {
+			return false
+		}
+		if node.left != nil {
+			valid = checkNodeValid(node.left, min, node.value)
+			if !valid {
+				return false
+			}
+		}
+		if node.right != nil {
+			valid = checkNodeValid(node.right, node.value, max)
+			if !valid {
+				return false
+			}
+		}
+		return true
+	}
+
+	return checkNodeValid(bst, -math.MaxInt64, math.MaxInt64)
 }
 
 /*
