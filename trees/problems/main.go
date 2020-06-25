@@ -722,6 +722,63 @@ func treeToLinkedList(n *node) *node {
 	return head
 }
 
+func iterativePostOrder(root *node) []int {
+	res := []int{}
+	stack := []*node{}
+	currentNode := root
+
+	for true {
+		for currentNode != nil {
+			if currentNode.right != nil {
+				stack = append(stack, currentNode.right)
+			}
+			stack = append(stack, currentNode)
+			currentNode = currentNode.left
+		}
+		stackTop := len(stack) - 1
+		currentNode = stack[stackTop]
+		stack = stack[0:stackTop]
+		if currentNode.right != nil && len(stack) > 0 && currentNode.right == stack[len(stack)-1] {
+			stack[len(stack)-1] = currentNode
+			currentNode = currentNode.right
+		}
+		res = append(res, currentNode.value)
+		currentNode = nil
+		if len(stack) == 0 {
+			break
+		}
+	}
+	return res
+}
+
+func iterativePostOrder2(root *node) []int {
+	res := []int{}
+	stack := []*node{root}
+
+	for len(stack) > 0 {
+		currentItem := stack[len(stack)-1]
+		stack = stack[0 : len(stack)-1]
+		if currentItem.left != nil {
+			stack = append(stack, currentItem.left)
+		}
+		if currentItem.right != nil {
+			stack = append(stack, currentItem.right)
+		}
+		res = append(res, currentItem.value)
+	}
+	reverse(res)
+	return res
+}
+
+func reverse(arr []int) {
+	left, right := 0, len(arr)-1
+	for left < right {
+		arr[left], arr[right] = arr[right], arr[left]
+		left++
+		right--
+	}
+}
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -871,4 +928,9 @@ func main() {
 	fmt.Printf("LCA: %d\n", lca)
 	trimmedBST := bstTest.Trim(4, 7)
 	fmt.Printf("Trimmed Tree: %v\n", trimmedBST.InOrderTraversal())
+
+	btFromArrRecursiveInput = []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	newBT := btFromArrRecursive(btFromArrRecursiveInput)
+	iterativePostOrderOutput := iterativePostOrder2(newBT)
+	fmt.Printf("IterativePostOrder: %v\n", iterativePostOrderOutput)
 }
