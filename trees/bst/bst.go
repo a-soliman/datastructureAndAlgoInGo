@@ -259,3 +259,91 @@ func trimUtil(node *BST, min int, max int) *BST {
 
 	return node
 }
+
+/*
+Merge Two Balanced Binary Search Trees
+You are given two balanced binary search trees e.g., AVL or Red Black Tree. Write a function that merges the two given balanced BSTs into a balanced binary search tree. Let there be m elements in first tree and n elements in the other tree. Your merge function should take O(m+n) time.
+
+In the following solutions, it is assumed that sizes of trees are also given as input. If the size is not given, then we can get the size by traversing the tree
+*/
+func MergeTwoBST(n1 *BST, n2 *BST) *BST {
+	treeOneSortedNodes, treeTwoSortedNodes := inOrderNodeTraversal(n1), inOrderNodeTraversal(n2)
+	newTreeNodes := mergeNodes(treeOneSortedNodes, treeTwoSortedNodes)
+	return bstFromSortedNodes(newTreeNodes, 0, len(newTreeNodes))
+}
+
+func inOrderNodeTraversal(n *BST) []*BST {
+	res := []*BST{}
+	inOrderNodeTraversalUtil(n, &res)
+	return res
+}
+
+func inOrderNodeTraversalUtil(n *BST, res *[]*BST) {
+	if n == nil {
+		return
+	}
+	inOrderNodeTraversalUtil(n.left, res)
+	*res = append(*res, n)
+	inOrderNodeTraversalUtil(n.right, res)
+}
+
+func mergeNodes(nodeList1 []*BST, nodeList2 []*BST) []*BST {
+	res := []*BST{}
+	i, j := 0, 0
+	size1, size2 := len(nodeList1), len(nodeList2)
+	for i < size1 && j < size2 {
+		if nodeList1[i].value < nodeList2[j].value {
+			res = append(res, nodeList1[i])
+			i++
+		} else {
+			res = append(res, nodeList2[j])
+			j++
+		}
+	}
+	for i < size1 {
+		res = append(res, nodeList1[i])
+		i++
+	}
+	for j < size2 {
+		res = append(res, nodeList2[j])
+		j++
+	}
+	return res
+}
+
+func bstFromSortedNodes(nodes []*BST, start int, end int) *BST {
+	if start >= end {
+		return nil
+	}
+	mid := (start + end) / 2
+	root := nodes[mid]
+	root.left = bstFromSortedNodes(nodes, start, mid)
+	root.right = bstFromSortedNodes(nodes, mid+1, end)
+	return root
+}
+
+// KthSmallestInBST returns the kth smallest element
+func KthSmallestInBST(root *BST, k int) int {
+	var res int = 0
+	var idx int = 0
+	kthSmallestUtil(root, &idx, k, &res)
+	return res
+}
+
+func kthSmallestUtil(node *BST, idx *int, target int, res *int) {
+	if *idx > target {
+		return
+	}
+	if node.left != nil {
+		kthSmallestUtil(node.left, idx, target, res)
+	}
+	*idx = *idx + 1
+	if *idx == target {
+		*res = node.value
+		return
+	}
+
+	if node.right != nil {
+		kthSmallestUtil(node.right, idx, target, res)
+	}
+}

@@ -946,7 +946,7 @@ func main() {
 	fmt.Printf("MergeTwoBST: %v: \n", mergedBSTs.InOrderTraversal())
 
 	kthSmallestInput := BST.NewFromSortedSlice([]int{1, 2, 3, 3})
-	kthSmallestOuput := BST.Kth_smallest_element(kthSmallestInput, 3)
+	kthSmallestOuput := BST.KthSmallestInBST(kthSmallestInput, 3)
 	fmt.Println("kth: ", kthSmallestOuput)
 
 }
