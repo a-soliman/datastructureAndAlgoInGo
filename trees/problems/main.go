@@ -779,6 +779,12 @@ func reverse(arr []int) {
 	}
 }
 
+// type TreeNode struct {
+// 	val       int32
+// 	left_ptr  *TreeNode
+// 	right_ptr *TreeNode
+// }
+
 func main() {
 	btFromArrIterativeInput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	btFromArrIterativeOutput := btFromArrIterative(btFromArrIterativeInput)
@@ -933,4 +939,14 @@ func main() {
 	newBT := btFromArrRecursive(btFromArrRecursiveInput)
 	iterativePostOrderOutput := iterativePostOrder2(newBT)
 	fmt.Printf("IterativePostOrder: %v\n", iterativePostOrderOutput)
+
+	bst1 := BST.NewFromSortedSlice([]int{6, 7, 8})
+	bst2 := BST.NewFromSortedSlice([]int{1, 2, 3})
+	mergedBSTs := BST.MergeTwoBST(bst1, bst2)
+	fmt.Printf("MergeTwoBST: %v: \n", mergedBSTs.InOrderTraversal())
+
+	kthSmallestInput := BST.NewFromSortedSlice([]int{1, 2, 3, 3})
+	kthSmallestOuput := BST.Kth_smallest_element(kthSmallestInput, 3)
+	fmt.Println("kth: ", kthSmallestOuput)
+
 }
