@@ -28,3 +28,18 @@ type Graph struct {
 	V        int
 	E        int
 }
+
+// New returns a new graph
+func New() *Graph {
+	verticesMap := make(map[int]*Vertex)
+	return &Graph{verticesMap, 0, 0}
+}
+
+// NewFromSlice returns a new Graph with the given values as vertices
+func NewFromSlice(input []int) *Graph {
+	graph := New()
+	for _, item := range input {
+		graph.AddVertex(item)
+	}
+	return graph
+}
