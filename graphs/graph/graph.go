@@ -1,5 +1,7 @@
 package graph
 
+import "errors"
+
 // Vertex type
 type Vertex struct {
 	Value int
@@ -49,4 +51,21 @@ func (g *Graph) AddVertex(value int) {
 	vertex := &Vertex{value, make(map[int]*Vertex)}
 	g.Vertices[value] = vertex
 	g.V++
+}
+
+// RemoveVertex removes a vertex
+func (g *Graph) RemoveVertex(value int) error {
+	vertex, found := g.Vertices[value]
+	if !found {
+		return errors.New("Vertex was not found")
+	}
+	neighbors := vertex.getEdges()
+	for _, neighbor := range neighbors {
+		vertex := g.Vertices[neighbor]
+		vertex.removeEdge(value)
+		g.E--
+	}
+	delete(g.Vertices, value)
+	g.V--
+	return nil
 }
