@@ -137,3 +137,27 @@ func dfsUtil(vertex *Vertex, visited *map[int]bool, res *[]int) {
 		}
 	}
 }
+
+// HasPath returns true if a path exists
+func (g *Graph) HasPath(from, to int) bool {
+	fromVertex := g.Vertices[from]
+	visited := make(map[int]bool)
+	visited[from] = true
+	return hasPathUtil(fromVertex, to, &visited)
+}
+
+func hasPathUtil(vertex *Vertex, target int, visited *map[int]bool) bool {
+	if vertex.Value == target {
+		return true
+	}
+	for _, item := range vertex.Edges {
+		if !(*visited)[item.Value] {
+			(*visited)[item.Value] = true
+			hasPath := hasPathUtil(item, target, visited)
+			if hasPath {
+				return true
+			}
+		}
+	}
+	return false
+}
