@@ -85,3 +85,12 @@ func (g *Graph) AddEdge(from, to int) error {
 	g.E++
 	return nil
 }
+
+// GetEdges given a value of a vertex it returns the vertex neighbors
+func (g *Graph) GetEdges(value int) ([]int, error) {
+	vertex, found := g.Vertices[value]
+	if !found {
+		return []int{}, errors.New("Vertex was not found")
+	}
+	return vertex.getEdges(), nil
+}
