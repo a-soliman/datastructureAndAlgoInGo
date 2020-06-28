@@ -117,3 +117,23 @@ func (g *Graph) BFS(rootValue int) []int {
 	}
 	return res
 }
+
+// DFS given a root value, it returns []int representing the DFS starting from that root
+func (g *Graph) DFS(rootValue int) []int {
+	root := g.Vertices[rootValue]
+	res := []int{}
+	visited := make(map[int]bool)
+	visited[rootValue] = true
+	dfsUtil(root, &visited, &res)
+	return res
+}
+
+func dfsUtil(vertex *Vertex, visited *map[int]bool, res *[]int) {
+	*res = append(*res, vertex.Value)
+	for _, item := range vertex.Edges {
+		if !(*visited)[item.Value] {
+			(*visited)[item.Value] = true
+			dfsUtil(item, visited, res)
+		}
+	}
+}
