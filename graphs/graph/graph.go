@@ -69,3 +69,19 @@ func (g *Graph) RemoveVertex(value int) error {
 	g.V--
 	return nil
 }
+
+// AddEdge adds an edge between two given vertices
+func (g *Graph) AddEdge(from, to int) error {
+	fromVertex, found := g.Vertices[from]
+	if !found {
+		return errors.New("From node was not found")
+	}
+	toVertex, found := g.Vertices[to]
+	if !found {
+		return errors.New("To node was not found")
+	}
+	fromVertex.addEdge(toVertex)
+	toVertex.addEdge(fromVertex)
+	g.E++
+	return nil
+}
