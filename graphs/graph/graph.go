@@ -43,3 +43,10 @@ func NewFromSlice(input []int) *Graph {
 	}
 	return graph
 }
+
+// AddVertex adds a new vertex
+func (g *Graph) AddVertex(value int) {
+	vertex := &Vertex{value, make(map[int]*Vertex)}
+	g.Vertices[value] = vertex
+	g.V++
+}
