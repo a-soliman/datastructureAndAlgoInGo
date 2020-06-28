@@ -94,3 +94,26 @@ func (g *Graph) GetEdges(value int) ([]int, error) {
 	}
 	return vertex.getEdges(), nil
 }
+
+// BFS given a root value, it returns []int representing the BFS starting from that root
+func (g *Graph) BFS(rootValue int) []int {
+	root := g.Vertices[rootValue]
+	res := []int{}
+	queue := []*Vertex{root}
+	visited := make(map[int]bool)
+	visited[rootValue] = true
+	var current *Vertex = nil
+
+	for len(queue) > 0 {
+		current = queue[0]
+		queue = queue[1:]
+		res = append(res, current.Value)
+		for _, item := range current.Edges {
+			if !visited[item.Value] {
+				queue = append(queue, item)
+				visited[item.Value] = true
+			}
+		}
+	}
+	return res
+}
