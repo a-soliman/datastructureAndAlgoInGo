@@ -186,3 +186,32 @@ func countPathsUtil(node *Vertex, to int, visited *map[int]bool) int {
 	delete((*visited), node.Value)
 	return pathsCount
 }
+
+// FindAllPaths returns a list of all possible paths from a given vertex to a dist vertex
+func (g *Graph) FindAllPaths(from, to int) [][]int {
+	fromVertex := g.Vertices[from]
+	visited := make(map[int]bool)
+	res := [][]int{}
+	findAllPathsUtil(fromVertex, to, []int{}, &visited, &res)
+	return res
+}
+
+func findAllPathsUtil(node *Vertex, to int, current []int, visited *map[int]bool, res *[][]int) {
+	if node == nil {
+		return
+	}
+	current = append(current, node.Value)
+	if node.Value == to {
+		copiedPath := make([]int, len(current))
+		copy(copiedPath, current)
+		*res = append(*res, copiedPath)
+		return
+	}
+	(*visited)[node.Value] = true
+	for key, neighbor := range node.Edges {
+		if !(*visited)[key] {
+			findAllPathsUtil(neighbor, to, current, visited, res)
+		}
+	}
+	delete(*visited, node.Value)
+}

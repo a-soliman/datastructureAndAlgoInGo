@@ -120,6 +120,7 @@ func main() {
 	fmt.Printf("GraphDFS: %v\n", graph.DFS(1))
 	fmt.Printf("HasPath: 1, 3: %v\n", graph.HasPath(1, 3))
 	fmt.Printf("CountPaths: From :1, To :5 => %d\n", graph.CountAllPaths(1, 5))
+	fmt.Printf("FindPaths: From :1, To :5 => %v\n", graph.FindAllPaths(1, 5))
 
 	countComponentsOutput := countComponents(5, [][]int{{0, 1}, {1, 2}, {3, 4}})
 	fmt.Printf("CountComponents: %d\n", countComponentsOutput)
