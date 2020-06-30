@@ -161,3 +161,28 @@ func hasPathUtil(vertex *Vertex, target int, visited *map[int]bool) bool {
 	}
 	return false
 }
+
+// CountAllPaths returns the count of all possible paths from a given vertex to a dist vertex
+func (g *Graph) CountAllPaths(from, to int) int {
+	fromVertex := g.Vertices[from]
+	visited := make(map[int]bool)
+	return countPathsUtil(fromVertex, to, &visited)
+}
+
+func countPathsUtil(node *Vertex, to int, visited *map[int]bool) int {
+	if node != nil {
+		(*visited)[node.Value] = true
+	}
+	if node.Value == to {
+		delete((*visited), node.Value)
+		return 1
+	}
+	pathsCount := 0
+	for key, neighbor := range node.Edges {
+		if !(*visited)[key] {
+			pathsCount += countPathsUtil(neighbor, to, visited)
+		}
+	}
+	delete((*visited), node.Value)
+	return pathsCount
+}
