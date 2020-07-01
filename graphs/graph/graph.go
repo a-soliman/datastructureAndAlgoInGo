@@ -215,3 +215,35 @@ func findAllPathsUtil(node *Vertex, to int, current []int, visited *map[int]bool
 	}
 	delete(*visited, node.Value)
 }
+
+// Distance returns the distance between 2 vertex
+func (g *Graph) Distance(from, to int) int {
+	fromVertex := g.Vertices[from]
+	visited := make(map[int]bool)
+	queue := []*Vertex{fromVertex}
+	visited[from] = true
+	internalCount := 1
+	distance := 0
+	var current *Vertex = nil
+
+	for len(queue) > 0 {
+		if internalCount == 0 {
+			internalCount = len(queue)
+			distance++
+		}
+		current = queue[0]
+		queue = queue[1:]
+		internalCount--
+
+		if current.Value == to {
+			break
+		}
+		for _, neighbor := range current.Edges {
+			if !visited[neighbor.Value] {
+				visited[neighbor.Value] = true
+				queue = append(queue, neighbor)
+			}
+		}
+	}
+	return distance
+}
