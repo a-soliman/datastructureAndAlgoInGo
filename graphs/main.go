@@ -107,6 +107,93 @@ func validTreeDFSUtil(adjList *[][]int, visited *[]int, parents *[]int, idx int)
 	return true
 }
 
+/*
+Knight's Tour On A Chess Board
+You are given a rows * cols chessboard and a knight that moves like in normal chess. Currently knight is at starting position denoted by start_row th row and start_col th col, and want to reach at ending position denoted by end_row th row and end_col th col.  The goal is to calculate the minimum number of moves that the knight needs to take to get from starting position to ending position.
+start_row, start_col, end_row and end_col are 0-indexed.
+
+Example
+Input:
+rows = 5
+cols = 5
+start_row = 0
+start_col = 0
+end_row = 4
+end_col = 1
+
+Output: 3
+3 moves to reach from (0, 0) to (4, 1):
+(0, 0) -> (1, 2) -> (3, 3) -> (4, 1).
+*/
+
+func findMinimumNumberOfMoves(rows int32, cols int32, startRow int32, startCol int32, endRow int32, endCol int32) int32 {
+	visited := buildBoard(rows, cols)
+	queue := [][]int32{
+		{startRow, startCol},
+	}
+	var current []int32
+	distance := int32(0)
+	internalCount := 1
+
+	for len(queue) > 0 {
+		if internalCount == 0 {
+			internalCount = len(queue)
+			distance++
+		}
+		current = queue[0]
+		queue = queue[1:]
+		internalCount--
+		r, c := current[0], current[1]
+		if r == endRow && c == endCol {
+			return distance
+		}
+		potentialNextMoves := getValidNextMoves(rows, cols, r, c)
+		for _, move := range potentialNextMoves {
+			if visited[move[0]][move[1]] == -1 {
+				visited[move[0]][move[1]] = 1
+				queue = append(queue, move)
+			}
+		}
+	}
+	return -1
+}
+
+func buildBoard(rows, cols int32) [][]int32 {
+	board := make([][]int32, rows)
+
+	for i := int32(0); i < rows; i++ {
+		row := make([]int32, cols)
+		for j := int32(0); j < cols; j++ {
+			row[j] = -1
+		}
+		board[i] = row
+	}
+	return board
+}
+
+func getValidNextMoves(rows, cols, startRow, startCol int32) [][]int32 {
+	res := [][]int32{}
+	moves := [][]int32{
+		{startRow + 2, startCol - 1},
+		{startRow + 2, startCol + 1},
+		{startRow + 1, startCol - 2},
+		{startRow + 1, startCol + 2},
+		{startRow - 2, startCol - 1},
+		{startRow - 2, startCol + 1},
+		{startRow - 1, startCol - 2},
+		{startRow - 1, startCol + 2},
+	}
+
+	for _, move := range moves {
+		r, c := move[0], move[1]
+
+		if r < rows && r >= 0 && c < cols && c >= 0 {
+			res = append(res, move)
+		}
+	}
+	return res
+}
+
 func main() {
 	graph := graph.NewFromSlice([]int{1, 2, 3, 4, 5, 6, 7})
 	graph.AddEdge(1, 2)
@@ -131,4 +218,7 @@ func main() {
 
 	validTreeOutput = isValidTree(5, [][]int{{0, 1}, {1, 2}, {1, 3}, {1, 4}, {2, 3}})
 	fmt.Printf("validTree (Invalid): %v\n", validTreeOutput)
+
+	findMinimumNumberOfMovesOutput := findMinimumNumberOfMoves(4, 24975, 3, 21841, 1, 13)
+	fmt.Printf("Knight Chess Board: %d\n", findMinimumNumberOfMovesOutput)
 }
