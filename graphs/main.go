@@ -194,6 +194,141 @@ func getValidNextMoves(rows, cols, startRow, startCol int32) [][]int32 {
 	return res
 }
 
+/*
+String Transformation Using Given Dictionary Of Words
+You are given a dictionary of words and two strings, start and stop. All given strings have equal length.
+Transform string start to string stop one character per step using words from the dictionary. For example, "abc" -> "abd" is a valid transformation step because only one character is changed (c->d) while "abc" -> "axy" is not a valid step transformation because two characters are changed (c->x and c->y).
+You need to find the shortest possible sequence of strings (two or more) such that:
+
+First string is start.
+Last string is stop.
+Every string (except the first one) differs from the previous one by exactly one character.
+Every string (except, possibly, first and last ones) are in the dictionary of words.
+i.e. output = [start, <strings from the given dictionary>, stop] and len(output) >= 2.
+If two or more such sequences exist, any one of them is a correct answer.
+If no such sequence is there to be found, [“-1”] (a sequence of one string, “-1”) is the correct answer.
+
+Example One
+Input:
+words = ["cat", "hat", "bad", "had"]
+start = "bat"
+stop = "had"
+Output:
+["bat", "bad", "had"]
+or
+["bat", "hat", "had"]
+From "bat" change character 't' to 'd', so new string will be "bad".
+From "bad" change character 'b' to 'h', so new string will be "had".
+or
+From "bat" change character 'b' to 'h', so new string will be "hat".
+From "hat" change character 't' to 'd', so new string will be "had".
+
+Example Two
+Input:
+words = []
+start = bbb
+stop = bbc
+Output: ["bbb", "bbc"]
+From "bbb" change the last character 'b' to 'c', so new string will be "bbc".
+
+Example Three
+Input:
+words = []
+start = "zzzzzz"
+stop = "zzzzzz"
+Output: [-1]
+
+Function must return an array of strings of length >= 2, where the first string is start and the last string is stop, if the transformation is possible. Else return an array of strings containing only one string "-1", i.e. return ["-1"].
+Here, the words dictionary is empty and ["zzzzzz", "zzzzzz"] is not a valid transformation hence return ["-1"].
+
+Example Four
+Input:
+words = ["cccw", "accc", "accw"]
+start = "cccc"
+stop = "cccc"
+Output:
+["cccc", "cccw", "cccc"]
+Or:
+["cccc", "accc", "cccc"]
+*/
+func stringTransformation(words []string, start string, stop string) []string {
+	visited := make(map[string]string)
+	queue := []string{start}
+	var current string
+	res := []string{}
+
+	if oneStepAway(start, stop) {
+		return []string{start, stop}
+	}
+
+	for len(queue) > 0 {
+		current = queue[0]
+		queue = queue[1:]
+		if oneStepAway(current, stop) {
+			// here should be magic
+			//recBuildRes(&visited, current, start, &res)
+			res = append(res, stop)
+			parent, child := visited[current], current
+			for child != "" {
+				res = append(res, child)
+				child = parent
+				parent = visited[child]
+			}
+			reverse(&res)
+			return res
+		}
+		for _, word := range words {
+			if oneStepAway(current, word) && visited[word] == "" {
+				visited[word] = current
+				queue = append(queue, word)
+			}
+		}
+	}
+	return []string{"-1"}
+}
+
+func reverse(input *[]string) {
+	i, j := 0, len(*input)-1
+	for i < j {
+		(*input)[i], (*input)[j] = (*input)[j], (*input)[i]
+		i++
+		j--
+	}
+}
+
+func oneStepAway(word, otherWord string) bool {
+	diff := 0
+	i, j := 0, 0
+	for i < len(word) && j < len(otherWord) {
+		if word[i] != otherWord[j] {
+			diff++
+		}
+		i++
+		j++
+	}
+	for i < len(word) {
+		diff++
+		i++
+	}
+	for j < len(otherWord) {
+		diff++
+		j++
+	}
+	return diff == 1
+}
+
+func recBuildRes(dict *map[string]string, word string, start string, res *[]string) {
+	parent, found := (*dict)[word]
+	if found {
+		recBuildRes(dict, parent, start, res)
+	}
+	if word == start {
+		*res = append(*res, word)
+		return
+	}
+	*res = append(*res, word)
+}
+
 func main() {
 	graph := graph.NewFromSlice([]int{1, 2, 3, 4, 5, 6, 7})
 	graph.AddEdge(1, 2)
@@ -221,4 +356,21 @@ func main() {
 
 	findMinimumNumberOfMovesOutput := findMinimumNumberOfMoves(4, 24975, 3, 21841, 1, 13)
 	fmt.Printf("Knight Chess Board: %d\n", findMinimumNumberOfMovesOutput)
+
+	fmt.Println("\nStringTransformation:")
+	stringTransformationInput, start, stop := []string{"cat", "caz", "hat", "bad", "had"}, "bat", "had"
+	stringTransformationOutput := stringTransformation(stringTransformationInput, start, stop)
+	fmt.Printf("Input: %v\nStart: %s\nStop: %s\nOutput: %v\n", stringTransformationInput, start, stop, stringTransformationOutput)
+
+	stringTransformationInput, start, stop = []string{"cccw", "accc", "accw"}, "cccc", "cccc"
+	stringTransformationOutput = stringTransformation(stringTransformationInput, start, stop)
+	fmt.Printf("Input: %v\nStart: %s\nStop: %s\nOutput: %v\n", stringTransformationInput, start, stop, stringTransformationOutput)
+
+	stringTransformationInput, start, stop = []string{}, "bbb", "bbc"
+	stringTransformationOutput = stringTransformation(stringTransformationInput, start, stop)
+	fmt.Printf("Input: %v\nStart: %s\nStop: %s\nOutput: %v\n", stringTransformationInput, start, stop, stringTransformationOutput)
+
+	stringTransformationInput, start, stop = []string{}, "zzzzz", "zzzzz"
+	stringTransformationOutput = stringTransformation(stringTransformationInput, start, stop)
+	fmt.Printf("Input: %v\nStart: %s\nStop: %s\nOutput: %v\n", stringTransformationInput, start, stop, stringTransformationOutput)
 }
