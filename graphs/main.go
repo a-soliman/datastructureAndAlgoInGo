@@ -400,6 +400,27 @@ func hasCycleDirectedUtil(idx int, adjList *[][]int, visited *[]bool) bool {
 	return false
 }
 
+/*
+TransposeGraph
+Transpose of a Graph G is a graph G' that has the same set of vertices, but the direction of edges is reveres.
+*/
+type graphNode struct {
+	value     int
+	neighbors []*graphNode
+}
+
+func transposeGraph(n int, edges [][]int) *graphNode {
+	nodesMap := make(map[int]*graphNode)
+	for i := 0; i < n; i++ {
+		nodesMap[i] = &graphNode{i, []*graphNode{}}
+	}
+	for _, edge := range edges {
+		from, to := edge[0], edge[1]
+		nodesMap[to].neighbors = append(nodesMap[to].neighbors, nodesMap[from])
+	}
+	return nodesMap[edges[0][1]]
+}
+
 func main() {
 	graph := graph.NewFromSlice([]int{1, 2, 3, 4, 5, 6, 7})
 	graph.AddEdge(1, 2)
@@ -449,7 +470,10 @@ func main() {
 	hasCycleOutput := hasCycleUndirected(6, hasCycleInput)
 	fmt.Printf("Has Cycle <<undirected graph>>: %v\n", hasCycleOutput)
 
-	hasCycleInput = [][]int{{0, 1}, {1, 2}, {2, 0}}
-	hasCycleOutput = hasCycleDirected(3, hasCycleInput)
+	hasCycleInput = [][]int{{0, 1}, {0, 2}, {2, 3}, {1, 3}, {3, 4}, {4, 1}}
+	hasCycleOutput = hasCycleDirected(5, hasCycleInput)
 	fmt.Printf("Has Cycle <<directed graph>>: %v\n", hasCycleOutput)
+
+	transposeGraphOutput := transposeGraph(4, [][]int{{0, 1}, {0, 2}, {1, 2}, {2, 3}})
+	fmt.Printf("TransposeGraph: %v\n", transposeGraphOutput.neighbors)
 }
