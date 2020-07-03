@@ -334,7 +334,7 @@ func recBuildRes(dict *map[string]string, word string, start string, res *[]stri
 	given n nodes, and a list of edges
 	determine of the nodes have a cycle
 */
-func hasCycle(n int, edges [][]int) bool {
+func hasCycleUndirected(n int, edges [][]int) bool {
 	adjList := buildAdjList(n, edges)
 	visited := make([]bool, n)
 	for i := range visited {
@@ -358,6 +358,43 @@ func hasCycleUtil(idx int, parent int, adjList *[][]int, visited *[]bool) bool {
 			if hasCycle {
 				return true
 			}
+		}
+	}
+	return false
+}
+
+func hasCycleDirected(n int, edges [][]int) bool {
+	adjList := buildDirectedAdjList(n, edges)
+	visited := make([]bool, n)
+	for i, isVisited := range visited {
+		if !isVisited {
+			hasCycle := hasCycleDirectedUtil(i, &adjList, &visited)
+			if hasCycle {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func buildDirectedAdjList(n int, edges [][]int) [][]int {
+	res := make([][]int, n)
+	for _, edge := range edges {
+		from, to := edge[0], edge[1]
+		res[from] = append(res[from], to)
+	}
+	return res
+}
+
+func hasCycleDirectedUtil(idx int, adjList *[][]int, visited *[]bool) bool {
+	(*visited)[idx] = true
+	for _, neighbor := range (*adjList)[idx] {
+		if (*visited)[neighbor] == true {
+			return true
+		}
+		hasCycle := hasCycleDirectedUtil(neighbor, adjList, visited)
+		if hasCycle {
+			return true
 		}
 	}
 	return false
@@ -409,6 +446,10 @@ func main() {
 	fmt.Printf("Input: %v\nStart: %s\nStop: %s\nOutput: %v\n", stringTransformationInput, start, stop, stringTransformationOutput)
 
 	hasCycleInput := [][]int{{0, 1}, {0, 2}, {3, 4}, {3, 5}, {4, 5}}
-	hasCycleOutput := hasCycle(6, hasCycleInput)
-	fmt.Printf("Has Cycle: %v\n", hasCycleOutput)
+	hasCycleOutput := hasCycleUndirected(6, hasCycleInput)
+	fmt.Printf("Has Cycle <<undirected graph>>: %v\n", hasCycleOutput)
+
+	hasCycleInput = [][]int{{0, 1}, {1, 2}, {2, 0}}
+	hasCycleOutput = hasCycleDirected(3, hasCycleInput)
+	fmt.Printf("Has Cycle <<directed graph>>: %v\n", hasCycleOutput)
 }
