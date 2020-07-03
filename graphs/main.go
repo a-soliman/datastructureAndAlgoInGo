@@ -329,6 +329,40 @@ func recBuildRes(dict *map[string]string, word string, start string, res *[]stri
 	*res = append(*res, word)
 }
 
+/*
+	HasCycle
+	given n nodes, and a list of edges
+	determine of the nodes have a cycle
+*/
+func hasCycle(n int, edges [][]int) bool {
+	adjList := buildAdjList(n, edges)
+	visited := make([]bool, n)
+	for i := range visited {
+		if visited[i] == false {
+			incluedesCycle := hasCycleUtil(i, -1, &adjList, &visited)
+			if incluedesCycle {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func hasCycleUtil(idx int, parent int, adjList *[][]int, visited *[]bool) bool {
+	(*visited)[idx] = true
+	for _, neighbor := range (*adjList)[idx] {
+		if (*visited)[neighbor] == true && neighbor != parent {
+			return true
+		} else if (*visited)[neighbor] == false {
+			hasCycle := hasCycleUtil(neighbor, idx, adjList, visited)
+			if hasCycle {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 func main() {
 	graph := graph.NewFromSlice([]int{1, 2, 3, 4, 5, 6, 7})
 	graph.AddEdge(1, 2)
@@ -373,4 +407,8 @@ func main() {
 	stringTransformationInput, start, stop = []string{}, "zzzzz", "zzzzz"
 	stringTransformationOutput = stringTransformation(stringTransformationInput, start, stop)
 	fmt.Printf("Input: %v\nStart: %s\nStop: %s\nOutput: %v\n", stringTransformationInput, start, stop, stringTransformationOutput)
+
+	hasCycleInput := [][]int{{0, 1}, {0, 2}, {3, 4}, {3, 5}, {4, 5}}
+	hasCycleOutput := hasCycle(6, hasCycleInput)
+	fmt.Printf("Has Cycle: %v\n", hasCycleOutput)
 }
