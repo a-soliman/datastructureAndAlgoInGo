@@ -421,6 +421,61 @@ func transposeGraph(n int, edges [][]int) *graphNode {
 	return nodesMap[edges[0][1]]
 }
 
+/*
+	StronglyConnectedComponents
+	return the strongly connected components of a graph
+*/
+func stronglyConnectedComponents(n int, edges [][]int) [][]int {
+	adjList := buildDirectedAdjList(n, edges)
+	visited := make([]bool, n)
+	stack := []int{}
+	res := [][]int{}
+
+	for i := 0; i < n; i++ {
+		stronglyConnectedComponentsDfsUtil(i, &adjList, &visited, &stack)
+	}
+
+	reversedEdges := reverseEdges(edges)
+	reversedAdjList := buildDirectedAdjList(n, reversedEdges)
+	visited = make([]bool, n)
+	stack2 := []int{}
+	for len(stack) > 0 {
+		current := stack[len(stack)-1]
+		stack = stack[0 : len(stack)-1]
+		if visited[current] != true {
+			stronglyConnectedComponentsDfsUtil(current, &reversedAdjList, &visited, &stack2)
+			copiedComponents := make([]int, len(stack2))
+			copy(copiedComponents, stack2)
+			res = append(res, copiedComponents)
+			stack2 = []int{}
+		}
+	}
+	return res
+}
+
+func reverseEdges(adjList [][]int) [][]int {
+	res := make([][]int, len(adjList))
+	for i, item := range adjList {
+		from, to := item[0], item[1]
+		res[i] = []int{to, from}
+	}
+	return res
+}
+
+func stronglyConnectedComponentsDfsUtil(idx int, adjList *[][]int, visited *[]bool, stack *[]int) {
+	if (*visited)[idx] == true {
+		return
+	}
+	(*visited)[idx] = true
+	neighbors := (*adjList)[idx]
+	for _, neighbor := range neighbors {
+		if (*visited)[neighbor] == false {
+			stronglyConnectedComponentsDfsUtil(neighbor, adjList, visited, stack)
+		}
+	}
+	*stack = append(*stack, idx)
+}
+
 func main() {
 	graph := graph.NewFromSlice([]int{1, 2, 3, 4, 5, 6, 7})
 	graph.AddEdge(1, 2)
@@ -476,4 +531,19 @@ func main() {
 
 	transposeGraphOutput := transposeGraph(4, [][]int{{0, 1}, {0, 2}, {1, 2}, {2, 3}})
 	fmt.Printf("TransposeGraph: %v\n", transposeGraphOutput.neighbors)
+
+	stronglyConnectedComponentsOutput := stronglyConnectedComponents(7, [][]int{
+		{0, 1},
+		{1, 2},
+		{2, 0},
+		{2, 3},
+		{3, 4},
+		{4, 5},
+		{5, 3},
+		{5, 6},
+	})
+	fmt.Printf("StronglyConnectedComponents: %v\n", stronglyConnectedComponentsOutput)
+
+	zombieOutput := zombieCluster([]string{"1100", "1110", "0110", "0001"})
+	fmt.Printf("Zombie: %d\n", zombieOutput)
 }
