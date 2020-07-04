@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 /*
 Fibonacci bottom-up space efficient
@@ -95,13 +98,44 @@ func countUniquePaths(m, n int) int {
 	return table[m-1][n-1]
 }
 
+/*
+MaxPathSum
+given a m by n grid, starting from the top left, return the sum of the max path to reach the bottom right cell
+*/
+func maxPathSum(grid [][]int) int {
+	rowsLen := len(grid)
+	colsLen := len(grid[0])
+	res := make([][]int, rowsLen)
+	for row := 0; row < rowsLen; row++ {
+		res[row] = make([]int, colsLen)
+	}
+	res[0][0] = grid[0][0]
+
+	// prefill base cases
+	for col := 1; col < colsLen; col++ {
+		res[0][col] = grid[0][col] + res[0][col-1]
+	}
+	for row := 1; row < rowsLen; row++ {
+		res[row][0] = grid[row][0] + res[row-1][0]
+	}
+
+	for row := 1; row < rowsLen; row++ {
+		for col := 1; col < colsLen; col++ {
+			topValue := res[row-1][col]
+			leftValue := res[row][col-1]
+			res[row][col] = grid[row][col] + int(math.Max(float64(topValue), float64(leftValue)))
+		}
+	}
+	return res[rowsLen-1][colsLen-1]
+}
+
 func main() {
 	fmt.Printf("FibonacciBottomUpSpaceEfficient: \nInput: %d\nOutput: %d\n", 6, fibonacciButtomUPSpaceEfficient(6))
 	fmt.Printf("\nFibonacciMemoization: \nInput: %d\nOutput: %d\n", 6, fibonacciMemoization(6))
 	fmt.Printf("\nStairCase: \nInput: %d\nOutput: %d\n", 4, stairCase(4))
 	fmt.Printf("\nCombinations: \nInput 4,3\nOutput: %d\n", combinations(4, 3))
 	fmt.Printf("\nCountUniquePaths: \nInput: 2, 3\nOutput: %d \n", countUniquePaths(2, 3))
-	maxPathSumInput := [][]int{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}}
+	maxPathSumInput := [][]int{{1, 3, 1}, {1, 5, 1}, {10, 2, 1}}
 	maxPathSumOutput := maxPathSum(maxPathSumInput)
 	fmt.Printf("\nMaxPathSum: \nInput: %v\nOutput: %d\n", maxPathSumInput, maxPathSumOutput)
 }
