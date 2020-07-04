@@ -16,7 +16,26 @@ func fibonacciButtomUPSpaceEfficient(n int) int {
 	return table[n%tableSize]
 }
 
+/*
+Fibonacci top-bottom memoization
+*/
+func fibonacciMemoization(n int) int {
+	hash := make(map[int]int)
+	hash[0], hash[1] = 0, 1
+	return fibonacciMemoizationUtil(n, &hash)
+}
+
+func fibonacciMemoizationUtil(n int, hash *map[int]int) int {
+	_, found := (*hash)[n]
+	if found {
+		return (*hash)[n]
+	}
+	(*hash)[n] = fibonacciMemoizationUtil(n-1, hash) + fibonacciMemoizationUtil(n-2, hash)
+	return (*hash)[n]
+}
+
 func main() {
 	fmt.Printf("FibonacciBottomUpSpaceEfficient: \nInput: %d\nOutput: %d\n", 6, fibonacciButtomUPSpaceEfficient(6))
+	fmt.Printf("\nFibonacciMemoization: \nInput: %d\nOutput: %d\n", 6, fibonacciMemoization(6))
 
 }
