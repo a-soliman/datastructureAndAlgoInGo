@@ -72,9 +72,36 @@ func combinations(n, k int) int {
 	return table[n][k]
 }
 
+/*
+CountUniquePathsUsing DP
+given a m by n matrix starting from the top left, count how many unique paths can you reach the bottom left cell, using DP
+*/
+func countUniquePaths(m, n int) int {
+	table := make([][]int, m)
+	for i := 0; i < m; i++ {
+		table[i] = make([]int, n)
+	}
+	for row := 0; row < m; row++ {
+		table[row][0] = 1
+	}
+	for col := 0; col < n; col++ {
+		table[0][col] = 1
+	}
+	for row := 1; row < m; row++ {
+		for col := 1; col < n; col++ {
+			table[row][col] = table[row-1][col] + table[row][col-1]
+		}
+	}
+	return table[m-1][n-1]
+}
+
 func main() {
 	fmt.Printf("FibonacciBottomUpSpaceEfficient: \nInput: %d\nOutput: %d\n", 6, fibonacciButtomUPSpaceEfficient(6))
 	fmt.Printf("\nFibonacciMemoization: \nInput: %d\nOutput: %d\n", 6, fibonacciMemoization(6))
 	fmt.Printf("\nStairCase: \nInput: %d\nOutput: %d\n", 4, stairCase(4))
 	fmt.Printf("\nCombinations: \nInput 4,3\nOutput: %d\n", combinations(4, 3))
+	fmt.Printf("\nCountUniquePaths: \nInput: 2, 3\nOutput: %d \n", countUniquePaths(2, 3))
+	maxPathSumInput := [][]int{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}}
+	maxPathSumOutput := maxPathSum(maxPathSumInput)
+	fmt.Printf("\nMaxPathSum: \nInput: %v\nOutput: %d\n", maxPathSumInput, maxPathSumOutput)
 }
