@@ -520,6 +520,68 @@ func dfsUtil(idx int, zombies []string, visited *[]bool) {
 	}
 }
 
+func findCriticalConnections(noOfServers int32, noOfConnections int32, connections [][]int32) [][]int32 {
+	adjList := buildConnectionsAdjList(noOfServers, connections)
+	ids := make(map[int32]int32)
+	visited := make([]bool, noOfServers)
+	parentsIds := make([]int32, noOfServers)
+	minAccessable := make([]int32, noOfServers)
+	res := [][]int32{}
+	// assign ids to servers
+	var id int32 = 0
+	for i := 0; i < int(noOfServers); i++ {
+		ids[int32(i)] = id
+		minAccessable[i] = id
+		id++
+	}
+	visited[0] = true
+	parentsIds[0] = -1
+	connectionDfsUtil(0, adjList, &ids, &visited, &parentsIds, &minAccessable, &res)
+	if len(res) == 0 {
+		res = append(res, []int32{-1, -1})
+	}
+	return res
+}
+
+func buildConnectionsAdjList(n int32, edges [][]int32) [][]int32 {
+	res := make([][]int32, n)
+	for _, edge := range edges {
+		from, to := edge[0], edge[1]
+		res[from] = append(res[from], to)
+		res[to] = append(res[to], from)
+	}
+	return res
+}
+
+func connectionDfsUtil(nodeIdx int32, adjList [][]int32, ids *map[int32]int32, visited *[]bool, parentsIds *[]int32, minAccessable *[]int32, res *[][]int32) int32 {
+	serverID := (*ids)[nodeIdx]
+	minAccessibleServer := (*minAccessable)[nodeIdx]
+
+	parentID := (*parentsIds)[nodeIdx]
+	neighbors := adjList[nodeIdx]
+	for _, neighbor := range neighbors {
+		neighborID := (*ids)[neighbor]
+		if (*visited)[neighbor] {
+			if neighborID != parentID && (*minAccessable)[neighbor] < minAccessibleServer {
+				(*minAccessable)[nodeIdx] = (*minAccessable)[neighbor]
+				minAccessibleServer = (*minAccessable)[neighbor]
+			}
+		} else {
+			// it wanst visited
+			(*visited)[neighbor] = true
+			(*parentsIds)[neighbor] = serverID
+			minFound := connectionDfsUtil(neighbor, adjList, ids, visited, parentsIds, minAccessable, res)
+			if minFound > minAccessibleServer {
+				*res = append(*res, []int32{nodeIdx, neighbor})
+			} else if minFound < minAccessibleServer {
+				(*minAccessable)[nodeIdx] = minFound
+				minAccessibleServer = minFound
+			}
+		}
+	}
+	return int32(minAccessibleServer)
+}
+
 func main() {
 	graph := graph.NewFromSlice([]int{1, 2, 3, 4, 5, 6, 7})
 	graph.AddEdge(1, 2)
@@ -590,4 +652,16 @@ func main() {
 
 	zombieOutput := zombieCluster([]string{"1100", "1110", "0110", "0001"})
 	fmt.Printf("Zombie: %d\n", zombieOutput)
+
+	criticalConnectionsOutput := findCriticalConnections(7, 8, [][]int32{
+		{0, 1},
+		{1, 2},
+		{2, 0},
+		{1, 3},
+		{1, 4},
+		{1, 6},
+		{3, 5},
+		{4, 5},
+	})
+	fmt.Printf("CriticalConnections: %v\n", criticalConnectionsOutput)
 }
