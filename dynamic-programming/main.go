@@ -49,8 +49,32 @@ func stairCase(n int) int {
 
 }
 
+func combinations(n, k int) int {
+	if k == 0 || k == n {
+		return 1
+	}
+	table := make([][]int, n+1)
+	for i := 0; i <= n; i++ {
+		table[i] = make([]int, k+1)
+	}
+	for row := 0; row <= n; row++ {
+		table[row][0] = 1
+	}
+	for col := 0; col <= k; col++ {
+		table[col][col] = 1
+	}
+	for row := 2; row <= n; row++ {
+		for col := 1; col < row; col++ {
+			table[row][col] = table[row-1][col] + table[row-1][col-1]
+		}
+	}
+	fmt.Println(table)
+	return table[n][k]
+}
+
 func main() {
 	fmt.Printf("FibonacciBottomUpSpaceEfficient: \nInput: %d\nOutput: %d\n", 6, fibonacciButtomUPSpaceEfficient(6))
 	fmt.Printf("\nFibonacciMemoization: \nInput: %d\nOutput: %d\n", 6, fibonacciMemoization(6))
 	fmt.Printf("\nStairCase: \nInput: %d\nOutput: %d\n", 4, stairCase(4))
+	fmt.Printf("\nCombinations: \nInput 4,3\nOutput: %d\n", combinations(4, 3))
 }
