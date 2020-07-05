@@ -52,6 +52,22 @@ func stairCase(n int) int {
 
 }
 
+/*
+Minimum cost stair climb
+given a cost array of steps count the minimum cost to reach the final step, you can move 1 or 2 steps at a time
+*/
+func minCostStairClimb(stairCost []int) int {
+	costSize := len(stairCost)
+	resSize := costSize + 2
+	res := make([]int, resSize)
+	res[1] = stairCost[0]
+	for i := 2; i < resSize-1; i++ {
+		res[i] = int(math.Min(float64(stairCost[i-1]+res[i-1]), float64(stairCost[i-1]+res[i-2])))
+	}
+	res[resSize-1] = int(math.Min(float64(res[resSize-2]), float64(res[resSize-3])))
+	return res[resSize-1]
+}
+
 func combinations(n, k int) int {
 	if k == 0 || k == n {
 		return 1
@@ -138,4 +154,7 @@ func main() {
 	maxPathSumInput := [][]int{{1, 3, 1}, {1, 5, 1}, {10, 2, 1}}
 	maxPathSumOutput := maxPathSum(maxPathSumInput)
 	fmt.Printf("\nMaxPathSum: \nInput: %v\nOutput: %d\n", maxPathSumInput, maxPathSumOutput)
+	minCostStairClimbInput := []int{10, 15, 20, 25, 10}
+	minCostStairClimbOutput := minCostStairClimb(minCostStairClimbInput)
+	fmt.Printf("\nMinCostStairClimb: \nInput: %v\nOutput: %d\n", minCostStairClimbInput, minCostStairClimbOutput)
 }
