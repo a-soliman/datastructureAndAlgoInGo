@@ -145,6 +145,30 @@ func maxPathSum(grid [][]int) int {
 	return res[rowsLen-1][colsLen-1]
 }
 
+/*
+MinCoinChange
+*/
+func minCoinChange(amount int, coins []int) int {
+	table := make([]int, amount+1)
+	for i := 1; i < len(table); i++ {
+		table[i] = math.MaxInt64
+	}
+	for i := 1; i < len(table); i++ {
+		for _, coin := range coins {
+			if i-coin >= 0 && table[i-coin] != math.MaxInt64 {
+				potential := table[i-coin] + 1
+				if potential < table[i] {
+					table[i] = potential
+				}
+			}
+		}
+	}
+	if table[amount] == math.MaxInt64 {
+		return -1
+	}
+	return table[amount]
+}
+
 func main() {
 	fmt.Printf("FibonacciBottomUpSpaceEfficient: \nInput: %d\nOutput: %d\n", 6, fibonacciButtomUPSpaceEfficient(6))
 	fmt.Printf("\nFibonacciMemoization: \nInput: %d\nOutput: %d\n", 6, fibonacciMemoization(6))
@@ -157,4 +181,7 @@ func main() {
 	minCostStairClimbInput := []int{10, 15, 20, 25, 10}
 	minCostStairClimbOutput := minCostStairClimb(minCostStairClimbInput)
 	fmt.Printf("\nMinCostStairClimb: \nInput: %v\nOutput: %d\n", minCostStairClimbInput, minCostStairClimbOutput)
+	minCoinAmount, minCoinCoins := 9, []int{1, 5, 7}
+	minCoinOutput := minCoinChange(minCoinAmount, minCoinCoins)
+	fmt.Printf("\nMinCoinChange: \nInput <amount> : %d, \nInput <coins> : %v, \nOutput: %d\n", minCoinAmount, minCoinCoins, minCoinOutput)
 }
