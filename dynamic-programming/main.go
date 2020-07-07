@@ -169,6 +169,61 @@ func minCoinChange(amount int, coins []int) int {
 	return table[amount]
 }
 
+/*
+Levenshtein Distance
+
+Given two words word1 and word2, find the minimum number of steps required to convert word1 to word2. (each operation is counted as 1 step.)
+You have the following 3 operations permitted on a word:
+a) Insert a character
+b) Delete a character
+c) Replace a character
+The minimum number of steps required to convert word1 to word2 with the given set of allowed operations is called edit distance.
+e.g. Minimum edit distance between the words 'kitten' and 'sitting', is 3.
+
+kitten → sitten (substitution of "s" for "k")
+sitten → sittin (substitution of "i" for "e")
+sittin → sitting (insertion of "g" at the end)
+*/
+func levenshteinDistance(strWord1 string, strWord2 string) int32 {
+	rowSize, colSize := len(strWord1)+1, len(strWord2)+1
+	table := make([][]int32, rowSize)
+	for i := 0; i < rowSize; i++ {
+		table[i] = make([]int32, colSize)
+	}
+
+	// fill the base cases
+	for col := 1; col < colSize; col++ {
+		table[0][col] = int32(col)
+	}
+	for row := 1; row < rowSize; row++ {
+		table[row][0] = int32(row)
+	}
+
+	// iterate and build
+	for row := 1; row < rowSize; row++ {
+		for col := 1; col < colSize; col++ {
+			if strWord1[row-1] == strWord2[col-1] {
+				table[row][col] = table[row-1][col-1]
+			} else {
+				top, topLeft, left := table[row-1][col], table[row-1][col-1], table[row][col-1]
+				min := getMin(top, topLeft, left)
+				table[row][col] = min + 1
+			}
+		}
+	}
+	return table[rowSize-1][colSize-1]
+}
+
+func getMin(val1, val2, val3 int32) int32 {
+	if val1 <= val2 && val1 <= val3 {
+		return val1
+	}
+	if val2 <= val1 && val2 <= val3 {
+		return val2
+	}
+	return val3
+}
+
 func main() {
 	fmt.Printf("FibonacciBottomUpSpaceEfficient: \nInput: %d\nOutput: %d\n", 6, fibonacciButtomUPSpaceEfficient(6))
 	fmt.Printf("\nFibonacciMemoization: \nInput: %d\nOutput: %d\n", 6, fibonacciMemoization(6))
@@ -184,4 +239,7 @@ func main() {
 	minCoinAmount, minCoinCoins := 9, []int{1, 5, 7}
 	minCoinOutput := minCoinChange(minCoinAmount, minCoinCoins)
 	fmt.Printf("\nMinCoinChange: \nInput <amount> : %d, \nInput <coins> : %v, \nOutput: %d\n", minCoinAmount, minCoinCoins, minCoinOutput)
+
+	levenshteinDistanceOutput := levenshteinDistance("pizza", "yolo")
+	fmt.Printf("\nLevenshteinDistance: \n Output: %d\n", levenshteinDistanceOutput)
 }
