@@ -293,6 +293,37 @@ func buildNumPad() [][]int32 {
 	return numPad
 }
 
+/*
+Count ways to reach the N’th stair
+
+There are n stairs, a person standing at the bottom wants to reach the top. He can climb a certain number of steps at once. For instance,
+the person can climb either 1 stair or 2 stairs at a time. Count the number of ways, the person can reach the top.
+Solve the problem for the general case i.e. for n stairs, and different kinds of steps that can be taken
+(e.g. instead of only 1 or 2 steps, it could be 2, 3 and 5 steps at a time).
+*/
+func countWaysToClimb(steps []int32, n int32) int64 {
+	table := make([]int64, n+1)
+	// build base cases
+	for _, step := range steps {
+		if step <= n {
+			table[step] = 1
+		}
+	}
+
+	for i := 0; i < len(table); i++ {
+		for _, step := range steps {
+			intStep := int(step)
+			if i-intStep >= 0 {
+				table[i] += table[i-intStep]
+			}
+		}
+	}
+	if table[n] == 0 {
+		return -1
+	}
+	return table[int(n)]
+}
+
 func main() {
 	fmt.Printf("FibonacciBottomUpSpaceEfficient: \nInput: %d\nOutput: %d\n", 6, fibonacciButtomUPSpaceEfficient(6))
 	fmt.Printf("\nFibonacciMemoization: \nInput: %d\nOutput: %d\n", 6, fibonacciMemoization(6))
@@ -311,6 +342,10 @@ func main() {
 
 	levenshteinDistanceOutput := levenshteinDistance("pizza", "yolo")
 	fmt.Printf("\nLevenshteinDistance: \n Output: %d\n", levenshteinDistanceOutput)
-	test := numPhoneNumbers(1, 4)
-	fmt.Println("test ", test)
+
+	numPhoneNumbersOutput := numPhoneNumbers(1, 4)
+	fmt.Printf("\nNumPhoneNumbers: %d\n", numPhoneNumbersOutput)
+
+	countWaysToClimbOutput := countWaysToClimb([]int32{1, 2}, 1)
+	fmt.Printf("CountWaysToClimbOutput: %d", countWaysToClimbOutput)
 }
