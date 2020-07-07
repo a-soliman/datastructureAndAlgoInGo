@@ -224,6 +224,75 @@ func getMin(val1, val2, val3 int32) int32 {
 	return val3
 }
 
+/*
+Knight's tour!
+
+Given a phone keypad as shown below:
+
+1 2 3
+4 5 6
+7 8 9
+– 0 –
+
+How many different phone numbers of given length can be formed starting from the given digit? The constraint is that the movement from one digit to the next is similar to the movement of the Knight in chess.
+For example if we are at 1 then the next digit can be either 6 or 8, if we are at 6 then the next digit can be 1, 7 or 0.
+Repetition of digits is allowed, e.g. 1616161616 is a valid number.
+The problem requires us to just give the count of different phone numbers and not necessarily list the numbers.
+Find a polynomial-time solution, based on Dynamic Programming.
+
+Example One
+Input: startdigit = 1, phonenumberlength = 2
+Output: 2
+Two possible numbers of length 2: 16, 18.
+
+Example Two
+Input: startdigit = 1, phonenumberlength = 3
+Output: 5
+The possible numbers of length 3: 160, 161, 167, 181, 183
+*/
+
+func numPhoneNumbers(startdigit int32, phonenumberlength int32) int64 {
+	numPad := buildNumPad()
+	hash := make(map[int32]map[int32]int64)
+	return numPhoneUtil(startdigit, phonenumberlength, &hash, &numPad)
+}
+
+func numPhoneUtil(startdigit int32, phonenumberlength int32, hash *map[int32]map[int32]int64, numPad *[][]int32) int64 {
+	if phonenumberlength == 1 {
+		return 1
+	}
+
+	levelExists, startdigitExists := false, false
+	_, levelExists = (*hash)[phonenumberlength]
+	if !levelExists {
+		(*hash)[phonenumberlength] = make(map[int32]int64)
+	}
+	_, startdigitExists = (*hash)[phonenumberlength][startdigit]
+	if !startdigitExists {
+		(*hash)[phonenumberlength][startdigit] = 0
+		neighbors := (*numPad)[startdigit]
+		for _, neighbor := range neighbors {
+			(*hash)[phonenumberlength][startdigit] += numPhoneUtil(neighbor, phonenumberlength-1, hash, numPad)
+		}
+	}
+	return (*hash)[phonenumberlength][startdigit]
+}
+
+func buildNumPad() [][]int32 {
+	numPad := make([][]int32, 10)
+	numPad[0] = []int32{4, 6}
+	numPad[1] = []int32{6, 8}
+	numPad[2] = []int32{7, 9}
+	numPad[3] = []int32{4, 8}
+	numPad[4] = []int32{0, 3, 9}
+	numPad[5] = []int32{}
+	numPad[6] = []int32{0, 1, 7}
+	numPad[7] = []int32{2, 6}
+	numPad[8] = []int32{1, 3}
+	numPad[9] = []int32{2, 4}
+	return numPad
+}
+
 func main() {
 	fmt.Printf("FibonacciBottomUpSpaceEfficient: \nInput: %d\nOutput: %d\n", 6, fibonacciButtomUPSpaceEfficient(6))
 	fmt.Printf("\nFibonacciMemoization: \nInput: %d\nOutput: %d\n", 6, fibonacciMemoization(6))
@@ -242,4 +311,6 @@ func main() {
 
 	levenshteinDistanceOutput := levenshteinDistance("pizza", "yolo")
 	fmt.Printf("\nLevenshteinDistance: \n Output: %d\n", levenshteinDistanceOutput)
+	test := numPhoneNumbers(1, 4)
+	fmt.Println("test ", test)
 }
