@@ -324,6 +324,35 @@ func countWaysToClimb(steps []int32, n int32) int64 {
 	return table[int(n)]
 }
 
+/*
+Robbery
+
+There are n houses built in a line, each of which contains some value in it. A thief is going to steal the maximal value in these houses, but he cannot steal in two adjacent houses because the owner of a stolen house will tell his two neighbors on the left and right side. What is the maximal stolen value?
+For example, if there are four houses with values [6, 1, 2, 7], the maximal stolen value is 13, when the first and fourth houses are stolen.
+*/
+func maxStolenValue(values []int32) int32 {
+	size := len(values)
+	if size == 1 {
+		return values[0]
+	}
+	res := make([]int32, size)
+	res[0], res[1] = values[0], values[1]
+
+	for i := 2; i < size; i++ {
+		with := values[i] + res[i-2]
+		without := res[i-1]
+		if with > without {
+			res[i] = with
+		} else {
+			res[i] = without
+		}
+		if res[i-2] > res[i-1] {
+			res[i-1] = res[i-2]
+		}
+	}
+	return res[size-1]
+}
+
 func main() {
 	fmt.Printf("FibonacciBottomUpSpaceEfficient: \nInput: %d\nOutput: %d\n", 6, fibonacciButtomUPSpaceEfficient(6))
 	fmt.Printf("\nFibonacciMemoization: \nInput: %d\nOutput: %d\n", 6, fibonacciMemoization(6))
@@ -348,4 +377,7 @@ func main() {
 
 	countWaysToClimbOutput := countWaysToClimb([]int32{1, 2}, 1)
 	fmt.Printf("CountWaysToClimbOutput: %d", countWaysToClimbOutput)
+
+	maxStolenValueOutput := maxStolenValue([]int32{6, 1, 2, 7})
+	fmt.Printf("\nMaxStolenValues: %d\n", maxStolenValueOutput)
 }
