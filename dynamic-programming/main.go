@@ -353,6 +353,31 @@ func maxStolenValue(values []int32) int32 {
 	return res[size-1]
 }
 
+func productPlan(forcast [][]int) int {
+	tableSize := len(forcast)
+	days := len(forcast[0])
+	max := make([][]int, tableSize)
+	for i := 0; i < 2; i++ {
+		max[i] = make([]int, days+1)
+	}
+	max[0][0] = 0
+	max[1][0] = 0
+	max[0][1] = forcast[0][0]
+	max[1][1] = forcast[1][0]
+
+	a, b := 0, 1
+	for day := 2; day <= days; day++ {
+		max[a][day] = findMax(forcast[a][day-1]+max[a][day-1], forcast[a][day-1]+max[b][day-2])
+		max[b][day] = findMax(forcast[b][day-1]+max[b][day-1], forcast[b][day-1]+max[a][day-2])
+	}
+	lastA, lastB := max[a][days], max[b][days]
+	return findMax(lastA, lastB)
+}
+
+func findMax(input1, input2 int) int {
+	return int(math.Max(float64(input1), float64(input2)))
+}
+
 func main() {
 	fmt.Printf("FibonacciBottomUpSpaceEfficient: \nInput: %d\nOutput: %d\n", 6, fibonacciButtomUPSpaceEfficient(6))
 	fmt.Printf("\nFibonacciMemoization: \nInput: %d\nOutput: %d\n", 6, fibonacciMemoization(6))
@@ -380,4 +405,14 @@ func main() {
 
 	maxStolenValueOutput := maxStolenValue([]int32{6, 1, 2, 7})
 	fmt.Printf("\nMaxStolenValues: %d\n", maxStolenValueOutput)
+
+	test := wordBreak("pineapplepenapple", []string{"apple", "pen", "applepen", "pine", "pineapple"})
+	fmt.Printf("test %#v\n", test)
+
+	productPlanInput := [][]int{
+		{9, 1, 3},
+		{2, 2, 5},
+	}
+	productPlanOutput := productPlan(productPlanInput)
+	fmt.Printf("\nProductPlan: %d\n", productPlanOutput)
 }
