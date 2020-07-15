@@ -378,6 +378,32 @@ func findMax(input1, input2 int) int {
 	return int(math.Max(float64(input1), float64(input2)))
 }
 
+/*
+Cutting Rods.
+Given a rod of length n and prices P[i] for i = 0, ...,n, where P[i] is the price of a rod of length i. Find the max total revenue
+you can make by cutting and selling the rod (Assume no cost for cutting the rod).
+*/
+func maxRevenue(n int, prices []int) int {
+	revenue := make([]int, n+1)
+	var tempMax int
+	var left int
+	var right int
+	for i := 1; i < len(revenue); i++ {
+		tempMax = prices[i-1]
+		left, right = 1, i-1
+		for left <= right {
+			potential := revenue[left] + revenue[right]
+			if potential > tempMax {
+				tempMax = potential
+			}
+			left++
+			right--
+		}
+		revenue[i] = tempMax
+	}
+	return revenue[n]
+}
+
 func main() {
 	fmt.Printf("FibonacciBottomUpSpaceEfficient: \nInput: %d\nOutput: %d\n", 6, fibonacciButtomUPSpaceEfficient(6))
 	fmt.Printf("\nFibonacciMemoization: \nInput: %d\nOutput: %d\n", 6, fibonacciMemoization(6))
@@ -406,8 +432,8 @@ func main() {
 	maxStolenValueOutput := maxStolenValue([]int32{6, 1, 2, 7})
 	fmt.Printf("\nMaxStolenValues: %d\n", maxStolenValueOutput)
 
-	test := wordBreak("pineapplepenapple", []string{"apple", "pen", "applepen", "pine", "pineapple"})
-	fmt.Printf("test %#v\n", test)
+	// test := wordBreak("pineapplepenapple", []string{"apple", "pen", "applepen", "pine", "pineapple"})
+	// fmt.Printf("test %#v\n", test)
 
 	productPlanInput := [][]int{
 		{9, 1, 3},
@@ -415,4 +441,7 @@ func main() {
 	}
 	productPlanOutput := productPlan(productPlanInput)
 	fmt.Printf("\nProductPlan: %d\n", productPlanOutput)
+
+	maxRevenueOutput := maxRevenue(5, []int{1, 5, 8, 9, 10})
+	fmt.Printf("\nMaxRevenue: %d\n", maxRevenueOutput)
 }
